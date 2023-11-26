@@ -1,8 +1,21 @@
+
 import axios from 'axios';
+import { Cookies } from "react-cookie";
+
 axios.defaults.withCredentials = true;
+const cookies = new Cookies();
 
 export function send(method:string, url:string, param:object, type:string, callback:Function) {
-    axios.defaults.headers.common['X-CLIENT-KEY'] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
+    if (url.indexOf("voca") > -1) {
+      axios.defaults.headers.common['X-CLIENT-KEY'] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
+      axios.defaults.headers.common['Authorization'] = "Bearer " + cookies.get("accessToken");
+    } else if (url.indexOf("kapi") > -1) {
+      axios.defaults.headers.common['X-CLIENT-KEY'] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
+      axios.defaults.headers.common['Authorization'] = "Bearer " + cookies.get("kakaoAccessToken");
+    } else {
+      axios.defaults.headers.common['X-CLIENT-KEY'] = "";
+      axios.defaults.headers.common['Authorization'] = "";
+    }
 
   if (method === "GET") {
       axios.get(url, param)
@@ -16,7 +29,7 @@ export function send(method:string, url:string, param:object, type:string, callb
       });
   } else if (method === "POST") {
       axios.post(url, param, { 
-        headers: { "Content-Type": type === "json" ? "application/json" : "multipart/form-data" }
+        headers: { "Content-Type": type === "json" ? "application/json" : "application/x-www-form-urlencoded" }
       })
       .then(function (response) {
         console.log("==> axios POST then");

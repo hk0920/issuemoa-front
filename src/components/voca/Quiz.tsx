@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSpring, animated } from 'react-spring';
+import { prev } from '../../images';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ReactCardFlip from 'react-card-flip';
 import Button from 'react-bootstrap/Button';
-import * as AxiosUtil from '../../lib/AxiosUtils';
+import * as AxiosUtil from '../../lib/AxiosUtil';
 
 interface Props {
   children: React.ReactNode;
@@ -15,38 +16,6 @@ interface Post {
   word: string;
   mean: string;
 }
-
-const Card = ({ children, isSliding }: { children: React.ReactNode; isSliding?: boolean }) => {
-  const slideInAnimation = useSpring({
-    from: { transform: 'translateX(-100%)' },
-    to: { transform: 'translateX(0%)' },
-    reset: true
-  });
-
-  return (
-    <animated.div style={isSliding ? slideInAnimation : {} }>
-      <div
-        style={{
-          width: "100%",
-          height: 300,
-          padding: 20,
-          borderRadius: "5px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-        }}
-      >
-        {children}
-      </div>
-    </animated.div>
-  );
-};
-
-const Word = ({ children }: Props) => {
-  return (
-    <div style={{ width:"500px", marginBottom: 30, fontSize: "35px", textAlign: "center", fontWeight: "bold" }}>{children}</div>
-  );
-};
 
 function Quiz() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -58,17 +27,20 @@ function Quiz() {
   const [currentIndex, setcurrentIndex] = useState<number>(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
-  const moreLimit = 24;
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const limit = 50;
 
+  // 뒤집기 모션
   const flipCard = () => {
     setIsFlipped(!isFlipped);
     setIsSliding(false);
   }
 
+  // API - 단어 목록 가져오기
   const fetchData = () => {
     try {
       setcurrentIndex(0);
-      AxiosUtil.send('GET','/voca-api/voca/list?offset=' + paramOffset, {}, '', (e:any) => {
+      AxiosUtil.send('GET',`/voca-api/voca/list?offset=${paramOffset}&limit=${limit}`, {}, '', (e:any) => {
         if (e.data) {
           const data = e.data;
           setPosts(data.list);
@@ -82,40 +54,114 @@ function Quiz() {
     }
   };
 
-  const nextWord = (afterView: String): void => {
+  // 다음 단어 보여주기
+  const nextWord = (afterView: String, direction:String): void => {
     let nextIndex = 0;
     
     if (afterView) {
-      setcurrentIndex(currentIndex + 1);
-      nextIndex = currentIndex + 1;
-    }
+      if (afterView === 'Y') {
+        console.log("나중에 보기")
+      }
 
-    if (afterView === 'Y') {
-      // PUT - API CALL
-      console.log("나중에 보기")
+      if (direction === 'prev') {
+        if (currentIndex === 0) {
+          alert('첫 단어 입니다.')
+          return;
+        }
+        setcurrentIndex(currentIndex - 1);
+        nextIndex = currentIndex - 1;
+      } else {
+        setcurrentIndex(currentIndex + 1);
+        nextIndex = currentIndex + 1;
+      }
     }
 
     if (posts.length !== 0 && posts.length <= nextIndex) {
-      if (offset == totalCnt) {
+      if (offset === totalCnt) {
         alert('마지막 단어입니다. 다음 업데이트를 기대해주세요!');
         setIsSliding(false);
       } else {
-        setParamOffset(paramOffset + moreLimit);
+        setParamOffset(paramOffset + limit);
       }
-    } else {
-      if (isFlipped) setIsFlipped(false);
-      setIsSliding(true);
+      
+      return;
+    }
+
+    setWord('');
+    setMean('');
+    
+    if (isFlipped) {
+      setIsFlipped(false);
+    }
+
+    setIsSliding(true);
+
+    setTimeout(() => {
       setWord(posts?.[nextIndex]?.word);
       setMean(posts?.[nextIndex]?.mean);
-    }
+      setIsSliding(false);
+    }, 250);
   };
 
+  const handlePrevImageClick = () => {
+    nextWord('Y', 'prev');
+  };
+
+  const handleButton = (afterView:string) => {
+    if (!isButtonDisabled) {
+      // 버튼 비활성화 상태로 변경
+      setButtonDisabled(true);
+
+      // 일정 시간 후에 버튼을 다시 활성화
+      setTimeout(() => {
+        nextWord(afterView, '');
+        setButtonDisabled(false);
+      }, 150); // 1000ms (1초) 후에 활성화
+    }
+  }
+
   const handleAfterNextWordClick = () => {
-    nextWord('Y');
+    handleButton('Y');
   };
 
   const handleNextWordClick = () => {
-    nextWord('N');
+    handleButton('N');
+  };
+
+  const Card = ({ children }: Props) => {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: 300,
+          padding: 20,
+          borderRadius: "5px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
+        {children}
+      </div>
+    );
+  };
+
+  const Word = ({ children, isSliding }: { children: React.ReactNode; isSliding?: boolean }) => {
+    const slideInAnimation = useSpring({
+      from: { transform: 'translateX(-100%)' },
+      to: { transform: 'translateX(0%)' },
+      reset: true
+    });
+
+    return (
+      <animated.div style={isSliding ? slideInAnimation : {} }>
+        <div style={{ width: "100%", marginBottom: 30, fontSize: "35px", textAlign: "center", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img src={prev} alt="prev" onClick={handlePrevImageClick} style={{ marginTop: -20, marginRight: 30, width: "25px" }} />
+            {children}
+          <span style={{ marginTop: 8, marginLeft: 20, width: "25px" }}></span>
+        </div>
+      </animated.div>
+    );
   };
 
   useEffect(() => {
@@ -123,24 +169,28 @@ function Quiz() {
   }, [paramOffset]);
 
   useEffect(() => {
-    nextWord('');
+    nextWord('', '');
   }, [posts]);
 
   return (
     <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh" }}>
       <Row>
-        <Col xs={18} md={12}>
+        <Col>
           <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
-            <Card isSliding={isSliding}>
-              <Word>{word}</Word>
-              <Button style={{ width: "500px"}} variant="light" onClick={flipCard} size="lg">
-                Check ✔️
+            <Card>
+              <Word isSliding={isSliding}>
+                {word}
+              </Word>
+              <Button style={{ width: "100%" }} variant="light" onClick={flipCard} size="lg">
+                ✔️
               </Button>
             </Card>
-            <Card isSliding={isSliding}>
-              <Word>{mean}</Word>
-              <Button style={{ width: "500px"}} variant="light" onClick={flipCard} size="lg">
-                Check ✔️
+            <Card>
+              <Word isSliding={isSliding}>
+                {mean}
+              </Word>
+              <Button style={{ width: "100%" }} variant="light" onClick={flipCard} size="lg">
+                ✔️
               </Button>
             </Card>
           </ReactCardFlip>
@@ -154,7 +204,7 @@ function Quiz() {
             variant="primary"
             size="lg"
           >
-            다음에 볼게요 ✍️
+            다음에 보기 ✍️
           </Button>
         </Col>
         <Col>

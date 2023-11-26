@@ -3,7 +3,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function (app) {
   app.use(
     createProxyMiddleware("/voca-api", {
-      target: "http://localhost:17080",
+      target: "http://61.102.114.235:17080",
       changeOrigin: true,
       pathRewrite: {
         '^/voca-api': "",
@@ -11,11 +11,20 @@ module.exports = function (app) {
     })
   );
   app.use(
-    createProxyMiddleware("/googleapisYoutube", {
-      target: "https://www.googleapis.com/youtube/v3/videos",
+    createProxyMiddleware("/kakao", {
+      target: "https://kauth.kakao.com",
       changeOrigin: true,
       pathRewrite: {
-        '^/googleapisYoutube': "",
+        '^/kakao': "",
+      }
+    })
+  );
+  app.use(
+    createProxyMiddleware("/kapi", {
+      target: "https://kapi.kakao.com",
+      changeOrigin: true,
+      pathRewrite: {
+        '^/kapi': "",
       }
     })
   );
