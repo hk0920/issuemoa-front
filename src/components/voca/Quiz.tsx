@@ -28,7 +28,7 @@ function Quiz() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
-  const limit = 50;
+  const limit = 30;
 
   // 뒤집기 모션
   const flipCard = () => {

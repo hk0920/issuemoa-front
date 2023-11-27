@@ -19,17 +19,18 @@ const Login = () => {
 
   useEffect(() => {
     const urlString = window.location.href;
-    const regex = /code=([^&]+)/;
-    const match = urlString.match(regex);
+    const codeRegex = /code=([^&]+)/;
+    const match = urlString.match(codeRegex);
 
     if (match) {
-      const codeValue = match[1];
+      const code = match[1];
       const data = {
         'grant_type': 'authorization_code',
         'client_id': restKey,
         'redirect_uri': redirectUrl,
-        'code': codeValue
+        'code': code
       };
+
       AxiosUtil.send('POST', 'kakao/oauth/token', data, '', (e:any) => {
         console.log('oauth/token ==> ');
         console.log(e);
@@ -53,6 +54,32 @@ const Login = () => {
               }
               console.log('user => ');
               console.log(user);
+
+              AxiosUtil.send('POST', '/users-api/users/signIn', user, 'json', (e:any) => {
+                console.log('users/signIn ==> ');
+                console.log(e);
+
+                /*
+                {
+                    "status": "OK",
+                    "errors": null,
+                    "data": {
+                        "msg": "Success",
+                        "code": "LGN",
+                        "accessTokenExpires": "300",
+                        "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjb25mMzEyQGtha2FvLmNvbSIsImlkIjo0LCJhdXRoIjoiSVNTVUVNT0FfVVNFUiIsImV4cCI6MTcwMTA1MTY2N30.qlILY6X4dvQnxMCcdm2JhJBhRR1i03Zi947CahSI4dqmXYG8pnxmxsswSPuiISj_vr8657XI0TL-7R6ztJ_qAQ"
+                    }
+                }
+                */
+                if (e.status === "OK") {
+                  const data = e.data;
+                  cookies.set("accessToken", data.access_token, {
+                    path: "/",
+                    maxAge: data.accessTokenExpires
+                  });
+                }
+                
+              })
             }
           })
         }

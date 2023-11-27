@@ -11,6 +11,15 @@ module.exports = function (app) {
     })
   );
   app.use(
+    createProxyMiddleware("/users-api", {
+      target: "http://61.102.114.235:17070",
+      changeOrigin: true,
+      pathRewrite: {
+        '^/users-api': "",
+      }
+    })
+  );
+  app.use(
     createProxyMiddleware("/kakao", {
       target: "https://kauth.kakao.com",
       changeOrigin: true,
