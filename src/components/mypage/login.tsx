@@ -73,7 +73,7 @@ const Login = () => {
                 */
                 if (e.status === "OK") {
                   const data = e.data;
-                  cookies.set("accessToken", data.access_token, {
+                  cookies.set("accessToken", data.accessToken, {
                     path: "/",
                     maxAge: data.accessTokenExpires
                   });

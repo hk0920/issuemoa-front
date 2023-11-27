@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Quiz, Login } from './components';
-import Footer from './components/layouts/Footer';
+import { Footer, Quiz, Login } from './components';
 
 function App() {
   return (
