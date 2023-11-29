@@ -1,3 +1,4 @@
+// ICOn
 export { default as prev } from './icon/prev.png';
 export { default as start } from './icon/start.png';
 export { default as stop } from './icon/stop.png';
@@ -13,3 +14,12 @@ export { default as more_fill } from './icon/more_fill.png';
 export { default as google } from './icon/google.png';
 export { default as kakao } from './icon/kakao.png';
 export { default as naver } from './icon/naver.png';
+export { default as cloud } from './icon/cloud.png';
+export { default as grade } from './icon/grade.png';
+export { default as notice } from './icon/notice.png';
+export { default as setting } from './icon/setting.png';
+export { default as stock } from './icon/stock.png';
+export { default as supportCustomer } from './icon/support_customer.png';
+
+// Avatar
+export { default as lion } from './avatar/lion.jpg';

@@ -1,0 +1,11 @@
+/* src/styles/fonts.css */
+@font-face {
+  font-family: 'Nanum';
+  src: url('../../public/fonts/Nanum.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Nanum', sans-serif;
+}

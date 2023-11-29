@@ -6,8 +6,20 @@
   force = true
 
 [[redirects]]
+  from = "/users-api/*"
+  to = "http://61.102.114.235:17070/:splat"  
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/kakao/*"
   to = "https://kauth.kakao.com/:splat"  
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/kapi/*"
+  to = "https://kapi.kakao.com/:splat"  
   status = 200
   force = true
 

@@ -7,18 +7,21 @@ import Col from 'react-bootstrap/Col';
 import ReactCardFlip from 'react-card-flip';
 import Button from 'react-bootstrap/Button';
 import * as AxiosUtil from '../../lib/AxiosUtil';
+import * as LearnApi from '../../api/learn';
 
 interface Props {
   children: React.ReactNode;
 }
 
 interface Post {
+  id: number;
   word: string;
   mean: string;
 }
 
 function Quiz() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [vocaId, setVocaId] = useState<number>();
   const [word, setWord] = useState<string>();
   const [mean, setMean] = useState<string>();
   const [offset, setOffset] = useState<number>(0);
@@ -37,18 +40,16 @@ function Quiz() {
   }
 
   // API - 단어 목록 가져오기
-  const fetchData = () => {
+  const fetchData = async () => {
     try {
       setcurrentIndex(0);
-      AxiosUtil.send('GET',`/voca-api/voca/list?offset=${paramOffset}&limit=${limit}`, {}, '', (e:any) => {
-        if (e.data) {
-          const data = e.data;
-          setPosts(data.list);
-          setOffset(data.offset);
-          setTotalCnt(data.totalCnt);
-        }
-      });
-
+      const response = await AxiosUtil.send('GET',`/voca-api/voca/list?offset=${paramOffset}&limit=${limit}`, {}, '');
+      if (response) {
+        const data = response.data;
+        setPosts(data.list);
+        setOffset(data.offset);
+        setTotalCnt(data.totalCnt);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -97,6 +98,7 @@ function Quiz() {
     setIsSliding(true);
 
     setTimeout(() => {
+      setVocaId(posts?.[nextIndex]?.id);
       setWord(posts?.[nextIndex]?.word);
       setMean(posts?.[nextIndex]?.mean);
       setIsSliding(false);
@@ -108,6 +110,15 @@ function Quiz() {
   };
 
   const handleButton = (afterView:string) => {
+
+    const learnData = {
+      'vocaId': vocaId,
+      'learnYn': afterView === 'Y' ? 'N' : 'Y',
+    }
+
+    // 학습진도 등록
+    LearnApi.save(learnData);
+
     if (!isButtonDisabled) {
       // 버튼 비활성화 상태로 변경
       setButtonDisabled(true);
@@ -116,7 +127,7 @@ function Quiz() {
       setTimeout(() => {
         nextWord(afterView, '');
         setButtonDisabled(false);
-      }, 150); // 1000ms (1초) 후에 활성화
+      }, 130);
     }
   }
 

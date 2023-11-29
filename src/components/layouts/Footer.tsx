@@ -6,20 +6,17 @@ const Footer = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const handleItemClick = (handler: string) => {
-    setSelected(handler);
-    let url = '/';
-    if (handler === 'MyPage') {
-      url = '/login';
-    }
-
-    navigate(url);
+  const handleMenuClick = (path: string) => {
+    setSelected(path);
+    navigate(path);
   };
 
   useEffect(() => {
     const pathname = window.location.pathname;
     if (pathname === '/') {
-      setSelected('Home');
+      setSelected('/');
+    } else if (pathname === '/login') {
+      setSelected('mypage');
     }
   }, []);
 
@@ -27,39 +24,39 @@ const Footer = () => {
     <div style={{ position: 'fixed', bottom: 0, width: '100%', backgroundColor: 'rgb(253 250 250)', padding: '8px 0', textAlign: 'center', display: 'flex', justifyContent: 'space-evenly' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img
-          src={selected === 'Home' ? home_fill : home}
+          src={selected === '/' ? home_fill : home}
           alt="Home"
-          onClick={() => handleItemClick('Home')}
+          onClick={() => handleMenuClick('/')}
           style={{ cursor: 'pointer', width: '26px' }}
         />
-        <span style={{ fontSize: '10px' }}>Home</span>
+        <span style={{ fontSize: '10px' }}>홈</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img
-          src={selected === 'Word' ? word_fill : word}
+          src={selected === 'word' ? word_fill : word}
           alt="Word"
-          onClick={() => handleItemClick('Word')}
+          onClick={() => handleMenuClick('word')}
           style={{ cursor: 'pointer', width: '26px' }}
         />
-        <span style={{ fontSize: '10px' }}>Word</span>
+        <span style={{ fontSize: '10px' }}>영단어</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img
-          src={selected === 'MyPage' ? person_fill : person}
+          src={selected === 'mypage' ? person_fill : person}
           alt="Person"
-          onClick={() => handleItemClick('MyPage')}
+          onClick={() => handleMenuClick('mypage')}
           style={{ cursor: 'pointer', width: '26px' }}
         />
-        <span style={{ fontSize: '10px' }}>MyPage</span>
+        <span style={{ fontSize: '10px' }}>MY</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img
-          src={selected === 'More' ? more_fill : more}
+          src={selected === 'more' ? more_fill : more}
           alt="More"
-          onClick={() => handleItemClick('More')}
+          onClick={() => handleMenuClick('more')}
           style={{ cursor: 'pointer', width: '26px' }}
         />
-        <span style={{ fontSize: '10px' }}>More</span>
+        <span style={{ fontSize: '10px' }}>더보기</span>
       </div>
     </div>
   );
