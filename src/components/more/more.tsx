@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Badge } from 'react-bootstrap';
 import { cloud, grade, notice, setting, stock, supportCustomer } from '../../images';
-import * as AuthUtil from '../../lib/AuthUtil';
+import * as AuthApi from '../../api/auth';
 
 const imgStyle = { width: 35, height: 35 };
 
@@ -9,7 +9,7 @@ const More = () => {
   const [name, setName] = useState("Anonymous");
   useEffect(() => {
     const checkAuthentication = async () => {
-      const name = await AuthUtil.getName();
+      const name = await AuthApi.getName();
       if (name)
         setName(name);
     };

@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { lion } from '../../images';
 import { Container, Row, Col, Badge, Tab , Tabs, Card } from 'react-bootstrap';
-import * as LearnApi from '../../api/learn';
+import * as VocaApi from '../../api/voca';
 
 const Dashboard = () => {
   const [learnCount, setLearnCount] = useState<number>(0);
   useEffect(() => {
 
     const countLearn = async () => {
-      const response = await LearnApi.countLearn();
+      const response = await VocaApi.countLearn();
       setLearnCount(response.data);
     }
     countLearn();

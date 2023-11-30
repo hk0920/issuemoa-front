@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
-import { useSpring, animated } from 'react-spring';
-import { prev } from '../../images';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import ReactCardFlip from 'react-card-flip';
-import Button from 'react-bootstrap/Button';
-import * as AxiosUtil from '../../lib/AxiosUtil';
-import * as LearnApi from '../../api/learn';
+import { useSpring, animated } from "react-spring";
+import { prev } from "../../images";
+import {Container, Row, Col } from "react-bootstrap";
+import ReactCardFlip from "react-card-flip";
+import Button from "react-bootstrap/Button";
+import * as VocaApi from "../../api/voca";
 
 interface Props {
   children: React.ReactNode;
@@ -43,7 +40,7 @@ function Quiz() {
   const fetchData = async () => {
     try {
       setcurrentIndex(0);
-      const response = await AxiosUtil.send('GET',`/voca-api/voca/list?offset=${paramOffset}&limit=${limit}`, {}, '');
+      const response = await VocaApi.getList(paramOffset, limit);
       if (response) {
         const data = response.data;
         setPosts(data.list);
@@ -51,7 +48,7 @@ function Quiz() {
         setTotalCnt(data.totalCnt);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -60,13 +57,17 @@ function Quiz() {
     let nextIndex = 0;
     
     if (afterView) {
-      if (afterView === 'Y') {
-        console.log("나중에 보기")
+      const learnData = {
+        "vocaId": vocaId,
+        "learnYn": afterView === "Y" ? "N" : "Y"
       }
+  
+      // 학습진도 등록
+      VocaApi.save(learnData);
 
-      if (direction === 'prev') {
+      if (direction === "prev") {
         if (currentIndex === 0) {
-          alert('첫 단어 입니다.')
+          alert("첫 단어 입니다.");
           return;
         }
         setcurrentIndex(currentIndex - 1);
@@ -79,7 +80,7 @@ function Quiz() {
 
     if (posts.length !== 0 && posts.length <= nextIndex) {
       if (offset === totalCnt) {
-        alert('마지막 단어입니다. 다음 업데이트를 기대해주세요!');
+        alert("마지막 단어입니다. 다음 업데이트를 기대해주세요!");
         setIsSliding(false);
       } else {
         setParamOffset(paramOffset + limit);
@@ -88,8 +89,8 @@ function Quiz() {
       return;
     }
 
-    setWord('');
-    setMean('');
+    setWord("");
+    setMean("");
     
     if (isFlipped) {
       setIsFlipped(false);
@@ -106,37 +107,28 @@ function Quiz() {
   };
 
   const handlePrevImageClick = () => {
-    nextWord('Y', 'prev');
+    nextWord("Y", "prev");
   };
 
   const handleButton = (afterView:string) => {
-
-    const learnData = {
-      'vocaId': vocaId,
-      'learnYn': afterView === 'Y' ? 'N' : 'Y',
-    }
-
-    // 학습진도 등록
-    LearnApi.save(learnData);
-
     if (!isButtonDisabled) {
       // 버튼 비활성화 상태로 변경
       setButtonDisabled(true);
 
       // 일정 시간 후에 버튼을 다시 활성화
       setTimeout(() => {
-        nextWord(afterView, '');
+        nextWord(afterView, "");
         setButtonDisabled(false);
       }, 130);
     }
   }
 
   const handleAfterNextWordClick = () => {
-    handleButton('Y');
+    handleButton("Y");
   };
 
   const handleNextWordClick = () => {
-    handleButton('N');
+    handleButton("N");
   };
 
   const Card = ({ children }: Props) => {
@@ -159,8 +151,8 @@ function Quiz() {
 
   const Word = ({ children, isSliding }: { children: React.ReactNode; isSliding?: boolean }) => {
     const slideInAnimation = useSpring({
-      from: { transform: 'translateX(-100%)' },
-      to: { transform: 'translateX(0%)' },
+      from: { transform: "translateX(-100%)" },
+      to: { transform: "translateX(0%)" },
       reset: true
     });
 
@@ -180,7 +172,7 @@ function Quiz() {
   }, [paramOffset]);
 
   useEffect(() => {
-    nextWord('', '');
+    nextWord("", "");
   }, [posts]);
 
   return (

@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Footer, Quiz, Login, Dashboard, More } from './components';
 import { Container, Spinner } from 'react-bootstrap';
-import * as AuthUtil from './lib/AuthUtil';
+import * as AuthApi from './api/auth';
  
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      const isAuthenticated = await AuthUtil.checkUserAuthentication();
+      const isAuthenticated = await AuthApi.checkUserAuthentication();
       console.log('==> isAuthenticated : ' + isAuthenticated);
       setIsAuthenticated(isAuthenticated);
     };

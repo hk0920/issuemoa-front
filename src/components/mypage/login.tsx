@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { google, kakao, naver } from '../../images';
-import './login.css';
-import * as AxiosUtil from '../../lib/AxiosUtil';
-import { Cookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
+import { Cookies } from "react-cookie";
+import { google, kakao, naver } from '../../images';
+import * as AxiosUtil from '../../lib/AxiosUtil';
+import './login.css';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -61,9 +61,12 @@ const Login = () => {
               const result = await AxiosUtil.send('POST', `/users-api/users/signIn`, user, 'json');
               if (result.status === "OK") {
                 cookies.set("accessToken", result.data.accessToken, {
+                  path: "/",
+                  maxAge: result.data.accessTokenExpires
+                });
+                cookies.set("authorization", true, {
                   path: "/"
                 });
-
                 navigate('/mypage');
               }
             }
