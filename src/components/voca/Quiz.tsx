@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { prev } from "../../images";
-import {Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import ReactCardFlip from "react-card-flip";
 import Button from "react-bootstrap/Button";
 import * as VocaApi from "../../api/voca";
@@ -98,6 +98,7 @@ function Quiz() {
 
     setIsSliding(true);
 
+    // 슬라이드 후 단어 변경
     setTimeout(() => {
       setVocaId(posts?.[nextIndex]?.id);
       setWord(posts?.[nextIndex]?.word);
@@ -176,7 +177,9 @@ function Quiz() {
   }, [posts]);
 
   return (
-    <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh" }}>
+    <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh",
+    position: "fixed"
+    }}>
       <Row>
         <Col>
           <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">

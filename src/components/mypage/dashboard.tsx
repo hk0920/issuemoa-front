@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Badge, Tab , Tabs, Card } from 'react-bootstrap';
-import * as VocaApi from '../../api/voca';
+import { Container, Row, Col, Badge, Tab, Tabs, Card } from "react-bootstrap";
+import * as VocaApi from "../../api/voca";
 
 const Dashboard = () => {
   const [learnCount, setLearnCount] = useState<number>(0);
-  useEffect(() => {
+  const [tier, setTier] = useState<string>("브론즈");
+  const [tierColor, setTierColor] = useState<string>("warning");
 
+  const Grade = ({ badgeColor, tier }: { badgeColor: string; tier: string }) => (
+    <p>
+      <Badge bg={badgeColor}>{tier}</Badge> {learnCount}개의 단어를 학습하셨어요!
+    </p>
+  );
+  
+  const renderMessage = (badgeColor: string, tier: string) => (
+    <Grade badgeColor={badgeColor} tier={tier} />
+  );
+
+  useEffect(() => {
     const countLearn = async () => {
       const response = await VocaApi.countLearn();
       setLearnCount(response.data);
-    }
+    };
     countLearn();
-    
   }, []);
 
   return (
@@ -19,7 +30,7 @@ const Dashboard = () => {
       <Row>
         <Col md={8}>
           <h4>📚 학습 진행도</h4>
-          <p><Badge bg="primary">Bronze</Badge> {learnCount}개의 단어를 학습하셨어요!</p>
+          {renderMessage(tierColor, tier)}
         </Col>
       </Row>
       <Row>
@@ -28,22 +39,22 @@ const Dashboard = () => {
           id="justify-tab-example"
           className="mb-3"
         >
-          <Tab eventKey="recently" title="최근 본">
+          <Tab eventKey="recently" title="최근 본" style={{marginBottom: "60px"}}>
             {[
-              'Primary',
-              'Secondary',
-              'Success',
-              'Danger',
-              'Warning',
-              'Info',
-              'Light',
-              'Dark',
+              "Primary",
+              "Secondary",
+              "Success",
+              "Danger",
+              "Warning",
+              "Info",
+              "Light",
+              "Dark",
             ].map((variant) => (
               <Card
                 bg={variant.toLowerCase()}
                 key={variant}
-                text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-                style={{ width: '18rem' }}
+                text={variant.toLowerCase() === "light" ? "dark" : "white"}
+                style={{ width: "18rem" }}
                 className="mb-2"
               >
                 <Card.Header>Header</Card.Header>
@@ -67,6 +78,6 @@ const Dashboard = () => {
       </Row>
     </Container>
   );
-}
+};
 
 export default Dashboard;

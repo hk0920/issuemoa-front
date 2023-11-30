@@ -2,9 +2,9 @@ import { Cookies } from "react-cookie";
 import * as AxiosUtil from '../lib/AxiosUtil';
 
 const cookies = new Cookies();
+const baseUrl = '/users-api';
 let email = "";
 let name = "";
-const baseUrl = '/users-api';
 
 async function getUserInfo() {
   const response = await AxiosUtil.send("GET", `${baseUrl}/users/info`, {}, "");

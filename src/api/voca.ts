@@ -3,7 +3,6 @@ import * as AuthApi from './auth';
 
 const base = '/voca-api';
 
-
 export async function getList(paramOffset:number, limit:number):Promise<any> {
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send('GET',`/voca-api/voca/list?offset=${paramOffset}&limit=${limit}`, {}, '');

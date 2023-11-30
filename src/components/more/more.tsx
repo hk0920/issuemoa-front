@@ -10,8 +10,9 @@ const More = () => {
   useEffect(() => {
     const checkAuthentication = async () => {
       const name = await AuthApi.getName();
-      if (name)
+      if (name) {
         setName(name);
+      }
     };
 
     checkAuthentication();
