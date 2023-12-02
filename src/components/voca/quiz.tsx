@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { prev } from "../../images";
 import { Container, Row, Col } from "react-bootstrap";
+import { Dialog } from '../index';
+import { useNavigate } from "react-router-dom";
 import ReactCardFlip from "react-card-flip";
 import Button from "react-bootstrap/Button";
 import * as VocaApi from "../../api/voca";
+import * as AuthApi from "../../api/auth";
 
 interface Props {
   children: React.ReactNode;
@@ -28,7 +31,25 @@ function Quiz() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isSliding, setIsSliding] = useState(false);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState<string>("확인");
+  const [dialogContext, setDialogContext] = useState<string>("");
+  const [dialogButtonText, setDialogButtonText] = useState<string>("");
+  const navigate = useNavigate();
   const limit = 30;
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleConfirmModal = () => {
+    setModalOpen(false);
+    navigate("/mypage");
+  };
 
   // 뒤집기 모션
   const flipCard = () => {
@@ -67,7 +88,7 @@ function Quiz() {
 
       if (direction === "prev") {
         if (currentIndex === 0) {
-          alert("첫 단어 입니다.");
+          setDialogContext("첫 단어 입니다.");
           return;
         }
         setcurrentIndex(currentIndex - 1);
@@ -80,7 +101,7 @@ function Quiz() {
 
     if (posts.length !== 0 && posts.length <= nextIndex) {
       if (offset === totalCnt) {
-        alert("마지막 단어입니다. 다음 업데이트를 기대해주세요!");
+        setDialogContext("마지막 단어입니다. 다음 업데이트를 기대해주세요!");
         setIsSliding(false);
       } else {
         setParamOffset(paramOffset + limit);
@@ -111,7 +132,17 @@ function Quiz() {
     nextWord("Y", "prev");
   };
 
-  const handleButton = (afterView:string) => {
+  const handleButton = async (afterView:string) => {
+
+    const isAuthenticated = await AuthApi.checkUserAuthentication();
+
+    if (!isAuthenticated) {
+      setDialogContext("로그인 후 이용해 주세요!");
+      setDialogButtonText("로그인");
+      handleOpenModal();
+      return;
+    }
+
     if (!isButtonDisabled) {
       // 버튼 비활성화 상태로 변경
       setButtonDisabled(true);
@@ -180,6 +211,14 @@ function Quiz() {
     <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh",
     position: "fixed"
     }}>
+      <Dialog
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmModal}
+        title={dialogTitle}
+        context={dialogContext}
+        buttonText={dialogButtonText}
+      />
       <Row>
         <Col>
           <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
