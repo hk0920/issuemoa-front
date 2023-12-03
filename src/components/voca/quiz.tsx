@@ -1,11 +1,11 @@
+import Button from "react-bootstrap/Button";
+import ReactCardFlip from "react-card-flip";
 import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { prev, cloud } from "../../images";
 import { Container, Row, Col } from "react-bootstrap";
 import { Dialog } from '../index';
 import { useNavigate } from "react-router-dom";
-import ReactCardFlip from "react-card-flip";
-import Button from "react-bootstrap/Button";
 import * as VocaApi from "../../api/voca";
 import * as AuthApi from "../../api/auth";
 import * as AxiosUtil from "../../lib/AxiosUtil";
@@ -14,14 +14,14 @@ interface Props {
   children: React.ReactNode;
 }
 
-interface Post {
+interface Voca {
   id: number;
   word: string;
   mean: string;
 }
 
 function Quiz() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [voca, setVoca] = useState<Voca[]>([]);
   const [vocaId, setVocaId] = useState<number>();
   const [word, setWord] = useState<string>();
   const [mean, setMean] = useState<string>();
@@ -67,7 +67,7 @@ function Quiz() {
       const response = await VocaApi.getList(paramOffset, limit);
       if (response) {
         const data = response.data;
-        setPosts(data.list);
+        setVoca(data.list);
         setOffset(data.offset);
         setTotalCnt(data.totalCnt);
       }
@@ -102,7 +102,7 @@ function Quiz() {
       }
     }
 
-    if (posts.length !== 0 && posts.length <= nextIndex) {
+    if (voca.length !== 0 && voca.length <= nextIndex) {
       if (offset === totalCnt) {
         setDialogContext("마지막 단어입니다. 다음 업데이트를 기대해주세요!");
         setIsSliding(false);
@@ -124,9 +124,9 @@ function Quiz() {
 
     // 슬라이드 후 단어 변경
     setTimeout(() => {
-      setVocaId(posts?.[nextIndex]?.id);
-      setWord(posts?.[nextIndex]?.word);
-      setMean(posts?.[nextIndex]?.mean);
+      setVocaId(voca?.[nextIndex]?.id);
+      setWord(voca?.[nextIndex]?.word);
+      setMean(voca?.[nextIndex]?.mean);
       setIsSliding(false);
     }, 250);
   };
@@ -158,7 +158,7 @@ function Quiz() {
     }
   }
 
-  const handleAfterNextWordClick = () => {
+  const handleAfterWordClick = () => {
     handleButton("Y");
   };
 
@@ -214,17 +214,15 @@ function Quiz() {
       const position = await getPosition();
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-      const API_KEY = '40c3388f8e479da69b9a131633a4c7b7';
+      const API_KEY = process.env.REACT_APP_OPEN_WEATHER_KEY;
       const url = `/weather-api/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=kr`;
       const response = await AxiosUtil.send("GET", url, {}, "");
-      console.log("==> response: ");
-      console.log(response);
       const weather = response.weather[0];      
       const icon = weather.icon;
-      const temp = response.main.temp + "° " + weather.description;
+      const temp = Math.round(response.main.temp) + "° " + weather.description;
       const iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`;
       setWeather(iconURL);
-      setTemp(temp)
+      setTemp(temp);
     } catch (error) {
       console.error("Error getting geolocation or weather:", error);
     }
@@ -237,7 +235,7 @@ function Quiz() {
 
   useEffect(() => {
     nextWord("", "");
-  }, [posts]);
+  }, [voca]);
 
   useEffect(() => {
     setWeather(cloud);
@@ -245,9 +243,7 @@ function Quiz() {
   }, []);
 
   return (
-    <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh",
-    position: "fixed"
-    }}>
+    <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh" }}>
       <Dialog
         isOpen={modalOpen}
         onClose={handleCloseModal}
@@ -291,7 +287,7 @@ function Quiz() {
         <Col>
           <Button
             style={{ width: "150px" }}
-            onClick={handleAfterNextWordClick}
+            onClick={handleAfterWordClick}
             variant="primary"
             size="lg"
           >
