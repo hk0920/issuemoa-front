@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import { prev } from "../../images";
+import { prev, cloud } from "../../images";
 import { Container, Row, Col } from "react-bootstrap";
 import { Dialog } from '../index';
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import ReactCardFlip from "react-card-flip";
 import Button from "react-bootstrap/Button";
 import * as VocaApi from "../../api/voca";
 import * as AuthApi from "../../api/auth";
+import * as AxiosUtil from "../../lib/AxiosUtil";
 
 interface Props {
   children: React.ReactNode;
@@ -35,6 +36,8 @@ function Quiz() {
   const [dialogTitle, setDialogTitle] = useState<string>("확인");
   const [dialogContext, setDialogContext] = useState<string>("");
   const [dialogButtonText, setDialogButtonText] = useState<string>("");
+  const [weather, setWeather] = useState<string>("");
+  const [temp, setTemp] = useState<string>("");
   const navigate = useNavigate();
   const limit = 30;
 
@@ -199,6 +202,35 @@ function Quiz() {
     );
   };
 
+  
+  const getWeather = async () => {
+    const getPosition = (): Promise<GeolocationPosition> => {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+    };
+  
+    try {
+      const position = await getPosition();
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const API_KEY = '40c3388f8e479da69b9a131633a4c7b7';
+      const url = `/weather-api/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=kr`;
+      const response = await AxiosUtil.send("GET", url, {}, "");
+      console.log("==> response: ");
+      console.log(response);
+      const weather = response.weather[0];      
+      const icon = weather.icon;
+      const temp = response.main.temp + "° " + weather.description;
+      const iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+      setWeather(iconURL);
+      setTemp(temp)
+    } catch (error) {
+      console.error("Error getting geolocation or weather:", error);
+    }
+  };
+  
+
   useEffect(() => {
     fetchData();
   }, [paramOffset]);
@@ -206,6 +238,11 @@ function Quiz() {
   useEffect(() => {
     nextWord("", "");
   }, [posts]);
+
+  useEffect(() => {
+    setWeather(cloud);
+    getWeather();
+  }, []);
 
   return (
     <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh",
@@ -219,6 +256,15 @@ function Quiz() {
         context={dialogContext}
         buttonText={dialogButtonText}
       />
+      <Row>
+        <Col>
+          <div style={{ position: 'fixed', top: '10px', right: '10px' }}>
+            <span style={{fontSize: "13px"}}>{temp}</span>
+            <img src={weather} alt="weather" style={{ width: "25px" }} />
+          </div>
+        </Col>
+      </Row>
+      
       <Row>
         <Col>
           <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">

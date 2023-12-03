@@ -24,6 +24,12 @@
   force = true
 
 [[redirects]]
+  from = "/weather-api/*"
+  to = "https://api.openweathermap.org/data/2.5/:splat"  
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

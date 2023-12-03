@@ -37,4 +37,13 @@ module.exports = function (app) {
       }
     })
   );
+  app.use(
+    createProxyMiddleware("/weather-api", {
+      target: "https://api.openweathermap.org/data/2.5/",
+      changeOrigin: true,
+      pathRewrite: {
+        '^/weather-api': "",
+      }
+    })
+  );
 };
