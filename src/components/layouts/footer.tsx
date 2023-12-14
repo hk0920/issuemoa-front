@@ -38,7 +38,7 @@ const Footer = () => {
           onClick={() => handleMenuClick('word')}
           style={{ cursor: 'pointer', width: '26px' }}
         />
-        <span style={{ fontSize: '10px' }}>영단어</span>
+        <span style={{ fontSize: '10px' }}>E-Word</span>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img
