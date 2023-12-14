@@ -128,7 +128,7 @@ function Quiz() {
       setWord(voca?.[nextIndex]?.word);
       setMean(voca?.[nextIndex]?.mean);
       setIsSliding(false);
-    }, 250);
+    }, 200);
   };
 
   const handlePrevImageClick = () => {
@@ -193,15 +193,14 @@ function Quiz() {
 
     return (
       <animated.div style={isSliding ? slideInAnimation : {} }>
-        <div style={{ width: "100%", marginBottom: 30, fontSize: "35px", textAlign: "center", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <img src={prev} alt="prev" onClick={handlePrevImageClick} style={{ marginTop: -20, marginRight: 30, width: "25px" }} />
+        <div style={{ width: "100%", marginBottom: 30, fontSize: "35px", textAlign: "center", fontWeight: "bold", alignItems: "center", justifyContent: "center" }}>
+          <img src={prev} alt="prev" onClick={handlePrevImageClick} style={{ marginTop: -30, marginRight: 5, width: "25px" }} />
             {children}
           <span style={{ marginTop: 8, marginLeft: 20, width: "25px" }}></span>
         </div>
       </animated.div>
     );
   };
-
   
   const getWeather = async () => {
     const getPosition = (): Promise<GeolocationPosition> => {
