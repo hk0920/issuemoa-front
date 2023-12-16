@@ -259,7 +259,6 @@ function Quiz() {
           </div>
         </Col>
       </Row>
-      
       <Row>
         <Col>
           <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">

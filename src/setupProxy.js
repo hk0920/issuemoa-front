@@ -2,11 +2,11 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function (app) {
   app.use(
-    createProxyMiddleware("/voca-api", {
-      target: "http://61.102.114.235:17080",
+    createProxyMiddleware("/board-api", {
+      target: "http://61.102.114.235:17060",
       changeOrigin: true,
       pathRewrite: {
-        '^/voca-api': "",
+        '^/board-api': "",
       }
     })
   );
@@ -16,6 +16,15 @@ module.exports = function (app) {
       changeOrigin: true,
       pathRewrite: {
         '^/users-api': "",
+      }
+    })
+  );
+  app.use(
+    createProxyMiddleware("/voca-api", {
+      target: "http://61.102.114.235:17080",
+      changeOrigin: true,
+      pathRewrite: {
+        '^/voca-api': "",
       }
     })
   );

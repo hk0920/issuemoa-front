@@ -8,7 +8,6 @@ export async function getList(paramOffset:number, limit:number):Promise<any> {
   return await AxiosUtil.send('GET',`/voca-api/voca/list?offset=${paramOffset}&limit=${limit}`, {}, '');
 }
 
-
 export async function save(data: object) {
   const isAuthenticated = await AuthApi.checkUserAuthentication();
   if (isAuthenticated) {
@@ -19,8 +18,3 @@ export async function save(data: object) {
 export async function countLearn():Promise<any> {
   return await AxiosUtil.send('GET', `${base}/countLearn`, {}, '');
 }
-
-
-
-
-

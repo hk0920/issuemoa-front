@@ -1,13 +1,18 @@
-
 [[redirects]]
-  from = "/voca-api/*"
-  to = "http://61.102.114.235:17080/:splat"  
+  from = "/board-api/*"
+  to = "http://61.102.114.235:17060/:splat"  
   status = 200
   force = true
 
 [[redirects]]
   from = "/users-api/*"
   to = "http://61.102.114.235:17070/:splat"  
+  status = 200
+  force = true
+  
+[[redirects]]
+  from = "/voca-api/*"
+  to = "http://61.102.114.235:17080/:splat"  
   status = 200
   force = true
 
