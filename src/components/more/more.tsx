@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { Container, Badge } from 'react-bootstrap';
 import { cloud, grade, notice, setting, stock, supportCustomer } from '../../images';
+import { useNavigate } from "react-router-dom";
 import * as AuthApi from '../../api/auth';
 
-const imgStyle = { width: 35, height: 35 };
-
 const More = () => {
+  const navigate = useNavigate();
+  const imgStyle = { width: 35, height: 35 };
   const [name, setName] = useState("Anonymous");
+  
+  const handleMenuClick = (menu:string) => {
+    navigate("/" + menu);
+  }
+
   useEffect(() => {
     const checkAuthentication = async () => {
       const name = await AuthApi.getName();
@@ -43,7 +49,9 @@ const More = () => {
       {[...Array(numRows)].map((_, rowIndex) => (
         <div key={rowIndex} style={{ display: "flex", marginBottom: "30px", width: "100%" }}>
           {imageItems.slice(rowIndex * numCols, (rowIndex + 1) * numCols).map((item, colIndex) => (
-            <div key={colIndex} style={{ width: cellWidth, textAlign: "center", position: "relative" }}>
+            <div key={colIndex} style={{ width: cellWidth, textAlign: "center", position: "relative" }}
+             onClick={() => handleMenuClick(item.alt)}
+            >
               {(item.alt === "notice" || item.alt === "cloud") && <Badge bg="danger" style={{ position: "absolute", top: 0, left: 0, marginLeft: "15px"}}>N</Badge>}
               <img src={item.src} style={imgStyle} alt={item.alt} />
               <div style={{ marginTop: "5px", fontSize: "12px" }}>{item.text}</div>

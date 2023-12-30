@@ -23,3 +23,14 @@ export { default as supportCustomer } from './icon/support_customer.png';
 
 // Avatar
 export { default as lion } from './avatar/lion.jpg';
+
+// Grade
+export { default as grade_br } from './icon/grade/br.png';
+export { default as grade_ch } from './icon/grade/ch.png';
+export { default as grade_dia } from './icon/grade/dia.png';
+export { default as grade_gd } from './icon/grade/gd.png';
+export { default as grade_gm } from './icon/grade/gm.png';
+export { default as grade_ir } from './icon/grade/ir.png';
+export { default as grade_m } from './icon/grade/m.png';
+export { default as grade_plt } from './icon/grade/plt.png';
+export { default as grade_sl } from './icon/grade/sl.png';
