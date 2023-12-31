@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Footer, Issue, Quiz, Login, Dashboard, More, Grade, Notice, Inquiry } from './components';
+import { Header, Footer, Issue, Quiz, Login, Dashboard, More, Grade, Notice, Inquiry } from './components';
 import { Container, Spinner } from 'react-bootstrap';
 import * as AuthApi from './api/auth';
  
@@ -30,6 +30,7 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Issue />} />
         <Route path="/word" element={<Quiz />} />
