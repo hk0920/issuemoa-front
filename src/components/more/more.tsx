@@ -29,7 +29,7 @@ const More = () => {
     { src: cloud, alt: "cloud", text: "날씨" },
     { src: grade, alt: "grade", text: "등급" },
     { src: notice, alt: "notice", text: "공지사항" },
-    { src: supportCustomer, alt: "supportCustomer", text: "고객문의" },
+    { src: supportCustomer, alt: "inquiry", text: "고객문의" },
     { src: stock, alt: "stock", text: "주식" },
     { src: setting, alt: "setting", text: "설정" },
   ];
