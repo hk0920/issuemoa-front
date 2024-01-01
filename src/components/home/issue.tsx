@@ -1,8 +1,9 @@
-import * as BoardApi from '../../api/board';
+import * as BoardApi from "../../api/board";
 import { useState, useEffect } from "react";
-import { Spinner, Container, Row, Tab, Tabs, Card, Modal} from "react-bootstrap";
-import { debounce } from 'lodash';
-import { Player } from '../index'
+import { Spinner, Container, Tab, Tabs, Card, Modal } from "react-bootstrap";
+import { debounce } from "lodash";
+import { Player } from "../index";
+import classNames from "classnames";
 
 interface Board {
   id: string;
@@ -13,7 +14,10 @@ interface Board {
   thumbnail: string;
 }
 
-const Issue = () => {
+interface propsType {
+  isFixed: boolean;
+}
+const Issue = (data: propsType) => {
   let next = false;
   const [type, setType] = useState<string>("news");
   const [skip, setSkip] = useState<number>(0);
@@ -37,20 +41,20 @@ const Issue = () => {
     setModalOpen(false);
   };
 
-  const changeType = async (type:string) => {
-    console.log(type)
+  const changeType = async (type: string) => {
+    console.log(type);
     setType(type);
     setSkip(0);
     setBoard([]);
   };
 
-  const fetchData = async (type:string) => {
+  const fetchData = async (type: string) => {
     try {
       setLoadingModal(true);
-      
+
       let response: any;
       if (type === "news") {
-         response = await BoardApi.getNewsList(skip, limit);
+        response = await BoardApi.getNewsList(skip, limit);
       } else if (type === "youtube") {
         response = await BoardApi.getYoutubeList(skip, limit);
       }
@@ -70,7 +74,6 @@ const Issue = () => {
 
       // 컴포넌트 언마운트 시에 clearTimeout을 호출하여 메모리 누수를 방지합니다.
       return () => clearTimeout(timeoutId);
-
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -107,13 +110,8 @@ const Issue = () => {
   }, [skip, type]); // skip 값이 변경될 때만 실행
 
   return (
-    <Container>
-      <Player
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-        title={modalTitle}
-        context={modalContext}
-      />
+    <Container className="box__issue">
+      <Player isOpen={modalOpen} onClose={handleCloseModal} title={modalTitle} context={modalContext} />
       <Modal show={loadingModal} onHide={handleCloseLoadingModal} backdrop="static" keyboard={false}>
         <Modal.Body>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -121,12 +119,10 @@ const Issue = () => {
           </div>
         </Modal.Body>
       </Modal>
-      <Row>
+      <div className="box__inner">
         <Tabs
           defaultActiveKey="news"
-          id="justify-tab-example"
-          className="mb-3"
-          style={{ position: "fixed", width: "100%", zIndex: 100, backgroundColor: "white" }}
+          className={classNames("box__tab", data.isFixed && "fixed")}
           onSelect={(key) => {
             if (key === "news") {
               changeType(key);
@@ -135,13 +131,9 @@ const Issue = () => {
             }
           }}
         >
-          <Tab eventKey="news" title="뉴스" style={{ marginTop: "60px", marginBottom: "60px" }}>
+          <Tab eventKey="news" title="뉴스" className="box__card-wrap">
             {board.map((data, rowIndex) => (
-              <Card
-                key={rowIndex}
-                style={{ display: "flex", flexDirection: "row", marginBottom: "15px", maxWidth: "400px" }}
-                onClick={() => window.open(data.url)}
-                >
+              <Card key={rowIndex} className="box__card" onClick={() => window.open(data.url)}>
                 <Card.Img style={{ width: "27%", height: "82px" }} src={data.thumbnail} />
                 <Card.Body style={{ flex: "1" }}>
                   <Card.Text
@@ -159,13 +151,9 @@ const Issue = () => {
               </Card>
             ))}
           </Tab>
-          <Tab eventKey="youtube" title="유튜브" style={{ marginTop: "60px", marginBottom: "60px" }}>
+          <Tab eventKey="youtube" title="유튜브">
             {board.map((data, rowIndex) => (
-              <Card
-                key={rowIndex}
-                style={{ display: "flex", flexDirection: "row", marginBottom: "15px", maxWidth: "400px" }}
-                onClick={() => handleOpenModal(data.url)}
-                >
+              <Card key={rowIndex} style={{ display: "flex", flexDirection: "row", marginBottom: "15px", maxWidth: "400px" }} onClick={() => handleOpenModal(data.url)}>
                 <Card.Img style={{ width: "30%" }} src={data.thumbnail} />
                 <Card.Body style={{ flex: "1" }}>
                   <Card.Text
@@ -176,14 +164,14 @@ const Issue = () => {
                       WebkitLineClamp: 2,
                     }}
                   >
-                  {data.title}
-                </Card.Text>
-              </Card.Body>
-            </Card>
+                    {data.title}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             ))}
           </Tab>
         </Tabs>
-      </Row>
+      </div>
     </Container>
   );
 };

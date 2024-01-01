@@ -1,0 +1,34 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 8px 0;
+  border-top: 1px solid #e5e5e5;
+  background-color: rgb(253 250 250);
+  text-align: center;
+
+  .box__inner {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .link__footer {
+    display: block;
+    width: 100%;
+    .icon {
+      width: 26px;
+      margin: 0 auto;
+    }
+    .text {
+      display: block;
+      margin-top: 2px;
+    }
+    &:active,
+    &:focus {
+      .text {
+        font-weight: bold;
+      }
+    }
+  }
+}
