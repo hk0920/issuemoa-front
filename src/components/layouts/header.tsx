@@ -1,12 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 
 interface propsType {
   isFixed: boolean;
 }
+
 const Header = (data: propsType) => {
+  const location = useLocation();
+  const [isMain, setIsMain] = useState(true);
+  
+  useEffect(()=>{
+    if(location.pathname === "/"){
+      setIsMain(true);
+    }else{
+      setIsMain(false);
+    }
+  },[location])
+
   return (
-    <header className={classNames("box__header", data.isFixed && "fixed")}>
+    <header className={classNames("box__header", data.isFixed && "fixed", !isMain && "sub")}>
       <div className="box__inner">
         <h1 className="logo">
           <Link to="/">
