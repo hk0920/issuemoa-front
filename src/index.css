@@ -15,7 +15,11 @@ body {
   color: var(--fontColor);
 }
 
-* {
+*,
+p,
+div,
+ul,
+li {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -137,6 +141,32 @@ li {
         padding: 0;
         margin: 0;
       }
+    }
+  }
+  .box__user-info {
+    margin-bottom: 20px;
+    .button__login {
+      display: inline-block;
+      border: none;
+      background: none;
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .text__name {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .box__notice {
+      padding: 10px;
+      margin-top: 15px;
+      background-color: #f8f9fa;
+    }
+  }
+  &.box__sitemap {
+    display: flex;
+    align-items: center;
+    .box__inner {
+      flex: 1;
     }
   }
 }
