@@ -1,11 +1,11 @@
-### 프로젝트 도메인
-#### https://issuemoa.kr/
+## 📌 적용 기술
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white">
+
+## 📌 도메인
+https://issuemoa.kr/
 
 ### 리액트 + 타입스크립트 프로젝트 생성
-npx create-react-app my-react-app --template typescript
+`npx create-react-app my-react-app --template typescript`
 
-### `npm start`
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### `npm run build`
+### 실행
+`npm run build`
