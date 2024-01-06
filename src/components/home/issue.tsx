@@ -4,6 +4,7 @@ import { Spinner, Container, Tab, Tabs, Card, Modal } from "react-bootstrap";
 import { debounce } from "lodash";
 import { Player } from "../index";
 import classNames from "classnames";
+import { empty } from "../../images";
 
 interface Board {
   id: string;
@@ -27,6 +28,7 @@ const Issue = (data: propsType) => {
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
   const [loadingModal, setLoadingModal] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleCloseLoadingModal = () => {
     setLoadingModal(false);
@@ -97,6 +99,10 @@ const Issue = (data: propsType) => {
     }
   };
 
+  const favoriteHandler = () => {
+    setIsFavorite(!isFavorite);
+  };
+
   useEffect(() => {
     fetchData(type);
 
@@ -133,40 +139,31 @@ const Issue = (data: propsType) => {
         >
           <Tab eventKey="news" title="뉴스" className="box__card-wrap">
             {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card" onClick={() => window.open(data.url)}>
-                <Card.Img style={{ width: "27%", height: "82px" }} src={data.thumbnail} />
-                <Card.Body style={{ flex: "1" }}>
-                  <Card.Text
-                    style={{
-                      display: "-webkit-box",
-                      WebkitBoxOrient: "vertical",
-                      height: "100%",
-                      overflow: "hidden",
-                      WebkitLineClamp: 2,
-                    }}
-                  >
-                    {data.title}
-                  </Card.Text>
-                </Card.Body>
+              <Card key={rowIndex} className="box__card">
+                <a href={data.url} target="_blank" className="link">
+                  <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
+                  <Card.Body className="box__text">
+                    <Card.Text className="text__title">{data.title}</Card.Text>
+                  </Card.Body>
+                </a>
+                <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
+                  <span className="for-a11y">관심목록 추가</span>
+                </button>
               </Card>
             ))}
           </Tab>
-          <Tab eventKey="youtube" title="유튜브">
+          <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
             {board.map((data, rowIndex) => (
-              <Card key={rowIndex} style={{ display: "flex", flexDirection: "row", marginBottom: "15px", maxWidth: "400px" }} onClick={() => handleOpenModal(data.url)}>
-                <Card.Img style={{ width: "30%" }} src={data.thumbnail} />
-                <Card.Body style={{ flex: "1" }}>
-                  <Card.Text
-                    style={{
-                      display: "-webkit-box",
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                      WebkitLineClamp: 2,
-                    }}
-                  >
-                    {data.title}
-                  </Card.Text>
-                </Card.Body>
+              <Card key={rowIndex} className="box__card">
+                <a href="#" className="link" onClick={() => handleOpenModal(data.url)}>
+                  <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
+                  <Card.Body className="box__text">
+                    <Card.Text className="text__title">{data.title}</Card.Text>
+                  </Card.Body>
+                </a>
+                <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
+                  <span className="for-a11y">관심목록 추가</span>
+                </button>
               </Card>
             ))}
           </Tab>
