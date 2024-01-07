@@ -74,9 +74,12 @@ a {
     position: absolute;
     top: 0;
     left: 0;
-    display: flex;
+    display: none;
     width: 100%;
     flex-wrap: wrap;
+    &.active {
+      display: flex;
+    }
   }
   .box__card {
     position: relative;
@@ -200,14 +203,25 @@ a {
   }
   .box__user-info {
     margin-bottom: 20px;
-    .button__login {
+    .link__login {
       display: inline-block;
       border: none;
       background: none;
       font-weight: bold;
       font-size: 20px;
+      vertical-align: top;
+    }
+    .button__logout {
+      display: inline-block;
+      padding: 5px 10px;
+      margin-left: 5px;
+      color: var(--fontColor);
+      border: 1px solid #e0e0e0;
+      background: #fff;
+      vertical-align: top;
     }
     .text__name {
+      display: inline-block;
       font-weight: bold;
       font-size: 20px;
     }
@@ -222,6 +236,55 @@ a {
     align-items: center;
     .box__inner {
       flex: 1;
+    }
+    .list__sitemap {
+      display: flex;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      .list-item {
+        position: relative;
+        width: 25%;
+        margin-bottom: 15px;
+        text-align: center;
+        .icon__badge {
+          position: absolute;
+          top: 0;
+          left: calc(50% - 35px);
+        }
+        .image {
+          width: 35px;
+          height: 35px;
+        }
+        .text {
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+  &.box__mypage-board {
+    .box__title {
+      margin-bottom: 20px;
+    }
+    .box__tab {
+      margin-bottom: 15px;
+    }
+    .tab-content {
+      position: relative;
+      display: flex;
+      margin-bottom: 60px;
+      flex-wrap: wrap;
+    }
+    .box__card {
+      position: relative;
+      width: 100%;
+      margin-bottom: 15px;
+      @media all and (min-width: 450px) {
+        width: calc(50% - 8px);
+        margin-right: 15px;
+        &:nth-child(even) {
+          margin-right: 0;
+        }
+      }
     }
   }
 }

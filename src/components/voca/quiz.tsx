@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { prev, cloud } from "../../images";
 import { Container, Row, Col } from "react-bootstrap";
-import { Dialog } from '../index';
+import { Dialog } from "../index";
 import { useNavigate } from "react-router-dom";
 import * as VocaApi from "../../api/voca";
 import * as AuthApi from "../../api/auth";
@@ -58,7 +58,7 @@ function Quiz() {
   const flipCard = () => {
     setIsFlipped(!isFlipped);
     setIsSliding(false);
-  }
+  };
 
   // API - 단어 목록 가져오기
   const fetchData = async () => {
@@ -77,15 +77,15 @@ function Quiz() {
   };
 
   // 다음 단어 보여주기
-  const nextWord = (afterView: String, direction:String): void => {
+  const nextWord = (afterView: String, direction: String): void => {
     let nextIndex = 0;
-    
+
     if (afterView) {
       const learnData = {
-        "vocaId": vocaId,
-        "learnYn": afterView === "Y" ? "N" : "Y"
-      }
-  
+        vocaId: vocaId,
+        learnYn: afterView === "Y" ? "N" : "Y",
+      };
+
       // 학습진도 등록
       VocaApi.save(learnData);
 
@@ -109,13 +109,13 @@ function Quiz() {
       } else {
         setParamOffset(paramOffset + limit);
       }
-      
+
       return;
     }
 
     setWord("");
     setMean("");
-    
+
     if (isFlipped) {
       setIsFlipped(false);
     }
@@ -135,8 +135,7 @@ function Quiz() {
     nextWord("Y", "prev");
   };
 
-  const handleButton = async (afterView:string) => {
-
+  const handleButton = async (afterView: string) => {
     const isAuthenticated = await AuthApi.checkUserAuthentication();
 
     if (!isAuthenticated) {
@@ -156,7 +155,7 @@ function Quiz() {
         setButtonDisabled(false);
       }, 130);
     }
-  }
+  };
 
   const handleAfterWordClick = () => {
     handleButton("Y");
@@ -188,27 +187,27 @@ function Quiz() {
     const slideInAnimation = useSpring({
       from: { transform: "translateX(-100%)" },
       to: { transform: "translateX(0%)" },
-      reset: true
+      reset: true,
     });
 
     return (
-      <animated.div style={isSliding ? slideInAnimation : {} }>
+      <animated.div style={isSliding ? slideInAnimation : {}}>
         <div style={{ width: "100%", marginBottom: 30, fontSize: "35px", textAlign: "center", fontWeight: "bold", alignItems: "center", justifyContent: "center" }}>
           <img src={prev} alt="prev" onClick={handlePrevImageClick} style={{ marginTop: -30, marginRight: 5, width: "25px" }} />
-            {children}
+          {children}
           <span style={{ marginTop: 8, marginLeft: 20, width: "25px" }}></span>
         </div>
       </animated.div>
     );
   };
-  
+
   const getWeather = async () => {
     const getPosition = (): Promise<GeolocationPosition> => {
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject);
       });
     };
-  
+
     try {
       const position = await getPosition();
       const latitude = position.coords.latitude;
@@ -216,7 +215,7 @@ function Quiz() {
       const API_KEY = process.env.REACT_APP_OPEN_WEATHER_KEY;
       const url = `/weather-api/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=kr`;
       const response = await AxiosUtil.send("GET", url, {}, "");
-      const weather = response.weather[0];      
+      const weather = response.weather[0];
       const icon = weather.icon;
       const temp = Math.round(response.main.temp) + "° " + weather.description;
       const iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`;
@@ -226,7 +225,6 @@ function Quiz() {
       console.error("Error getting geolocation or weather:", error);
     }
   };
-  
 
   useEffect(() => {
     fetchData();
@@ -243,18 +241,11 @@ function Quiz() {
 
   return (
     <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh" }}>
-      <Dialog
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirmModal}
-        title={dialogTitle}
-        context={dialogContext}
-        buttonText={dialogButtonText}
-      />
+      <Dialog isOpen={modalOpen} onClose={handleCloseModal} onConfirm={handleConfirmModal} title={dialogTitle} context={dialogContext} buttonText={dialogButtonText} />
       <Row>
         <Col>
-          <div style={{ position: 'fixed', top: '10px', right: '10px' }}>
-            <span style={{fontSize: "13px"}}>{temp}</span>
+          <div style={{ position: "fixed", top: "10px", right: "10px" }}>
+            <span style={{ fontSize: "13px" }}>{temp}</span>
             <img src={weather} alt="weather" style={{ width: "25px" }} />
           </div>
         </Col>
@@ -263,17 +254,13 @@ function Quiz() {
         <Col>
           <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
             <Card>
-              <Word isSliding={isSliding}>
-                {word}
-              </Word>
+              <Word isSliding={isSliding}>{word}</Word>
               <Button style={{ width: "100%" }} variant="light" onClick={flipCard} size="lg">
                 ✔️
               </Button>
             </Card>
             <Card>
-              <Word isSliding={isSliding}>
-                {mean}
-              </Word>
+              <Word isSliding={isSliding}>{mean}</Word>
               <Button style={{ width: "100%" }} variant="light" onClick={flipCard} size="lg">
                 ✔️
               </Button>
@@ -283,22 +270,12 @@ function Quiz() {
       </Row>
       <Row>
         <Col>
-          <Button
-            style={{ width: "150px" }}
-            onClick={handleAfterWordClick}
-            variant="primary"
-            size="lg"
-          >
+          <Button style={{ width: "150px" }} onClick={handleAfterWordClick} variant="primary" size="lg">
             다음에 보기 ✍️
           </Button>
         </Col>
         <Col>
-          <Button
-            style={{ width: "150px" }}
-            onClick={handleNextWordClick}
-            variant="success"
-            size="lg"
-          >
+          <Button style={{ width: "150px" }} onClick={handleNextWordClick} variant="success" size="lg">
             알고 있어요 😊
           </Button>
         </Col>

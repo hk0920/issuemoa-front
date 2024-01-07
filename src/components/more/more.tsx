@@ -1,17 +1,11 @@
 import { useState, useEffect } from "react";
 import { Container, Badge } from "react-bootstrap";
 import { cloud, grade, notice, setting, stock, supportCustomer } from "../../images";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
 
 const More = () => {
-  const navigate = useNavigate();
-  const imgStyle = { width: 35, height: 35 };
   const [name, setName] = useState("");
-
-  const handleMenuClick = (menu: string) => {
-    navigate("/" + menu);
-  };
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -33,42 +27,45 @@ const More = () => {
     { src: setting, alt: "setting", text: "설정" },
   ];
 
-  const numCols = 4;
-  const numRows = Math.ceil(imageItems.length / numCols);
-  const cellWidth = `${100 / numCols}%`;
-
   return (
     <Container className="page__sub box__sitemap">
       <div className="box__inner">
         <div className="box__user-info">
           <div className="box__user">
             {name === "" ? (
-              <button type="button" className="button__login">
+              <Link to={"/login"} className="link__login">
                 로그인해주세요.
-              </button>
+              </Link>
             ) : (
-              <p className="text__name">{name}님</p>
+              <>
+                <p className="text__name">{name}님</p>
+                <button type="button" className="button__logout">
+                  로그아웃
+                </button>
+              </>
             )}
           </div>
           <div className="box__notice">
             <p>개선사항이 있으면 언제든지 문의 해주세요!</p>
           </div>
         </div>
-        {[...Array(numRows)].map((_, rowIndex) => (
-          <div key={rowIndex} style={{ display: "flex", marginBottom: "30px", width: "100%" }}>
-            {imageItems.slice(rowIndex * numCols, (rowIndex + 1) * numCols).map((item, colIndex) => (
-              <div key={colIndex} style={{ width: cellWidth, textAlign: "center", position: "relative" }} onClick={() => handleMenuClick(item.alt)}>
-                {(item.alt === "notice" || item.alt === "cloud") && (
-                  <Badge bg="danger" style={{ position: "absolute", top: 0, left: 0, marginLeft: "15px" }}>
-                    N
-                  </Badge>
-                )}
-                <img src={item.src} style={imgStyle} alt={item.alt} />
-                <div style={{ marginTop: "5px", fontSize: "12px" }}>{item.text}</div>
-              </div>
-            ))}
-          </div>
-        ))}
+        <ul className="list__sitemap">
+          {imageItems.map((item, idx) => {
+            return (
+              <li key={idx} className="list-item">
+                <Link to={"/" + item.alt} className="link">
+                  {(item.alt === "notice" || item.alt === "cloud") && (
+                    <Badge bg="danger" className="icon__badge">
+                      N
+                    </Badge>
+                  )}
+                  <img src={item.src} alt={item.alt} className="image" />
+                  <p className="text">{item.text}</p>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </Container>
   );
