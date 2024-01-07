@@ -11,10 +11,10 @@ export async function getList(paramOffset:number, limit:number):Promise<any> {
 export async function save(data: object) {
   const isAuthenticated = await AuthApi.checkUserAuthentication();
   if (isAuthenticated) {
-    await AxiosUtil.send('POST', `${base}/learn`, data, 'json');
+    await AxiosUtil.send('POST', `${base}/voca-learn`, data, 'json');
   }
 }
 
 export async function countLearn():Promise<any> {
-  return await AxiosUtil.send('GET', `${base}/countLearn`, {}, '');
+  return await AxiosUtil.send('GET', `${base}/voca-learn/countLearn`, {}, '');
 }
