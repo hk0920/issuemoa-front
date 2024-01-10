@@ -11,5 +11,7 @@ https://issuemoa.kr/
 `npm i`
 
 ### 실행
+`npm start`
+
+### 빌드
 `npm run build`
-test
