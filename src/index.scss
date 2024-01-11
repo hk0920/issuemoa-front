@@ -349,7 +349,7 @@ a {
           text-align: center;
           background: none;
           border-radius: 6px;
-          border: 1px solid #f5f5f5;
+          border: 1px solid #e5e5e5;
           &:not(:last-child) {
             margin-right: 10px;
           }
@@ -365,8 +365,9 @@ a {
       right: 0;
       .form__select {
         padding: 5px 10px;
-        border: 1px solid #f5f5f5;
+        border: 1px solid #e5e5e5;
         border-radius: 4px;
+        background: none;
       }
     }
   }
