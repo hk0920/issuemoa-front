@@ -49,6 +49,10 @@ a {
   overflow: hidden;
 }
 
+.box__component-title {
+  margin-bottom: 20px;
+}
+
 .box__issue {
   position: relative;
   .box__tab {
@@ -130,7 +134,8 @@ a {
         display: block;
         width: 15px;
         height: 15px;
-        background: url("./images/icon/icon__favorite.png") no-repeat center / 100%;
+        background: url("./images/icon/icon__favorite.png") no-repeat center /
+          100%;
         transform: translate(-50%, -50%);
       }
       &--active {
@@ -284,6 +289,84 @@ a {
         &:nth-child(even) {
           margin-right: 0;
         }
+      }
+    }
+  }
+  &.page__voca {
+    .box__component-weather {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 110;
+      .image {
+        width: 25px;
+      }
+    }
+    .box__component-word {
+      .box__card {
+        padding: 20px;
+      }
+      .box__word {
+        display: flex;
+        .button__prev {
+          display: block;
+          width: 25px;
+          height: 25px;
+          margin-bottom: 5px;
+          background: url("./images/icon/prev.png") no-repeat 0 0 / 100% 100%;
+          border: none;
+        }
+        .button__listen {
+          display: block;
+          width: 25px;
+          height: 25px;
+          background: url("./images/icon/icon__listen.png") no-repeat 0 0 / 100%
+            100%;
+          border: none;
+        }
+        .text__word {
+          flex: 1;
+          font-weight: bold;
+          font-size: 35px;
+          text-align: center;
+        }
+      }
+      .button__confirm {
+        margin-top: 20px;
+        display: block;
+        width: 100%;
+        padding: 15px;
+        border-radius: 6px;
+        background: #f5f5f5;
+        border: none;
+      }
+      .box__buttons {
+        margin-top: 20px;
+        text-align: center;
+        .button__word {
+          display: inline-block;
+          padding: 10px 20px;
+          text-align: center;
+          background: none;
+          border-radius: 6px;
+          border: 1px solid #f5f5f5;
+          &:not(:last-child) {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+    .box__inner {
+      position: relative;
+    }
+    .box__select {
+      position: absolute;
+      top: 0;
+      right: 0;
+      .form__select {
+        padding: 5px 10px;
+        border: 1px solid #f5f5f5;
+        border-radius: 4px;
       }
     }
   }
