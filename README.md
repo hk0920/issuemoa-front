@@ -4,14 +4,15 @@
 ## 📌 도메인
 https://issuemoa.kr/
 
+## 📌 Initialize
 ### 리액트 + 타입스크립트 프로젝트 생성
-`npx create-react-app my-react-app --template typescript`
+`$ npx create-react-app my-react-app --template typescript`
 
 ### 패키지 설치
-`npm i`
+`$ npm i`
 
 ### 실행
-`npm start`
+`$ npm start`
 
 ### 빌드
-`npm run build`
+`$ npm run build`
