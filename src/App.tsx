@@ -47,7 +47,7 @@ function App() {
     <BrowserRouter>
       <Header isFixed={isFixed} />
       <Routes>
-        <Route path="/" element={<Issue isFixed={isFixed} />} />
+        <Route path="/" element={<Issue />} />
         <Route path="/word" element={<Quiz />} />
         <Route path="/login" element={<Login />} />
         <Route path="/more" element={<More />} />

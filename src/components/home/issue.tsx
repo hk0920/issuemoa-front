@@ -1,10 +1,8 @@
-import * as BoardApi from "../../api/board";
+import * as BoardApi from '../../api/board';
 import { useState, useEffect } from "react";
-import { Spinner, Container, Tab, Tabs, Card, Modal } from "react-bootstrap";
-import { debounce } from "lodash";
-import { Player } from "../index";
-import classNames from "classnames";
-import { empty } from "../../images";
+import { Spinner, Container, Row, Tab, Tabs, Card, Modal} from "react-bootstrap";
+import { debounce } from 'lodash';
+import { Player } from '../index'
 
 interface Board {
   id: string;
@@ -15,10 +13,7 @@ interface Board {
   thumbnail: string;
 }
 
-interface propsType {
-  isFixed: boolean;
-}
-const Issue = (data: propsType) => {
+const Issue = () => {
   let next = false;
   const [type, setType] = useState<string>("news");
   const [skip, setSkip] = useState<number>(0);
@@ -28,7 +23,6 @@ const Issue = (data: propsType) => {
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
   const [loadingModal, setLoadingModal] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleCloseLoadingModal = () => {
     setLoadingModal(false);
@@ -43,20 +37,20 @@ const Issue = (data: propsType) => {
     setModalOpen(false);
   };
 
-  const changeType = async (type: string) => {
-    console.log(type);
+  const changeType = async (type:string) => {
+    console.log(type)
     setType(type);
     setSkip(0);
     setBoard([]);
   };
 
-  const fetchData = async (type: string) => {
+  const fetchData = async (type:string) => {
     try {
       setLoadingModal(true);
-
+      
       let response: any;
       if (type === "news") {
-        response = await BoardApi.getNewsList(skip, limit);
+         response = await BoardApi.getNewsList(skip, limit);
       } else if (type === "youtube") {
         response = await BoardApi.getYoutubeList(skip, limit);
       }
@@ -76,6 +70,7 @@ const Issue = (data: propsType) => {
 
       // 컴포넌트 언마운트 시에 clearTimeout을 호출하여 메모리 누수를 방지합니다.
       return () => clearTimeout(timeoutId);
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -99,10 +94,6 @@ const Issue = (data: propsType) => {
     }
   };
 
-  const favoriteHandler = () => {
-    setIsFavorite(!isFavorite);
-  };
-
   useEffect(() => {
     fetchData(type);
 
@@ -116,8 +107,13 @@ const Issue = (data: propsType) => {
   }, [skip, type]); // skip 값이 변경될 때만 실행
 
   return (
-    <Container className="box__issue">
-      <Player isOpen={modalOpen} onClose={handleCloseModal} title={modalTitle} context={modalContext} />
+    <Container>
+      <Player
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        title={modalTitle}
+        context={modalContext}
+      />
       <Modal show={loadingModal} onHide={handleCloseLoadingModal} backdrop="static" keyboard={false}>
         <Modal.Body>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -125,10 +121,12 @@ const Issue = (data: propsType) => {
           </div>
         </Modal.Body>
       </Modal>
-      <div className="box__inner">
+      <Row>
         <Tabs
           defaultActiveKey="news"
-          className={classNames("box__tab", data.isFixed && "fixed")}
+          id="justify-tab-example"
+          className="mb-3"
+          style={{ position: "fixed", width: "100%", zIndex: 100, backgroundColor: "white" }}
           onSelect={(key) => {
             if (key === "news") {
               changeType(key);
@@ -137,38 +135,55 @@ const Issue = (data: propsType) => {
             }
           }}
         >
-          <Tab eventKey="news" title="뉴스" className="box__card-wrap">
+          <Tab eventKey="news" title="뉴스" style={{ marginTop: "60px", marginBottom: "60px" }}>
             {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card">
-                <a href={data.url} target="_blank" className="link">
-                  <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
-                  <Card.Body className="box__text">
-                    <Card.Text className="text__title">{data.title}</Card.Text>
-                  </Card.Body>
-                </a>
-                <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
-                  <span className="for-a11y">관심목록 추가</span>
-                </button>
+              <Card
+                key={rowIndex}
+                style={{ display: "flex", flexDirection: "row", marginBottom: "15px", maxWidth: "400px" }}
+                onClick={() => window.open(data.url)}
+                >
+                <Card.Img style={{ width: "27%", height: "82px" }} src={data.thumbnail} />
+                <Card.Body style={{ flex: "1" }}>
+                  <Card.Text
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      height: "100%",
+                      overflow: "hidden",
+                      WebkitLineClamp: 2,
+                    }}
+                  >
+                    {data.title}
+                  </Card.Text>
+                </Card.Body>
               </Card>
             ))}
           </Tab>
-          <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
+          <Tab eventKey="youtube" title="유튜브" style={{ marginTop: "60px", marginBottom: "60px" }}>
             {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card">
-                <a href="#" className="link" onClick={() => handleOpenModal(data.url)}>
-                  <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
-                  <Card.Body className="box__text">
-                    <Card.Text className="text__title">{data.title}</Card.Text>
-                  </Card.Body>
-                </a>
-                <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
-                  <span className="for-a11y">관심목록 추가</span>
-                </button>
-              </Card>
+              <Card
+                key={rowIndex}
+                style={{ display: "flex", flexDirection: "row", marginBottom: "15px", maxWidth: "400px" }}
+                onClick={() => handleOpenModal(data.url)}
+                >
+                <Card.Img style={{ width: "30%" }} src={data.thumbnail} />
+                <Card.Body style={{ flex: "1" }}>
+                  <Card.Text
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      WebkitLineClamp: 2,
+                    }}
+                  >
+                  {data.title}
+                </Card.Text>
+              </Card.Body>
+            </Card>
             ))}
           </Tab>
         </Tabs>
-      </div>
+      </Row>
     </Container>
   );
 };
