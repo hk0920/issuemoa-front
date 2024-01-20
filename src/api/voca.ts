@@ -5,7 +5,7 @@ const base = '/voca-api';
 
 export async function getList(paramOffset:number, limit:number):Promise<any> {
   await AuthApi.checkUserAuthentication();
-  return await AxiosUtil.send('GET',`/voca-api/voca/list?offset=${paramOffset}&limit=${limit}`, {}, '');
+  return await AxiosUtil.send('GET',`/voca-api/voca?offset=${paramOffset}&limit=${limit}`, {}, '');
 }
 
 export async function save(data: object) {
@@ -16,5 +16,5 @@ export async function save(data: object) {
 }
 
 export async function countLearn():Promise<any> {
-  return await AxiosUtil.send('GET', `${base}/voca-learn/countLearn`, {}, '');
+  return await AxiosUtil.send('GET', `${base}/voca-learn/count`, {}, '');
 }
