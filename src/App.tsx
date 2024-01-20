@@ -31,16 +31,15 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 };
 
 function App() {
-  // const [isFixed, setIsFixed] = useState<boolean>(false);
-  const isFixed = true;
+  const [isFixed, setIsFixed] = useState<boolean>(false);
 
-  // window.addEventListener("scroll", (e) => {
-  //   if (window.scrollY > 60) {
-  //     setIsFixed(true);
-  //   } else {
-  //     setIsFixed(false);
-  //   }
-  // });
+  window.addEventListener("scroll", (e) => {
+    if (window.scrollY > 60) {
+      setIsFixed(true);
+    } else {
+      setIsFixed(false);
+    }
+  });
 
   return (
     <BrowserRouter>

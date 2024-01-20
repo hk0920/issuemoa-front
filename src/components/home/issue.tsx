@@ -1,6 +1,6 @@
 import * as BoardApi from "../../api/board";
 import { useState, useEffect } from "react";
-import { Spinner, Container, Tab, Tabs, Card, Modal } from "react-bootstrap";
+import { Spinner, Container, Row, Tab, Tabs, Card, Modal } from "react-bootstrap";
 import { debounce } from "lodash";
 import { Player } from "../index";
 import classNames from "classnames";
@@ -14,11 +14,11 @@ interface Board {
   url: string;
   thumbnail: string;
 }
-
-interface propsType {
+interface propsTypes {
   isFixed: boolean;
 }
-const Issue = (data: propsType) => {
+
+const Issue = (data: propsTypes) => {
   let next = false;
   const [type, setType] = useState<string>("news");
   const [skip, setSkip] = useState<number>(0);
@@ -99,7 +99,7 @@ const Issue = (data: propsType) => {
   };
 
   const favoriteHandler = () => {
-    setIsFavorite(!isFavorite);
+    setIsFavorite(true);
   };
 
   useEffect(() => {
@@ -127,6 +127,7 @@ const Issue = (data: propsType) => {
       <div className="box__inner">
         <Tabs
           defaultActiveKey="news"
+          id="justify-tab-example"
           className={classNames("box__tab", data.isFixed && "fixed")}
           onSelect={(key) => {
             if (key === "news") {

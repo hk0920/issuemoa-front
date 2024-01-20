@@ -17,6 +17,7 @@ const Header = (data: propsType) => {
       setIsMain(false);
     }
   }, [location]);
+
   return (
     <header className={classNames("box__header", data.isFixed && "fixed", !isMain && "sub")}>
       <div className="box__inner">
