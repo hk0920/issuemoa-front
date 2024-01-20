@@ -44,7 +44,6 @@ const Issue = (data: propsType) => {
   };
 
   const changeType = async (type: string) => {
-    console.log(type);
     setType(type);
     setSkip(0);
     setBoard([]);
@@ -140,7 +139,7 @@ const Issue = (data: propsType) => {
           <Tab eventKey="news" title="뉴스" className="box__card-wrap">
             {board.map((data, rowIndex) => (
               <Card key={rowIndex} className="box__card">
-                <a href={data.url} target="_blank" className="link">
+                <a href={data.url} target="_blank" rel="noreferrer" className="link">
                   <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
                   <Card.Body className="box__text">
                     <Card.Text className="text__title">{data.title}</Card.Text>
@@ -155,12 +154,12 @@ const Issue = (data: propsType) => {
           <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
             {board.map((data, rowIndex) => (
               <Card key={rowIndex} className="box__card">
-                <a href="#" className="link" onClick={() => handleOpenModal(data.url)}>
+                <button type="button" className="link" onClick={() => handleOpenModal(data.url)}>
                   <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
                   <Card.Body className="box__text">
                     <Card.Text className="text__title">{data.title}</Card.Text>
                   </Card.Body>
-                </a>
+                </button>
                 <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
                   <span className="for-a11y">관심목록 추가</span>
                 </button>

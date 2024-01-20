@@ -16,7 +16,7 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
     };
 
     checkAuthentication();
-  }, []);
+  }, [isAuthenticated]);
 
   if (isAuthenticated === null) {
     // 로딩 중일 때의 처리
@@ -31,17 +31,16 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 };
 
 function App() {
-  const [isFixed, setIsFixed] = useState<boolean>(false);
+  // const [isFixed, setIsFixed] = useState<boolean>(false);
+  const isFixed = true;
 
-  useEffect(() => {
-    window.addEventListener("scroll", (e) => {
-      if (window.scrollY > 60) {
-        setIsFixed(true);
-      } else {
-        setIsFixed(false);
-      }
-    });
-  }, [isFixed]);
+  // window.addEventListener("scroll", (e) => {
+  //   if (window.scrollY > 60) {
+  //     setIsFixed(true);
+  //   } else {
+  //     setIsFixed(false);
+  //   }
+  // });
 
   return (
     <BrowserRouter>
