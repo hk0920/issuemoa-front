@@ -139,17 +139,37 @@ const Issue = (data: propsTypes) => {
         >
           <Tab eventKey="news" title="뉴스" className="box__card-wrap">
             {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card">
-                <a href={data.url} target="_blank" rel="noreferrer" className="link">
-                  <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
-                  <Card.Body className="box__text">
-                    <Card.Text className="text__title">{data.title}</Card.Text>
-                  </Card.Body>
-                </a>
-                <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
-                  <span className="for-a11y">관심목록 추가</span>
-                </button>
-              </Card>
+              <a
+                key={rowIndex}
+                style={{ display: "flex", flexDirection: "row", marginBottom: "15px", maxWidth: "400px" }}
+                onClick={() => window.open(data.url)}
+                >
+                <Card.Img style={{ width: "27%", height: "82px" }} src={data.thumbnail} />
+                <Card.Body style={{ flex: "1" }}>
+                  <Card.Text
+                    style={{
+                      display: "-webkit-box",
+                      WebkitBoxOrient: "vertical",
+                      height: "100%",
+                      overflow: "hidden",
+                      WebkitLineClamp: 2,
+                    }}
+                  >
+                    {data.title}
+                  </Card.Text>
+                </Card.Body>
+              </a>
+              // <Card key={rowIndex} className="box__card">
+              //   <a href={data.url} target="_blank" rel="noreferrer" className="link">
+              //     <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
+              //     <Card.Body className="box__text">
+              //       <Card.Text className="text__title">{data.title}</Card.Text>
+              //     </Card.Body>
+              //   </a>
+              //   <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
+              //     <span className="for-a11y">관심목록 추가</span>
+              //   </button>
+              // </Card>
             ))}
           </Tab>
           <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
