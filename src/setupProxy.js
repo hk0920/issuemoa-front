@@ -29,6 +29,15 @@ module.exports = function (app) {
     })
   );
   app.use(
+    createProxyMiddleware("/interview-api", {
+      target: "http://61.102.114.235:8000",
+      changeOrigin: true,
+      pathRewrite: {
+        '^/interview-api': "",
+      }
+    })
+  );
+  app.use(
     createProxyMiddleware("/kakao", {
       target: "https://kauth.kakao.com",
       changeOrigin: true,

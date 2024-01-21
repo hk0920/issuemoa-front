@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { home, home_fill, word, word_fill, person, person_fill, more, more_fill } from "../../images";
+import { home, home_fill, word, word_fill, tech, tech_fill, person, person_fill, more, more_fill } from "../../images";
 import { Link, useNavigate } from "react-router-dom";
 
 const Footer = () => {
@@ -29,7 +29,11 @@ const Footer = () => {
         </Link>
         <Link to="word" className="link__footer" onClick={() => handleMenuClick("word")}>
           <img src={selected === "word" ? word_fill : word} alt="Word" className="icon" />
-          <span className="text">E-Word</span>
+          <span className="text">Word</span>
+        </Link>
+        <Link to="tech" className="link__footer" onClick={() => handleMenuClick("tech")}>
+          <img src={selected === "tech" ? tech_fill : tech} alt="Tech" className="icon" />
+          <span className="text">Tech</span>
         </Link>
         <Link to="mypage" className="link__footer" onClick={() => handleMenuClick("mypage")}>
           <img src={selected === "mypage" ? person_fill : person} alt="Person" className="icon" />

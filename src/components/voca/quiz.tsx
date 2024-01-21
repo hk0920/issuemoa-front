@@ -3,34 +3,18 @@ import { cloud } from "../../images";
 import { Container } from "react-bootstrap";
 import { Dialog } from "../index";
 import { useNavigate } from "react-router-dom";
-import * as AuthApi from "../../api/auth";
 import * as AxiosUtil from "../../lib/AxiosUtil";
 import VocaWord from "./fragments/VocaWord";
 import ComponentTitle from "./fragments/ComponentTitle";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-interface Voca {
-  id: number;
-  word: string;
-  mean: string;
-}
-
 function Quiz() {
-  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState<string>("확인");
-  const [dialogContext, setDialogContext] = useState<string>("");
-  const [dialogButtonText, setDialogButtonText] = useState<string>("");
   const [weather, setWeather] = useState<string>("");
   const [temp, setTemp] = useState<string>("");
   const navigate = useNavigate();
-
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
+  const dialogTitle = "확인";
+  const dialogContext = "";
+  const dialogButtonText = "";
 
   const handleCloseModal = () => {
     setModalOpen(false);
@@ -90,15 +74,6 @@ function Quiz() {
           title={"영어단어"}
           subTitle={"영어단어를 쉽고 간단하게 배워봅시다"}
         />
-
-        <div className="box__select">
-          <select name="" id="" className="form__select">
-            <option value="영어단어">영어단어</option>
-            <option value="영어단어">백앤드 기술용어</option>
-            <option value="영어단어">프론트 기술용어</option>
-          </select>
-        </div>
-
         <VocaWord />
       </div>
     </Container>

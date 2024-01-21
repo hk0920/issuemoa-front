@@ -9,6 +9,7 @@ export { default as Grade } from './more/grade';
 export { default as Notice } from './more/notice';
 export { default as Inquiry } from './more/inquiry';
 export { default as Header} from './layouts/header';
+export { default as Tech} from './tech/tech';
 
 
 // Common

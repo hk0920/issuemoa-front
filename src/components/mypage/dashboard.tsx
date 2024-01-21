@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Badge, Tab, Tabs, Card } from "react-bootstrap";
-import * as VocaApi from "../../api/voca";
+import * as VocaApi from "../../api/learning";
 
 const Dashboard = () => {
   const [learnCount, setLearnCount] = useState<number>(0);

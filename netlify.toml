@@ -17,6 +17,12 @@
   force = true
 
 [[redirects]]
+  from = "/interview-api/*"
+  to = "http://61.102.114.235:8000/:splat"  
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/kakao/*"
   to = "https://kauth.kakao.com/:splat"  
   status = 200

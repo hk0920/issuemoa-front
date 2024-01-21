@@ -11,6 +11,8 @@ export { default as home } from "./icon/home.png";
 export { default as home_fill } from "./icon/home_fill.png";
 export { default as word } from "./icon/word.png";
 export { default as word_fill } from "./icon/word_fill.png";
+export { default as tech } from "./icon/tech.png";
+export { default as tech_fill } from "./icon/tech_fill.png";
 export { default as person } from "./icon/person.png";
 export { default as person_fill } from "./icon/person_fill.png";
 export { default as more } from "./icon/more.png";

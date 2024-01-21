@@ -1,18 +1,10 @@
-import Button from "react-bootstrap/Button";
 import ReactCardFlip from "react-card-flip";
 import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import { prev, cloud } from "../../../images";
-import { Container, Row, Col } from "react-bootstrap";
 import { Dialog } from "../../index";
 import { useNavigate } from "react-router-dom";
-import * as VocaApi from "../../../api/voca";
+import * as VocaApi from "../../../api/learning";
 import * as AuthApi from "../../../api/auth";
-import * as AxiosUtil from "../../../lib/AxiosUtil";
-
-interface Props {
-  children: React.ReactNode;
-}
 
 interface Voca {
   id: number;
@@ -36,8 +28,6 @@ const VocaWord = () => {
   const [dialogTitle, setDialogTitle] = useState<string>("확인");
   const [dialogContext, setDialogContext] = useState<string>("");
   const [dialogButtonText, setDialogButtonText] = useState<string>("");
-  const [weather, setWeather] = useState<string>("");
-  const [temp, setTemp] = useState<string>("");
   const navigate = useNavigate();
   const limit = 30;
 
@@ -64,7 +54,7 @@ const VocaWord = () => {
   const fetchData = async () => {
     try {
       setcurrentIndex(0);
-      const response = await VocaApi.getList(paramOffset, limit);
+      const response = await VocaApi.getVocaList(paramOffset, limit);
       if (response) {
         const data = response.data;
         setVoca(data.list);
