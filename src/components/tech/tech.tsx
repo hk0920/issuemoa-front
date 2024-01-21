@@ -12,15 +12,14 @@ interface Interview {
 const Tech = () => {
   const [interview, setInterview] = useState<Interview[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("BACKEND");
-  
-  const fetchData = async (category:string) => {
+
+  const fetchData = async (category: string) => {
     try {
       let response = await InterViewApi.getInterviewList(category);
 
       if (response) {
         setInterview(response.data.list);
       }
-
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -28,10 +27,32 @@ const Tech = () => {
 
   useEffect(() => {
     fetchData(selectedCategory);
-  }, [selectedCategory]); // selectedCategory가 변경될 때마다 fetchData를 호출합니다.
+  }, [selectedCategory]);
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(event.target.value);
+  };
+
+  const renderContentWithImages = (content: string) => {
+    const imageUrlMatches = content.match(/https:\/\/img1\.daumcdn\.net.*?\.png/g);
+
+    if (imageUrlMatches && imageUrlMatches.length > 0) {
+      const images = imageUrlMatches.map((imageUrl, index) => (
+        <img key={index} src={imageUrl} alt={`Image ${index}`} />
+      ));
+
+      const lastImageIndex = imageUrlMatches.length - 1;
+      const textWithoutImages = content.split(imageUrlMatches[lastImageIndex]).join('');
+
+      return (
+        <div>
+          {images}
+          <p dangerouslySetInnerHTML={{ __html: textWithoutImages.replace(/\n/g, '<br>') }} />
+        </div>
+      );
+    }
+
+    return <p dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br>') }} />;
   };
 
   return (
@@ -53,7 +74,7 @@ const Tech = () => {
           <Accordion.Item key={data.id} eventKey={data.id.toString()}>
             <Accordion.Header>{data.question}</Accordion.Header>
             <Accordion.Body>
-              <div dangerouslySetInnerHTML={{ __html: data.answer.replace(/\n/g, '<br>') }} />
+              {renderContentWithImages(data.answer)}
             </Accordion.Body>
           </Accordion.Item>
         ))}
