@@ -1,16 +1,13 @@
 .box__header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   padding: 5px 10px;
   background: #fff;
   z-index: 100;
   &.sub {
     border-bottom: 1px solid #e5e5e5;
-  }
-  &.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
   }
   .logo {
     width: 50px;
