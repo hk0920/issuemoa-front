@@ -55,24 +55,23 @@ a {
 
 .box__issue {
   position: relative;
+  padding-top: 60px;
   .box__tab {
-    position: relative;
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    width: 100%;
+    max-width: var(--maxWidth);
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    background-color: #fff;
+    transform: translateX(-50%);
+    box-sizing: border-box;
     z-index: 100;
-    &.fixed {
-      position: fixed;
-      top: 60px;
-      left: 50%;
-      width: 100%;
-      max-width: var(--maxWidth);
-      padding-right: calc(var(--bs-gutter-x) * 0.5);
-      padding-left: calc(var(--bs-gutter-x) * 0.5);
-      background-color: #fff;
-      transform: translateX(-50%);
-    }
   }
   .tab-content {
     position: relative;
-    margin: 15px 0 70px;
+    margin: 51px 0 70px;
   }
   .box__card-wrap {
     display: none;
@@ -133,7 +132,8 @@ a {
         display: block;
         width: 15px;
         height: 15px;
-        background: url("./images/icon/icon__favorite.png") no-repeat center / 100%;
+        background: url("./images/icon/icon__favorite.png") no-repeat center /
+          100%;
         transform: translate(-50%, -50%);
       }
       &--active {
@@ -158,8 +158,9 @@ a {
 }
 
 .page__sub {
-  padding-top: 20px;
+  padding-top: 90px;
   margin-bottom: 60px;
+
   .list__grade {
     display: flex;
     max-width: var(--maxWidth);
@@ -319,7 +320,8 @@ a {
           display: block;
           width: 25px;
           height: 25px;
-          background: url("./images/icon/icon__listen.png") no-repeat 0 0 / 100% 100%;
+          background: url("./images/icon/icon__listen.png") no-repeat 0 0 / 100%
+            100%;
           border: none;
         }
         .text__word {
@@ -354,6 +356,8 @@ a {
         }
       }
     }
+  }
+  &.page__tech {
     .box__inner {
       position: relative;
     }
@@ -362,10 +366,21 @@ a {
       top: 0;
       right: 0;
       .form__select {
+        display: inline-block;
         padding: 5px 10px;
         border: 1px solid #e5e5e5;
         border-radius: 4px;
-        background: none;
+        background: transparent;
+        appearance: none;
+        background: url("./images/icon/icon__arrow.png") no-repeat center right
+          8px / 12px;
+      }
+    }
+    .accordion {
+      padding-bottom: 50px;
+      .accordion-button {
+        padding: 15px 10px;
+        font-size: 14px;
       }
     }
   }

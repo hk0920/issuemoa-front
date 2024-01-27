@@ -5,7 +5,7 @@ import { Dialog } from "../index";
 import { useNavigate } from "react-router-dom";
 import * as AxiosUtil from "../../lib/AxiosUtil";
 import VocaWord from "./fragments/VocaWord";
-import ComponentTitle from "./fragments/ComponentTitle";
+import ComponentTitle from "../common/ComponentTitle";
 
 function Quiz() {
   const [modalOpen, setModalOpen] = useState(false);

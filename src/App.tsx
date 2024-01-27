@@ -1,7 +1,19 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Header, Footer, Issue, Quiz, Login, Dashboard, More, Grade, Notice, Inquiry, Tech } from "./components";
+import {
+  Header,
+  Footer,
+  Issue,
+  Quiz,
+  Login,
+  Dashboard,
+  More,
+  Grade,
+  Notice,
+  Inquiry,
+  Tech,
+} from "./components";
 import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
 
@@ -21,13 +33,25 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
   if (isAuthenticated === null) {
     // 로딩 중일 때의 처리
     return (
-      <Container style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "80vh" }}>
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "80vh",
+        }}
+      >
         <Spinner animation="border" variant="primary" />
       </Container>
     );
   }
 
-  return isAuthenticated ? element : <Navigate to="/login" replace state={{ from: window.location.pathname }} />;
+  return isAuthenticated ? (
+    element
+  ) : (
+    <Navigate to="/login" replace state={{ from: window.location.pathname }} />
+  );
 };
 
 function App() {
@@ -53,7 +77,10 @@ function App() {
         <Route path="/grade" element={<Grade />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/inquiry" element={<Inquiry />} />
-        <Route path="/mypage" element={<PrivateRoute element={<Dashboard />} requiredRole="user" />} />
+        <Route
+          path="/mypage"
+          element={<PrivateRoute element={<Dashboard />} requiredRole="user" />}
+        />
       </Routes>
       <Footer />
     </BrowserRouter>

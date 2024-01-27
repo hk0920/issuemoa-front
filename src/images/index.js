@@ -27,6 +27,7 @@ export { default as setting } from "./icon/setting.png";
 export { default as stock } from "./icon/stock.png";
 export { default as supportCustomer } from "./icon/support_customer.png";
 export { default as empty } from "./icon/image__empty.png";
+export { default as arrow } from "./icon/icon__arrow.png";
 
 // Avatar
 export { default as lion } from "./avatar/lion.jpg";
