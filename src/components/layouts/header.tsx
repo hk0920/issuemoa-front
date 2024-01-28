@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 
-interface propsType {
-  isFixed: boolean;
-}
-
-const Header = (data: propsType) => {
+const Header = () => {
   const location = useLocation();
   const [isMain, setIsMain] = useState(true);
 
@@ -19,7 +15,7 @@ const Header = (data: propsType) => {
   }, [location]);
 
   return (
-    <header className={classNames("box__header", data.isFixed && "fixed", !isMain && "sub")}>
+    <header className={classNames("box__header", !isMain && "sub")}>
       <div className="box__inner">
         <h1 className="logo">
           <Link to="/">

@@ -1,5 +1,5 @@
 import { Container, Accordion } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ComponentTitle from "../common/ComponentTitle";
 import * as InterViewApi from "../../api/learning";
 
@@ -13,6 +13,7 @@ interface Interview {
 const Tech = () => {
   const [interview, setInterview] = useState<Interview[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("BACKEND");
+  const fixedRef = useRef<HTMLDivElement>(null);
 
   const fetchData = async (category: string) => {
     try {
@@ -68,28 +69,39 @@ const Tech = () => {
     );
   };
 
+  window.addEventListener("scroll", (e) => {
+    const titleOffsetTop = fixedRef.current?.offsetTop || 0;
+    if (window.scrollY > titleOffsetTop) {
+      fixedRef.current?.classList.add("fixed");
+    } else {
+      fixedRef.current?.classList.remove("fixed");
+    }
+  });
+
   return (
     <Container className="page__sub page__tech">
       <div className="box__inner">
-        <ComponentTitle
-          title={"기술용어"}
-          subTitle={"IT 기술 용어를 쉽고 간단하게 배워봅시다"}
-        />
-        <div className="box__select">
-          <select
-            className="form__select"
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-          >
-            <option value="BACKEND">백앤드</option>
-            <option value="FRONT">프론트</option>
-            <option value="AGDS">알고리즘&자료구조</option>
-            <option value="OS">운영체제</option>
-            <option value="NETWORK">네트워크</option>
-            <option value="DATABASE">데이터베이스</option>
-            <option value="CRYPTO">암호학</option>
-            <option value="SECURITY">보안</option>
-          </select>
+        <div className="box__component-title-wrap" ref={fixedRef}>
+          <ComponentTitle
+            title={"기술용어"}
+            subTitle={"IT 기술 용어를 쉽고 간단하게 배워봅시다"}
+          />
+          <div className="box__select">
+            <select
+              className="form__select"
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+            >
+              <option value="BACKEND">백앤드</option>
+              <option value="FRONT">프론트</option>
+              <option value="AGDS">알고리즘&자료구조</option>
+              <option value="OS">운영체제</option>
+              <option value="NETWORK">네트워크</option>
+              <option value="DATABASE">데이터베이스</option>
+              <option value="CRYPTO">암호학</option>
+              <option value="SECURITY">보안</option>
+            </select>
+          </div>
         </div>
         <Accordion>
           {interview.map((data) => (

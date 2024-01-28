@@ -19,7 +19,7 @@ interface propsTypes {
   isFixed: boolean;
 }
 
-const Issue = (data: propsTypes) => {
+const Issue = () => {
   let next = false;
   const [type, setType] = useState<string>("news");
   const [skip, setSkip] = useState<number>(0);
@@ -62,7 +62,6 @@ const Issue = (data: propsTypes) => {
         }
         setBoard((prevBoard) => [...prevBoard, ...response.data]);
       }
-
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -102,12 +101,17 @@ const Issue = (data: propsTypes) => {
 
   return (
     <Container className="box__issue">
-      <Player isOpen={modalOpen} onClose={handleCloseModal} title={modalTitle} context={modalContext} />
+      <Player
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        title={modalTitle}
+        context={modalContext}
+      />
       <div className="box__inner">
         <Tabs
           defaultActiveKey="news"
           id="justify-tab-example"
-          className={classNames("box__tab", data.isFixed && "fixed")}
+          className="box__tab"
           onSelect={(key) => {
             if (key === "news") {
               changeType(key);
@@ -119,13 +123,28 @@ const Issue = (data: propsTypes) => {
           <Tab eventKey="news" title="뉴스" className="box__card-wrap">
             {board.map((data, rowIndex) => (
               <Card key={rowIndex} className="box__card">
-                <a href={data.url} target="_blank" rel="noreferrer" className="link">
-                  <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
+                <a
+                  href={data.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link"
+                >
+                  <Card.Img
+                    src={data.thumbnail ? data.thumbnail : empty}
+                    className="box__thumb"
+                  />
                   <Card.Body className="box__text">
                     <Card.Text className="text__title">{data.title}</Card.Text>
                   </Card.Body>
                 </a>
-                <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
+                <button
+                  type="button"
+                  className={classNames(
+                    "button__favorite",
+                    isFavorite && "button__favorite--active"
+                  )}
+                  onClick={() => favoriteHandler()}
+                >
                   <span className="for-a11y">관심목록 추가</span>
                 </button>
               </Card>
@@ -134,13 +153,27 @@ const Issue = (data: propsTypes) => {
           <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
             {board.map((data, rowIndex) => (
               <Card key={rowIndex} className="box__card">
-                <button type="button" className="link" onClick={() => handleOpenModal(data.url)}>
-                  <Card.Img src={data.thumbnail ? data.thumbnail : empty} className="box__thumb" />
+                <button
+                  type="button"
+                  className="link"
+                  onClick={() => handleOpenModal(data.url)}
+                >
+                  <Card.Img
+                    src={data.thumbnail ? data.thumbnail : empty}
+                    className="box__thumb"
+                  />
                   <Card.Body className="box__text">
                     <Card.Text className="text__title">{data.title}</Card.Text>
                   </Card.Body>
                 </button>
-                <button type="button" className={classNames("button__favorite", isFavorite && "button__favorite--active")} onClick={() => favoriteHandler()}>
+                <button
+                  type="button"
+                  className={classNames(
+                    "button__favorite",
+                    isFavorite && "button__favorite--active"
+                  )}
+                  onClick={() => favoriteHandler()}
+                >
                   <span className="for-a11y">관심목록 추가</span>
                 </button>
               </Card>

@@ -55,21 +55,11 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 };
 
 function App() {
-  const [isFixed, setIsFixed] = useState<boolean>(false);
-
-  window.addEventListener("scroll", (e) => {
-    if (window.scrollY > 60) {
-      setIsFixed(true);
-    } else {
-      setIsFixed(false);
-    }
-  });
-
   return (
     <BrowserRouter>
-      <Header isFixed={isFixed} />
+      <Header />
       <Routes>
-        <Route path="/" element={<Issue isFixed={isFixed} />} />
+        <Route path="/" element={<Issue />} />
         <Route path="/word" element={<Quiz />} />
         <Route path="/tech" element={<Tech />} />
         <Route path="/login" element={<Login />} />
