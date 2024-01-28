@@ -16,6 +16,7 @@ import {
 } from "./components";
 import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
+import Floating from "./components/layouts/floating";
 
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -55,21 +56,11 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 };
 
 function App() {
-  const [isFixed, setIsFixed] = useState<boolean>(false);
-
-  window.addEventListener("scroll", (e) => {
-    if (window.scrollY > 60) {
-      setIsFixed(true);
-    } else {
-      setIsFixed(false);
-    }
-  });
-
   return (
     <BrowserRouter>
-      <Header isFixed={isFixed} />
+      <Header />
       <Routes>
-        <Route path="/" element={<Issue isFixed={isFixed} />} />
+        <Route path="/" element={<Issue />} />
         <Route path="/word" element={<Quiz />} />
         <Route path="/tech" element={<Tech />} />
         <Route path="/login" element={<Login />} />
@@ -83,6 +74,7 @@ function App() {
         />
       </Routes>
       <Footer />
+      <Floating />
     </BrowserRouter>
   );
 }
