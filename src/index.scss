@@ -48,6 +48,34 @@ a {
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
+.box__floating {
+  position: fixed;
+  bottom: 80px;
+  right: 10px;
+  .button__top {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    .text {
+      font-size: 10px;
+      line-height: 10px;
+      &:before {
+        content: "";
+        display: block;
+        width: 15px;
+        height: 10px;
+        margin: 0 auto;
+        background: url("./images/icon/icon__arrow.png") no-repeat center / 100%;
+        transform: rotate(180deg);
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    right: calc((50% - 440px));
+  }
+}
 
 .box__component-title {
   margin-bottom: 20px;

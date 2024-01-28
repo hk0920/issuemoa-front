@@ -16,6 +16,7 @@ import {
 } from "./components";
 import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
+import Floating from "./components/layouts/floating";
 
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -73,6 +74,7 @@ function App() {
         />
       </Routes>
       <Footer />
+      <Floating />
     </BrowserRouter>
   );
 }
