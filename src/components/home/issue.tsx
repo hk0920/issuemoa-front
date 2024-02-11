@@ -72,13 +72,13 @@ const Issue = () => {
     if (next) {
       setSkip((prevSkip) => prevSkip + 1);
     }
-  }, 50);
+  }, 0);
 
   const scrollHandler = () => {
     const scrollTop = document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight - 400) {
+    if (scrollTop + clientHeight >= scrollHeight - (clientHeight + 100)) {
       debouncedFetchData();
     }
   };
