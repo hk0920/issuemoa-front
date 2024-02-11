@@ -1,5 +1,5 @@
 import { Container, Accordion } from "react-bootstrap";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ComponentTitle from "../common/ComponentTitle";
 import * as InterViewApi from "../../api/learning";
 
@@ -104,14 +104,20 @@ const Tech = () => {
           </div>
         </div>
         <Accordion>
-          {interview.map((data) => (
-            <Accordion.Item key={data.id} eventKey={data.id.toString()}>
-              <Accordion.Header>{data.question}</Accordion.Header>
-              <Accordion.Body>
-                {renderContentWithImages(data.answer)}
-              </Accordion.Body>
-            </Accordion.Item>
-          ))}
+          {interview.map((data, idx) => {
+            return (
+              <React.Fragment key={data.id}>
+                {data.answer && (
+                  <Accordion.Item eventKey={data.id.toString()}>
+                    <Accordion.Header>{data.question}</Accordion.Header>
+                    <Accordion.Body>
+                      {renderContentWithImages(data.answer)}
+                    </Accordion.Body>
+                  </Accordion.Item>
+                )}
+              </React.Fragment>
+            );
+          })}
         </Accordion>
       </div>
     </Container>
