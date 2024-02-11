@@ -1,9 +1,10 @@
 import * as BoardApi from "../../api/board";
+import * as AxiosUtil from "../../lib/AxiosUtil";
 import classNames from "classnames";
 import { useState, useEffect } from "react";
 import { Container, Tab, Tabs, Card } from "react-bootstrap";
 import { debounce } from "lodash";
-import { Player } from "../index";
+import { Dialog, Player } from "../index";
 import { empty } from "../../images";
 
 interface Board {
@@ -28,7 +29,6 @@ const Issue = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleOpenModal = (url: string) => {
     setModalContext(url);
@@ -83,9 +83,32 @@ const Issue = () => {
     }
   };
 
-  const favoriteHandler = () => {
-    setIsFavorite(true);
+  const favoriteHandler = (id: string) => {
+    console.log(id);
+    // saveFavorite(id);
+
+    // setIsFavorite(true);
   };
+
+  async function saveFavorite(id: string) {
+    const baseUrl = "/board-api";
+    const saveData = {
+      userId: "5", // 임시 아이디
+      boardId: id,
+    };
+    const response = await AxiosUtil.send(
+      "POST",
+      `${baseUrl}/board/favorite`,
+      saveData,
+      "json"
+    );
+    const data = response.data;
+    console.log(data);
+    if (data) {
+      fetchData(type);
+    } else {
+    }
+  }
 
   useEffect(() => {
     fetchData(type);
@@ -140,10 +163,12 @@ const Issue = () => {
                 <button
                   type="button"
                   className={classNames(
-                    "button__favorite",
-                    isFavorite && "button__favorite--active"
+                    "button__favorite"
+                    // data.favoriteUserIds.map((item, idx)=>{
+                    //   item ===
+                    // }) && "button__favorite--active"
                   )}
-                  onClick={() => favoriteHandler()}
+                  onClick={() => favoriteHandler(data.id)}
                 >
                   <span className="for-a11y">관심목록 추가</span>
                 </button>
@@ -169,10 +194,10 @@ const Issue = () => {
                 <button
                   type="button"
                   className={classNames(
-                    "button__favorite",
-                    isFavorite && "button__favorite--active"
+                    "button__favorite"
+                    // isFavorite && "button__favorite--active"
                   )}
-                  onClick={() => favoriteHandler()}
+                  onClick={() => favoriteHandler(data.id)}
                 >
                   <span className="for-a11y">관심목록 추가</span>
                 </button>

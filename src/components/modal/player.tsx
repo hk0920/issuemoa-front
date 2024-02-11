@@ -1,6 +1,6 @@
-import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
-import { VideoPlayer } from '../index'
+import React from "react";
+import { Button, Modal } from "react-bootstrap";
+import { VideoPlayer } from "../index";
 
 interface ModalProps {
   isOpen: boolean;
@@ -11,8 +11,10 @@ interface ModalProps {
 
 const Player: React.FC<ModalProps> = ({ isOpen, onClose, title, context }) => {
   return (
-    <Modal show={isOpen} onHide={onClose} 
-      aria-labelledby="contained-modal-title-vcenter" 
+    <Modal
+      show={isOpen}
+      onHide={onClose}
+      aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       <Modal.Header closeButton>
@@ -24,7 +26,9 @@ const Player: React.FC<ModalProps> = ({ isOpen, onClose, title, context }) => {
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>닫기</Button>
+        <Button variant="secondary" onClick={onClose}>
+          닫기
+        </Button>
       </Modal.Footer>
     </Modal>
   );

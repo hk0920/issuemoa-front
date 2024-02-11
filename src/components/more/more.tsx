@@ -1,11 +1,21 @@
 import { useState, useEffect } from "react";
 import { Container, Badge } from "react-bootstrap";
-import { cloud, grade, notice, setting, stock, supportCustomer } from "../../images";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  cloud,
+  grade,
+  notice,
+  setting,
+  stock,
+  supportCustomer,
+} from "../../images";
+import { Link } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
+import Dialog from "../modal/dialog";
+import { read } from "fs";
 
 const More = () => {
   const [name, setName] = useState("");
+  const [isReadyModal, setIsReadyModal] = useState(false);
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -19,13 +29,23 @@ const More = () => {
   }, []);
 
   const imageItems = [
-    { src: cloud, alt: "cloud", text: "날씨" },
-    { src: grade, alt: "grade", text: "등급" },
-    { src: notice, alt: "notice", text: "공지사항" },
-    { src: supportCustomer, alt: "inquiry", text: "고객문의" },
-    { src: stock, alt: "stock", text: "주식" },
-    { src: setting, alt: "setting", text: "설정" },
+    { src: cloud, alt: "cloud", text: "날씨", ready: true },
+    { src: grade, alt: "grade", text: "등급", ready: false },
+    { src: notice, alt: "notice", text: "공지사항", ready: false },
+    { src: supportCustomer, alt: "inquiry", text: "고객문의", ready: false },
+    { src: stock, alt: "stock", text: "주식", ready: true },
+    { src: setting, alt: "setting", text: "설정", ready: true },
   ];
+
+  const closeReadyModal = () => {
+    setIsReadyModal(false);
+  };
+
+  const handleReadyModal = (ready: boolean) => {
+    if (ready) {
+      setIsReadyModal(true);
+    }
+  };
 
   return (
     <Container className="page__sub box__sitemap">
@@ -53,7 +73,16 @@ const More = () => {
           {imageItems.map((item, idx) => {
             return (
               <li key={idx} className="list-item">
-                <Link to={"/" + item.alt} className="link">
+                <Link
+                  to={"/" + item.alt}
+                  className="link"
+                  onClick={(e) => {
+                    if (item.ready) {
+                      e.preventDefault();
+                      handleReadyModal(item.ready);
+                    }
+                  }}
+                >
                   {(item.alt === "notice" || item.alt === "cloud") && (
                     <Badge bg="danger" className="icon__badge">
                       N
@@ -67,6 +96,12 @@ const More = () => {
           })}
         </ul>
       </div>
+      <Dialog
+        isOpen={isReadyModal}
+        onClose={closeReadyModal}
+        title={"준비 중입니다."}
+        context={"빠른 시일 내에 업데이트 예정입니다. 기다려주세요."}
+      />
     </Container>
   );
 };
