@@ -1,19 +1,46 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Badge, Tab, Tabs, Card } from "react-bootstrap";
 import * as VocaApi from "../../api/learning";
+import * as BoardApi from "../../api/board";
+import { empty } from "../../images";
+
+interface Voca {
+  id: number;
+  word: string;
+  mean: string;
+}
+interface Issue {
+  id: string;
+  type: string;
+  title: string;
+  contents: string;
+  url: string;
+  thumbnail: string;
+}
 
 const Dashboard = () => {
   const [learnCount, setLearnCount] = useState<number>(0);
   const [tier, setTier] = useState<string>("브론즈");
   const [tierColor, setTierColor] = useState<string>("warning");
+  const [vocaData, setVocaData] = useState<Voca[]>([]);
+  const [issueData, setIssueData] = useState<Issue[]>([]);
 
-  const Grade = ({ badgeColor, tier }: { badgeColor: string; tier: string }) => (
+  const Grade = ({
+    badgeColor,
+    tier,
+  }: {
+    badgeColor: string;
+    tier: string;
+  }) => (
     <p>
-      <Badge bg={badgeColor}>{tier}</Badge> {learnCount}개의 단어를 학습하셨어요!
+      <Badge bg={badgeColor}>{tier}</Badge> {learnCount}개의 단어를
+      학습하셨어요!
     </p>
   );
 
-  const renderMessage = (badgeColor: string, tier: string) => <Grade badgeColor={badgeColor} tier={tier} />;
+  const renderMessage = (badgeColor: string, tier: string) => (
+    <Grade badgeColor={badgeColor} tier={tier} />
+  );
 
   useEffect(() => {
     const countLearn = async () => {
@@ -23,6 +50,18 @@ const Dashboard = () => {
     countLearn();
   }, []);
 
+  const getRetryVoca = async () => {
+    const response = await VocaApi.getRetryVocaList(0, 20);
+    // console.log("voca", response.data.list);
+    setVocaData(response.data.list);
+  };
+
+  const getFavoriteIssue = async () => {
+    const response = await BoardApi.getFavoriteList();
+    // console.log("response", response.data);
+    setIssueData(response.data);
+  };
+
   return (
     <Container className="page__sub box__mypage-board">
       <div className="box__inner">
@@ -31,23 +70,104 @@ const Dashboard = () => {
           {renderMessage(tierColor, tier)}
         </div>
         <Row>
-          <Tabs defaultActiveKey="recently" id="justify-tab-example" className="box__tab">
-            <Tab eventKey="recently" title="최근 본" className="tab-content">
-              {["Primary", "Secondary", "Success", "Danger", "Warning", "Info", "Light", "Dark"].map((variant) => (
-                <Card bg={variant.toLowerCase()} key={variant} text={variant.toLowerCase() === "light" ? "dark" : "white"} className="box__card">
+          <Tabs
+            defaultActiveKey="recently"
+            id="justify-tab-example"
+            className="box__tab"
+            onSelect={(key) => {
+              if (key === "word") {
+                getRetryVoca();
+              } else if (key === "issue") {
+                getFavoriteIssue();
+              }
+            }}
+          >
+            <Tab
+              eventKey="recently"
+              title="최근 본"
+              className="box__tab-content"
+            >
+              {[
+                "Primary",
+                "Secondary",
+                "Success",
+                "Danger",
+                "Warning",
+                "Info",
+                "Light",
+                "Dark",
+              ].map((variant) => (
+                <Card
+                  bg={variant.toLowerCase()}
+                  key={variant}
+                  text={variant.toLowerCase() === "light" ? "dark" : "white"}
+                  className="box__card"
+                >
                   <Card.Header>Header</Card.Header>
                   <Card.Body>
                     <Card.Title>{variant} Card Title </Card.Title>
-                    <Card.Text>Some quick example text to build on the card title and make up the bulk of the card's content.</Card.Text>
+                    <Card.Text>
+                      Somxe quick example text to build on the card title and
+                      make up the bulk of the card's content.
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               ))}
             </Tab>
-            <Tab eventKey="issue" title="관심 이슈">
-              이슈
+            <Tab
+              eventKey="issue"
+              title="관심 이슈"
+              className="box__tab-content"
+            >
+              {issueData.length > 0 ? (
+                <>
+                  {issueData.map((data, rowIndex) => (
+                    <Card key={rowIndex} className="box__card-issue">
+                      <a
+                        href={data.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="link"
+                      >
+                        <Card.Img
+                          src={data.thumbnail ? data.thumbnail : empty}
+                          className="box__thumb"
+                        />
+                        <Card.Body className="box__text">
+                          <Card.Text className="text__title">
+                            {data.title}
+                          </Card.Text>
+                        </Card.Body>
+                      </a>
+                    </Card>
+                  ))}
+                </>
+              ) : (
+                <p className="text__empty">등록된 관심 이슈가 없습니다.</p>
+              )}
             </Tab>
-            <Tab eventKey="word" title="단어 다시보기">
-              단어
+            <Tab
+              eventKey="word"
+              title="단어 다시보기"
+              className="box__tab-content"
+            >
+              {vocaData.length > 0 ? (
+                <>
+                  {vocaData?.map((item, idx) => {
+                    return (
+                      <Card key={idx} className="box__card">
+                        <Card.Header>{item.word}</Card.Header>
+                        <Card.Body>
+                          <Card.Title>{item.word}</Card.Title>
+                          <Card.Text>{item.mean}</Card.Text>
+                        </Card.Body>
+                      </Card>
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="text__empty">단어 다시 보기 리스트가 없습니다.</p>
+              )}
             </Tab>
           </Tabs>
         </Row>
