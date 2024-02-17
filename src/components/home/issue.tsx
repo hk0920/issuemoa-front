@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { useState, useEffect } from "react";
 import { Container, Tab, Tabs, Card } from "react-bootstrap";
 import { debounce } from "lodash";
-import { Dialog, Player } from "../index";
+import { Player } from "../index";
 import { empty } from "../../images";
 
 interface Board {
@@ -145,7 +145,7 @@ const Issue = () => {
         >
           <Tab eventKey="news" title="뉴스" className="box__card-wrap">
             {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card">
+              <Card key={rowIndex} className="box__card-issue">
                 <a
                   href={data.url}
                   target="_blank"
@@ -177,7 +177,7 @@ const Issue = () => {
           </Tab>
           <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
             {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card">
+              <Card key={rowIndex} className="box__card-issue">
                 <button
                   type="button"
                   className="link"
