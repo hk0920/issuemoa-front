@@ -28,3 +28,12 @@ export async function getYoutubeList(
 export async function getFavoriteList() {
   return await AxiosUtil.send("GET", `${baseUrl}/board/favorite`, {}, "");
 }
+
+export async function saveFavoriteData(boardId: string) {
+  return await AxiosUtil.send(
+    "POST",
+    `${baseUrl}/board/favorite`,
+    { boardId: boardId },
+    "json"
+  );
+}
