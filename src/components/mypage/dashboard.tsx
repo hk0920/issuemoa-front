@@ -59,7 +59,7 @@ const Dashboard = () => {
   const getFavoriteIssue = async () => {
     const response = await BoardApi.getFavoriteList();
     // console.log("response", response.data);
-    setIssueData(response.data);
+    setIssueData(response);
   };
 
   return (

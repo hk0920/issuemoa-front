@@ -53,13 +53,14 @@ const Issue = () => {
         response = await BoardApi.getYoutubeList(skip, limit);
       }
 
+      
       if (response) {
-        if (response.data.length > 0) {
+        if (response.length > 0) {
           next = true;
         } else {
           next = false;
         }
-        setBoard((prevBoard) => [...prevBoard, ...response.data]);
+        setBoard((prevBoard) => [...prevBoard, ...response]);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
