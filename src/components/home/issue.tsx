@@ -1,10 +1,10 @@
 import * as BoardApi from "../../api/board";
-import classNames from "classnames";
 import React, { useState, useEffect } from "react";
 import { Container, Tab, Tabs, Card } from "react-bootstrap";
 import { debounce } from "lodash";
-import { Player } from "../index";
+import { Dialog, Player } from "../index";
 import { empty } from "../../images";
+import { useCookies } from "react-cookie";
 
 interface Board {
   id: string;
@@ -28,6 +28,8 @@ const Issue = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
+  const [cookie, setCookie, removeCookie] = useCookies(["accessToken"]);
+  const [isAlertModal, setIsAlertModal] = useState(false);
 
   const handleOpenModal = (url: string) => {
     setModalContext(url);
@@ -53,7 +55,6 @@ const Issue = () => {
         response = await BoardApi.getYoutubeList(skip, limit);
       }
 
-      
       if (response) {
         if (response.length > 0) {
           next = true;
@@ -84,8 +85,17 @@ const Issue = () => {
   };
 
   const favoriteHandler = (target: HTMLElement, id: string) => {
-    saveFavorite(id);
-    target.classList.add("button__favorite--active");
+    if (cookie.accessToken) {
+      saveFavorite(id);
+      target.classList.add("button__favorite--active");
+    } else {
+      setIsAlertModal(true);
+    }
+  };
+
+  const closeAlertModal = () => {
+    setIsAlertModal(false);
+    window.location.href = "/login";
   };
 
   async function saveFavorite(id: string) {
@@ -184,6 +194,13 @@ const Issue = () => {
           </Tab>
         </Tabs>
       </div>
+
+      <Dialog
+        isOpen={isAlertModal}
+        onClose={closeAlertModal}
+        title={"준비 중입니다."}
+        context={"로그인 후 이용 가능합니다."}
+      />
     </Container>
   );
 };
