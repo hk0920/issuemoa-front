@@ -20,7 +20,7 @@ const Tech = () => {
       let response = await InterViewApi.getInterviewList(category);
 
       if (response) {
-        setInterview(response.data.list);
+        setInterview(response.list);
       }
     } catch (error) {
       console.error("Error fetching data:", error);

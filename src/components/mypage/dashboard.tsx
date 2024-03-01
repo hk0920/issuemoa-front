@@ -45,7 +45,7 @@ const Dashboard = () => {
   useEffect(() => {
     const countLearn = async () => {
       const response = await VocaApi.countLearn();
-      setLearnCount(response.data);
+      setLearnCount(response);
     };
     countLearn();
   }, []);
@@ -53,7 +53,7 @@ const Dashboard = () => {
   const getRetryVoca = async () => {
     const response = await VocaApi.getRetryVocaList(0, 20);
     // console.log("voca", response.data.list);
-    setVocaData(response.data.list);
+    setVocaData(response.list);
   };
 
   const getFavoriteIssue = async () => {

@@ -56,10 +56,9 @@ const VocaWord = () => {
       setcurrentIndex(0);
       const response = await VocaApi.getVocaList(paramOffset, limit);
       if (response) {
-        const data = response.data;
-        setVoca(data.list);
-        setOffset(data.offset);
-        setTotalCnt(data.totalCnt);
+        setVoca(response.list);
+        setOffset(response.offset);
+        setTotalCnt(response.totalCnt);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
