@@ -59,10 +59,10 @@ const Login = () => {
               }    
 
               const result = await AxiosUtil.send("POST", `/users-api/users/signIn`, user, "json");
-              if (result.status === "OK") {
-                cookies.set("accessToken", result.data.accessToken, {
+              if (result.accessToken) {
+                cookies.set("accessToken", result.accessToken, {
                   path: "/",
-                  maxAge: result.data.accessTokenExpires
+                  maxAge: result.accessTokenExpires
                 });
                 cookies.set("authorization", true, {
                   path: "/"

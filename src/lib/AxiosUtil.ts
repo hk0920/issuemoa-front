@@ -1,12 +1,12 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
-import * as AuthApi from "../api/auth";
 
 axios.defaults.withCredentials = true;
 const cookies = new Cookies();
 
 export async function send(method: string, url: string, param: object, contentType: string): Promise<any> {
-  console.log("==> AxiosUtil Send URL: " + url);
+  console.log("==> API:", url);
+  
   if (url.indexOf("-api") > -1) {
     axios.defaults.headers.common["X-CLIENT-KEY"] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
     axios.defaults.headers.common["Authorization"] = "Bearer " + cookies.get("accessToken");

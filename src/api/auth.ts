@@ -8,11 +8,8 @@ let name = "";
 
 async function getUserInfo() {
   const response = await AxiosUtil.send("GET", `${baseUrl}/users/info`, {}, "");
-  const data = response.data;
-  console.log("==> getUserInfo::");
-  console.log(data);
-  if (data) {
-    setUserInfo(data);
+  if (response) {
+    setUserInfo(response);
   } else {
     cookies.remove("accessToken");
   }
@@ -30,14 +27,12 @@ async function setReissue() {
     {},
     ""
   );
-  const data = response.data;
-  console.log("==> setReissue::");
-  console.log(data);
-  if (data) {
-    setUserInfo(data);
-    cookies.set("accessToken", data.accessToken, {
+
+  if (response) {
+    setUserInfo(response);
+    cookies.set("accessToken", response.accessToken, {
       path: "/",
-      maxAge: data.accessTokenExpires,
+      maxAge: response.accessTokenExpires,
     });
     cookies.set("authorization", true, {
       path: "/",
