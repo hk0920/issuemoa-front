@@ -57,3 +57,12 @@ export async function getInterviewList(category: string): Promise<any> {
     ""
   );
 }
+
+// ====================================================================
+// 등급 API 시작
+// ====================================================================
+const gradeApi = "/grade-api";
+export async function getGradeList(): Promise<any> {
+  await AuthApi.checkUserAuthentication();
+  return await AxiosUtil.send("GET", `${gradeApi}/grade-exp`, {}, "");
+}
