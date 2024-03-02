@@ -78,6 +78,28 @@ const Tech = () => {
     }
   });
 
+  const handleAccordion = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const targetItem = e.currentTarget.closest(
+      ".accordion-item"
+    ) as HTMLDivElement;
+    const targetOffsetTop = e.currentTarget.offsetTop;
+    const targetChildren = targetItem.querySelector(".accordion-collapse");
+    const targetChildrenHeight = targetChildren?.classList.contains("show")
+      ? targetChildren?.clientHeight
+      : 0;
+
+    const fixeTopHeight = fixedRef.current ? fixedRef.current?.clientHeight : 0;
+
+    setTimeout(() => {
+      if (targetChildren?.classList.contains("show")) {
+        const scrollY =
+          targetOffsetTop - targetChildrenHeight - fixeTopHeight - 60;
+        window.scrollTo(0, scrollY);
+      }
+    }, 600);
+  };
+
   return (
     <Container className="page__sub page__tech">
       <div className="box__inner">
@@ -108,7 +130,10 @@ const Tech = () => {
             return (
               <React.Fragment key={data.id}>
                 {data.answer && (
-                  <Accordion.Item eventKey={data.id.toString()}>
+                  <Accordion.Item
+                    eventKey={data.id.toString()}
+                    onClick={handleAccordion}
+                  >
                     <Accordion.Header>{data.question}</Accordion.Header>
                     <Accordion.Body>
                       {renderContentWithImages(data.answer)}
