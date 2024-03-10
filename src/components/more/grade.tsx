@@ -70,7 +70,7 @@ const Grade = () => {
 
       console.log(response);
       if (response) {
-        setGradeData(response.list);
+        setGradeData(response);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -85,21 +85,65 @@ const Grade = () => {
     <Container className="page__sub">
       {gradeData.length > 0 ? (
         <ul className="list__grade">
-          {/* {gradeData.map((item, index) => (
-            <li key={index} className="list-item">
-              <div className="box__icon">
-                <Image
-                  src={item.image}
-                  alt={`Grade ${index + 1}`}
-                  className="image"
-                />
-              </div>
-              <div className="box__info">
-                <p className="text__title">{item.grade}</p>
-                <p className="text__desc">{item.description}</p>
-              </div>
-            </li>
-          ))} */}
+          {gradeData.map((item, idx) => {
+            const { gradeCode, id, modifyTime, registerTime, standard } =
+              item || {};
+
+            const grade =
+              gradeCode === "C"
+                ? "Grade CH"
+                : gradeCode === "GM"
+                ? "Grade GM"
+                : gradeCode === "M"
+                ? "Grade M"
+                : gradeCode === "D"
+                ? "Grade DIA"
+                : gradeCode === "P"
+                ? "Grade PLT"
+                : gradeCode === "G"
+                ? "Grade GD"
+                : gradeCode === "S"
+                ? "Grade SL"
+                : gradeCode === "B"
+                ? "Grade BR"
+                : "Grade IR";
+
+            return (
+              <li key={idx} className="list-item">
+                <div className="box__icon">
+                  <Image
+                    src={
+                      gradeCode === "C"
+                        ? grade_ch
+                        : gradeCode === "GM"
+                        ? grade_gm
+                        : gradeCode === "M"
+                        ? grade_m
+                        : gradeCode === "D"
+                        ? grade_dia
+                        : gradeCode === "P"
+                        ? grade_plt
+                        : gradeCode === "G"
+                        ? grade_gd
+                        : gradeCode === "S"
+                        ? grade_sl
+                        : gradeCode === "B"
+                        ? grade_br
+                        : grade_ir
+                    }
+                    alt={`${grade} 등급 이미지`}
+                    className="image"
+                  />
+                </div>
+                <div className="box__info">
+                  <p className="text__title">{grade}</p>
+                  <p className="text__desc">
+                    {grade}등급은 {standard}개 이상 일 경우 승급
+                  </p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       ) : null}
     </Container>
