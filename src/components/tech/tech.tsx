@@ -42,6 +42,10 @@ const Tech = () => {
       /https:\/\/img1\.daumcdn\.net.*?\.png/g
     );
 
+    if (content.includes("```")) {
+      console.log(content.replace("```", "<code>"));
+    }
+
     if (imageUrlMatches && imageUrlMatches.length > 0) {
       const images = imageUrlMatches.map((imageUrl, index) => (
         <img key={index} src={imageUrl} alt={`Image ${index}`} />
@@ -80,23 +84,29 @@ const Tech = () => {
 
   const handleAccordion = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const targetItem = e.currentTarget.closest(
-      ".accordion-item"
+    const targetItemGroup = e.currentTarget.closest(
+      ".box__accordion-group"
     ) as HTMLDivElement;
-    const targetOffsetTop = e.currentTarget.offsetTop;
-    const targetChildren = targetItem.querySelector(".accordion-collapse");
-    const targetChildrenHeight = targetChildren?.classList.contains("show")
-      ? targetChildren?.clientHeight
-      : 0;
+    const targetItem = e.currentTarget.closest(
+      ".box__accordion"
+    ) as HTMLDivElement;
 
     const fixeTopHeight = fixedRef.current ? fixedRef.current?.clientHeight : 0;
+    if (!targetItem.classList.contains("box__accordion--active")) {
+      targetItemGroup
+        .querySelectorAll(".box__accordion")
+        .forEach((item, idx) => {
+          item.classList.remove("box__accordion--active");
+        });
+      targetItem.classList.add("box__accordion--active");
+    } else {
+      targetItem.classList.remove("box__accordion--active");
+    }
 
     setTimeout(() => {
-      if (targetChildren?.classList.contains("show")) {
-        const scrollY =
-          targetOffsetTop - targetChildrenHeight - fixeTopHeight - 60;
-        window.scrollTo(0, scrollY);
-      }
+      const targetOffsetTop = targetItem.offsetTop;
+      const scrollY = targetOffsetTop - fixeTopHeight - 60;
+      window.scrollTo(0, scrollY);
     }, 600);
   };
 
@@ -125,25 +135,24 @@ const Tech = () => {
             </select>
           </div>
         </div>
-        <Accordion>
+        <div className="box__accordion-group">
           {interview.map((data, idx) => {
             return (
-              <React.Fragment key={data.id}>
-                {data.answer && (
-                  <Accordion.Item
-                    eventKey={data.id.toString()}
-                    onClick={handleAccordion}
-                  >
-                    <Accordion.Header>{data.question}</Accordion.Header>
-                    <Accordion.Body>
-                      {renderContentWithImages(data.answer)}
-                    </Accordion.Body>
-                  </Accordion.Item>
-                )}
-              </React.Fragment>
+              <div className="box__accordion" key={idx}>
+                <button
+                  type="button"
+                  className="button__accordion"
+                  onClick={(e) => handleAccordion(e)}
+                >
+                  {data.question}
+                </button>
+                <div className="box__accordion-content">
+                  {renderContentWithImages(data.answer)}
+                </div>
+              </div>
             );
           })}
-        </Accordion>
+        </div>
       </div>
     </Container>
   );
