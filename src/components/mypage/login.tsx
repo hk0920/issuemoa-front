@@ -58,7 +58,7 @@ const Login = () => {
                 "snsType": "kakao"
               }    
 
-              const result = await AxiosUtil.send("POST", `/users-api/users/signIn`, user, "json");
+              const result = await AxiosUtil.send("POST", `/backend/users/signIn`, user, "json");
               if (result.accessToken) {
                 cookies.set("accessToken", result.accessToken, {
                   path: "/",

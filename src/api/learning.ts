@@ -4,7 +4,7 @@ import * as AuthApi from "./auth";
 // ====================================================================
 // 보카 API 시작
 // ====================================================================
-const vocaApi = "/voca-api";
+const backendUrl = "/backend";
 
 export async function getVocaList(
   paramOffset: number,
@@ -13,7 +13,7 @@ export async function getVocaList(
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
     "GET",
-    `${vocaApi}/voca?offset=${paramOffset}&limit=${limit}`,
+    `${backendUrl}/voca?offset=${paramOffset}&limit=${limit}`,
     {},
     ""
   );
@@ -22,12 +22,12 @@ export async function getVocaList(
 export async function save(data: object) {
   const isAuthenticated = await AuthApi.checkUserAuthentication();
   if (isAuthenticated) {
-    await AxiosUtil.send("POST", `${vocaApi}/voca-learn`, data, "json");
+    await AxiosUtil.send("POST", `${backendUrl}/voca-learn`, data, "json");
   }
 }
 
 export async function countLearn(): Promise<any> {
-  return await AxiosUtil.send("GET", `${vocaApi}/voca-learn/count`, {}, "");
+  return await AxiosUtil.send("GET", `${backendUrl}/voca-learn/count`, {}, "");
 }
 
 export async function getRetryVocaList(
@@ -37,7 +37,7 @@ export async function getRetryVocaList(
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
     "GET",
-    `${vocaApi}/voca/retry?offset=${paramOffset}&limit=${limit}`,
+    `${backendUrl}/voca/retry?offset=${paramOffset}&limit=${limit}`,
     {},
     ""
   );
@@ -46,13 +46,11 @@ export async function getRetryVocaList(
 // ====================================================================
 // 인터뷰 API 시작
 // ====================================================================
-const interviewApi = "/interview-api";
-
 export async function getInterviewList(category: string): Promise<any> {
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
     "GET",
-    `${interviewApi}/interview?category=${category}`,
+    `${backendUrl}/interview?category=${category}`,
     {},
     ""
   );
@@ -61,8 +59,7 @@ export async function getInterviewList(category: string): Promise<any> {
 // ====================================================================
 // 등급 API 시작
 // ====================================================================
-
 export async function getGradeList(): Promise<any> {
   await AuthApi.checkUserAuthentication();
-  return await AxiosUtil.send("GET", `${vocaApi}/grade-exp`, {}, "");
+  return await AxiosUtil.send("GET", `${backendUrl}/grade-exp`, {}, "");
 }

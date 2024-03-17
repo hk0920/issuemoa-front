@@ -2,12 +2,12 @@ import { Cookies } from "react-cookie";
 import * as AxiosUtil from "../lib/AxiosUtil";
 
 const cookies = new Cookies();
-const baseUrl = "/users-api";
+const backendUrl = "/backend";
 let email = "";
 let name = "";
 
 async function getUserInfo() {
-  const response = await AxiosUtil.send("GET", `${baseUrl}/users/info`, {}, "");
+  const response = await AxiosUtil.send("GET", `${backendUrl}/users/info`, {}, "");
   if (response) {
     setUserInfo(response);
   } else {
@@ -23,7 +23,7 @@ function setUserInfo(user: any) {
 async function setReissue() {
   const response = await AxiosUtil.send(
     "POST",
-    `${baseUrl}/users/reissue`,
+    `${backendUrl}/users/reissue`,
     {},
     ""
   );

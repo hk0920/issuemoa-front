@@ -7,11 +7,11 @@ const cookies = new Cookies();
 export async function send(method: string, url: string, param: object, contentType: string): Promise<any> {
   console.log("==> API:", url);
   
-  if (url.indexOf("-api") > -1) {
-    axios.defaults.headers.common["X-CLIENT-KEY"] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
+  axios.defaults.headers.common["X-CLIENT-KEY"] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
+
+  if (url.indexOf("backend") > -1) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + cookies.get("accessToken");
   } else if (url.indexOf("kapi") > -1) {
-    axios.defaults.headers.common["X-CLIENT-KEY"] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
     axios.defaults.headers.common["Authorization"] = "Bearer " + cookies.get("kakaoAccessToken");
   } else {
     axios.defaults.headers.common["X-CLIENT-KEY"] = "";

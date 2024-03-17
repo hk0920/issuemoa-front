@@ -1,13 +1,11 @@
-import { Cookies } from "react-cookie";
 import * as AxiosUtil from "../lib/AxiosUtil";
 
-const cookies = new Cookies();
-const baseUrl = "/board-api";
+const backendUrl = "/backend";
 
 export async function getNewsList(skip: number, limit: number): Promise<any> {
   return await AxiosUtil.send(
     "GET",
-    `${baseUrl}/board/news`,
+    `${backendUrl}/board/news`,
     { skip: skip, limit: limit },
     ""
   );
@@ -19,20 +17,20 @@ export async function getYoutubeList(
 ): Promise<any> {
   return await AxiosUtil.send(
     "GET",
-    `${baseUrl}/board/youtube`,
+    `${backendUrl}/board/youtube`,
     { skip: skip, limit: limit },
     ""
   );
 }
 
 export async function getFavoriteList() {
-  return await AxiosUtil.send("GET", `${baseUrl}/board/favorite`, {}, "");
+  return await AxiosUtil.send("GET", `${backendUrl}/board/favorite`, {}, "");
 }
 
 export async function saveFavoriteData(boardId: string) {
   return await AxiosUtil.send(
     "POST",
-    `${baseUrl}/board/favorite`,
+    `${backendUrl}/board/favorite`,
     { boardId: boardId },
     "json"
   );
