@@ -28,7 +28,7 @@ const Issue = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
-  const [cookie, setCookie, removeCookie] = useCookies(["accessToken"]);
+  const [cookie, setCookie, removeCookie] = useCookies(["access_token"]);
   const [isAlertModal, setIsAlertModal] = useState(false);
 
   const handleOpenModal = (url: string) => {
@@ -85,7 +85,7 @@ const Issue = () => {
   };
 
   const favoriteHandler = (target: HTMLElement, id: string) => {
-    if (cookie.accessToken) {
+    if (cookie.access_token) {
       saveFavorite(id);
       target.classList.add("button__favorite--active");
     } else {

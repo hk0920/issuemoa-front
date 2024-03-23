@@ -5,12 +5,12 @@ axios.defaults.withCredentials = true;
 const cookies = new Cookies();
 
 export async function send(method: string, url: string, param: object, contentType: string): Promise<any> {
-  console.log("==> API:", url);
+  console.log("==> [AxiosUtil] API:", url);
   
   axios.defaults.headers.common["X-CLIENT-KEY"] = "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
 
   if (url.indexOf("backend") > -1) {
-    axios.defaults.headers.common["Authorization"] = "Bearer " + cookies.get("accessToken");
+    axios.defaults.headers.common["Authorization"] = "Bearer " + cookies.get("access_token");
   } else if (url.indexOf("kapi") > -1) {
     axios.defaults.headers.common["Authorization"] = "Bearer " + cookies.get("kakaoAccessToken");
   } else {
@@ -22,14 +22,13 @@ export async function send(method: string, url: string, param: object, contentTy
     if (method === "GET") {
       const response = await axios.get(url, { params: param });
       return response.data;
-    } else if (method === "POST") {
+    } else if (method === "POST") { 
       const response = await axios.post(url, param, {
         headers: { "Content-Type": contentType === "json" ? "application/json" : "application/x-www-form-urlencoded" },
       });
       return response.data;
     }
-  } catch (error) {
-    console.error("==> AxiosUtil ERROR: ", error);
-    throw error;
+  } catch (error: any) {
+    console.log("==> [AxiosUtil] ERROR:", error);
   }
 }

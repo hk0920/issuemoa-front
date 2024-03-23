@@ -3,24 +3,25 @@ import * as AxiosUtil from "../lib/AxiosUtil";
 
 const cookies = new Cookies();
 const backendUrl = "/backend";
+
 let email = "";
 let name = "";
-
-async function getUserInfo() {
-  const response = await AxiosUtil.send("GET", `${backendUrl}/users/info`, {}, "");
-  if (response) {
-    setUserInfo(response);
-  } else {
-    cookies.remove("accessToken");
-  }
-}
 
 function setUserInfo(user: any) {
   email = user.email;
   name = user.name;
 }
 
-async function setReissue() {
+async function getUserInfo() {
+  const response = await AxiosUtil.send("GET", `${backendUrl}/users`, {}, "");
+  if (response) {
+    setUserInfo(response);
+  } else {
+    cookies.remove("access_token");
+  }
+}
+
+async function reissue() {
   const response = await AxiosUtil.send(
     "POST",
     `${backendUrl}/users/reissue`,
@@ -30,12 +31,12 @@ async function setReissue() {
 
   if (response) {
     setUserInfo(response);
-    cookies.set("accessToken", response.accessToken, {
-      path: "/",
-      maxAge: response.accessTokenExpires,
+    cookies.set("access_token", response.accessToken, {
+      path: "/"
     });
     cookies.set("authorization", true, {
       path: "/",
+      maxAge: 3600
     });
   } else {
     cookies.remove("authorization");
@@ -43,10 +44,10 @@ async function setReissue() {
 }
 
 export async function authInit(): Promise<boolean> {
-  if (cookies.get("accessToken")) {
+  if (cookies.get("access_token") && cookies.get("authorization")) {
     await getUserInfo();
-  } else if (cookies.get("authorization")) {
-    await setReissue();
+  } else if (cookies.get("access_token") && !cookies.get("authorization")) {
+    await reissue();
   } else {
     return false;
   }
