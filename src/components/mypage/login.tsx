@@ -11,7 +11,7 @@ const Login = () => {
   let baseUrl = "http://127.0.0.1:3000";
 
   if (window.location.host.indexOf("issuemoa.kr") > -1) {
-    baseUrl = "https://issuemoa.kr";
+    baseUrl = "http://61.102.114.235:8000";
   }
 
   const navigate = useNavigate();
