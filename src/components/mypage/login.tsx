@@ -25,14 +25,8 @@ const Login = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const token = params.get('token');
-    const refreshToken = params.get('refreshToken');
 
-    if (token && refreshToken) {
-        console.log("==> token:", token);
-        console.log("==> refreshToken:", refreshToken);
-        cookies.set("refresh_token", refreshToken, {
-          path: "/",
-        });
+    if (token) {
         cookies.set("access_token", token, {
           path: "/"
         });
