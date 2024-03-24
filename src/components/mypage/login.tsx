@@ -8,11 +8,7 @@ import "./login.css";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const cookies = new Cookies();
-  let baseUrl = "http://127.0.0.1:3000";
-
-  if (window.location.host.indexOf("issuemoa.kr") > -1) {
-    baseUrl = "http://61.102.114.235:8000";
-  }
+  let baseUrl = "http://61.102.114.235:8000";
 
   const navigate = useNavigate();
 
