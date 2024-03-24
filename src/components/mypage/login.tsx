@@ -32,7 +32,6 @@ const Login = () => {
         console.log("==> refreshToken:", refreshToken);
         cookies.set("refresh_token", refreshToken, {
           path: "/",
-          httpOnly: true
         });
         cookies.set("access_token", token, {
           path: "/"
