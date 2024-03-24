@@ -1,33 +1,37 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import { google, kakao, naver } from "../../images";
 import "./login.css";
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
-  const cookies = new Cookies();
-  let baseUrl = "http://61.102.114.235:8000";
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const cookies = new Cookies();
+  const baseUrl = "http://61.102.114.235:8000";
 
   const handleLoginClick = (handler: string) => {
     if (handler === "kakao") {
       window.location.href = `${baseUrl}/oauth2/authorization/kakao`;
     } else if (handler === "google") {
-      window.location.href = `${baseUrl}/oauth2/authorization/google`;
+      if (window.location.host.indexOf("issuemoa.kr") > -1) {
+        window.location.href = `http://gate.issuemoa.kr:8000/oauth2/authorization/google`;
+      } else {
+        window.location.href = `${baseUrl}/oauth2/authorization/google`;
+      }
     }
   };
-
+  
   useEffect(() => {
-    const urlString = window.location.href;
-    const tokenRegex = /token=([^&]+)/;
-    const match = urlString.match(tokenRegex);
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+    const refreshToken = params.get('refreshToken');
 
-    if (match) {
-      const token = match[1];
-      if (token) {
+    if (token && refreshToken) {
+        cookies.set("refresh_token", refreshToken, {
+          path: "/",
+          httpOnly: true
+        });
         cookies.set("access_token", token, {
           path: "/"
         });
@@ -36,7 +40,6 @@ const Login = () => {
           maxAge: 3600
         });
         navigate("/mypage");
-      }
     } else {
       console.log("Code not found in the URL.");
     }
@@ -44,7 +47,6 @@ const Login = () => {
  
   return (
     <div className="login-container">
-      {loading && <Spinner animation="border" variant="primary" />}
       <div className="social-icon-container" onClick={() => handleLoginClick("kakao")}>
         <img src={kakao} alt="Kakao" className="social-icon" />
         <p className="icon-text">Kakao 로그인</p>
@@ -59,7 +61,6 @@ const Login = () => {
         <p className="icon-text">Naver 로그인</p>
       </div>
       */}
-
     </div>
   );
 }
