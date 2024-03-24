@@ -28,6 +28,8 @@ const Login = () => {
     const refreshToken = params.get('refreshToken');
 
     if (token && refreshToken) {
+        console.log("==> token:", token);
+        console.log("==> refreshToken:", refreshToken);
         cookies.set("refresh_token", refreshToken, {
           path: "/",
           httpOnly: true
