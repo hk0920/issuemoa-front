@@ -8,17 +8,13 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const cookies = new Cookies();
-  const baseUrl = "http://61.102.114.235:8000";
+  let baseUrl = "http://gate.issuemoa.kr:8000";
 
   const handleLoginClick = (handler: string) => {
     if (handler === "kakao") {
       window.location.href = `${baseUrl}/oauth2/authorization/kakao`;
     } else if (handler === "google") {
-      if (window.location.host.indexOf("issuemoa.kr") > -1) {
-        window.location.href = `http://gate.issuemoa.kr:8000/oauth2/authorization/google`;
-      } else {
-        window.location.href = `${baseUrl}/oauth2/authorization/google`;
-      }
+      window.location.href = `${baseUrl}/oauth2/authorization/google`;
     }
   };
   
