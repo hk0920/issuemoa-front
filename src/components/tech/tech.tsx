@@ -1,5 +1,5 @@
-import { Container, Accordion } from "react-bootstrap";
-import React, { useState, useEffect, useRef } from "react";
+import { Container } from "react-bootstrap";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import ComponentTitle from "../common/ComponentTitle";
 import * as InterViewApi from "../../api/learning";
 
@@ -42,10 +42,6 @@ const Tech = () => {
       /https:\/\/img1\.daumcdn\.net.*?\.png/g
     );
 
-    if (content.includes("```")) {
-      console.log(content.replace("```", "<code>"));
-    }
-
     if (imageUrlMatches && imageUrlMatches.length > 0) {
       const images = imageUrlMatches.map((imageUrl, index) => (
         <img key={index} src={imageUrl} alt={`Image ${index}`} />
@@ -68,9 +64,37 @@ const Tech = () => {
       );
     }
 
-    return (
-      <p dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, "<br>") }} />
-    );
+    if (content.includes("```")) {
+      const contentArray = content.split("``");
+      const context = contentArray.map((item, idx) => {
+        let result = item.includes("`java")
+          ? item.replace("`java", "<code class='box__code'>") + "</code>"
+          : item;
+
+        return result;
+      });
+
+      return (
+        <>
+          {context.map((item, idx) => {
+            return (
+              <div
+                key={idx}
+                dangerouslySetInnerHTML={{
+                  __html: item.toString().replace(/\n/g, "<br />"),
+                }}
+              ></div>
+            );
+          })}
+        </>
+      );
+    } else {
+      return (
+        <p
+          dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, "<br />") }}
+        />
+      );
+    }
   };
 
   window.addEventListener("scroll", (e) => {
