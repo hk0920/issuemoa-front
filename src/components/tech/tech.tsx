@@ -71,6 +71,15 @@ const Tech = () => {
           ? item.replace("`java", "<code class='box__code'>") + "</code>"
           : item;
 
+        if (result.includes("// ")) {
+          let commentText = result.substring(result.indexOf("// "));
+          commentText = commentText.substring(0, commentText.indexOf("\n"));
+          result = result.replace(
+            commentText,
+            "<span class='text__comment'>" + commentText + "</span>"
+          );
+        }
+
         return result;
       });
 
@@ -81,7 +90,10 @@ const Tech = () => {
               <div
                 key={idx}
                 dangerouslySetInnerHTML={{
-                  __html: item.toString().replace(/\n/g, "<br />"),
+                  __html: item
+                    .toString()
+                    .replaceAll(/\n/g, "<br />")
+                    .replaceAll("   ", "&nbsp;&nbsp;"),
                 }}
               ></div>
             );
