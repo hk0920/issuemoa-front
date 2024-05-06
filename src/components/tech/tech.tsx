@@ -72,12 +72,19 @@ const Tech = () => {
           : item;
 
         if (result.includes("// ")) {
-          let commentText = result.substring(result.indexOf("// "));
-          commentText = commentText.substring(0, commentText.indexOf("\n"));
-          result = result.replace(
-            commentText,
-            "<span class='text__comment'>" + commentText + "</span>"
-          );
+          const resultText = result
+            .substring(result.indexOf("// "))
+            .split("\n");
+          resultText.map((text, q) => {
+            if (!text.includes("// ")) return false;
+            let commentText = text.substring(
+              text.indexOf("// ", text.indexOf("\n"))
+            );
+            result = result.replace(
+              commentText,
+              "<span class='text__comment'>" + commentText + "</span>"
+            );
+          });
         }
 
         return result;
