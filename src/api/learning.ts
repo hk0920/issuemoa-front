@@ -56,6 +56,24 @@ export async function getInterviewList(category: string): Promise<any> {
   );
 }
 
+export async function saveFavoriteInterview(
+  interviewId: number,
+  useYn: string
+): Promise<any> {
+  const data = {
+    interviewId: interviewId,
+    useYn: useYn,
+  };
+
+  await AuthApi.checkUserAuthentication();
+  return await AxiosUtil.send(
+    "POST",
+    `${backendUrl}/interview/favorites`,
+    data,
+    "json"
+  );
+}
+
 // ====================================================================
 // 등급 API 시작
 // ====================================================================

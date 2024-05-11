@@ -493,25 +493,56 @@ a {
 .box__accordion {
   border: 1px solid #eeeeee;
   border-radius: 8px;
-  .button__accordion {
+  .box__accordion-title {
     position: relative;
-    width: 100%;
-    padding: 10px 40px 10px 10px;
-    font-size: 14px;
-    color: var(--fontColor);
-    border: none;
-    background: transparent;
-    text-align: left;
-    &:after {
-      content: "";
+    padding-left: 30px;
+    .button__accordion {
+      position: relative;
+      width: 100%;
+      padding: 10px 40px 10px 10px;
+      font-size: 14px;
+      color: var(--fontColor);
+      border: none;
+      background: transparent;
+      text-align: left;
+      &:after {
+        content: "";
+        position: absolute;
+        top: calc(50% - 10px);
+        right: 10px;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: url("./images/icon/icon__button-arrow.png") no-repeat center /
+          100%;
+      }
+    }
+    .button__favorite {
       position: absolute;
-      top: calc(50% - 10px);
-      right: 10px;
+      top: 0;
+      left: 0;
       display: block;
-      width: 20px;
-      height: 20px;
-      background: url("./images/icon/icon__button-arrow.png") no-repeat center /
-        100%;
+      width: 30px;
+      height: 100%;
+      padding-left: 10px;
+      border: 0;
+      background: none;
+      &:after {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid #e5e5e5;
+        background: #fff url("./images/icon/icon__star.png") no-repeat center /
+          100%;
+      }
+      &--active {
+        &:after {
+          border: 2px solid #ffd400;
+          background-image: url("./images/icon/icon__star-active.png");
+        }
+      }
     }
   }
   .box__accordion-content {
