@@ -1,7 +1,9 @@
 import { Container } from "react-bootstrap";
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useCookies } from "react-cookie";
 import ComponentTitle from "../common/ComponentTitle";
 import * as InterViewApi from "../../api/learning";
+import Dialog from "../modal/dialog";
 
 interface Interview {
   id: number;
@@ -14,6 +16,8 @@ const Tech = () => {
   const [interview, setInterview] = useState<Interview[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("BACKEND");
   const fixedRef = useRef<HTMLDivElement>(null);
+  const [isAlertModal, setIsAlertModal] = useState(false);
+  const [cookie, setCookie, removeCookie] = useCookies(["access_token"]);
 
   const fetchData = async (category: string) => {
     try {
@@ -153,6 +157,32 @@ const Tech = () => {
     }, 600);
   };
 
+  const handleFavorite = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
+    e.preventDefault();
+
+    if (!cookie.access_token) {
+      setIsAlertModal(true);
+    } else {
+      setIsAlertModal(false);
+
+      const target = e.currentTarget;
+      if (target.classList.contains("button__favorite--active")) {
+        target.classList.remove("button__favorite--active");
+      } else {
+        target.classList.add("button__favorite--active");
+        InterViewApi.saveFavoriteInterview(id, "Y");
+      }
+    }
+  };
+
+  const closeAlertModal = () => {
+    setIsAlertModal(false);
+    window.location.href = "/tech";
+  };
+
   return (
     <Container className="page__sub page__tech">
       <div className="box__inner">
@@ -181,14 +211,23 @@ const Tech = () => {
         <div className="box__accordion-group">
           {interview.map((data, idx) => {
             return (
-              <div className="box__accordion" key={idx}>
-                <button
-                  type="button"
-                  className="button__accordion"
-                  onClick={(e) => handleAccordion(e)}
-                >
-                  {data.question}
-                </button>
+              <div className="box__accordion" key={data.id}>
+                <div className="box__accordion-title">
+                  <button
+                    type="button"
+                    className="button__favorite"
+                    onClick={(e) => handleFavorite(e, data.id)}
+                  >
+                    <span className="for-a11y">좋아요</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="button__accordion"
+                    onClick={(e) => handleAccordion(e)}
+                  >
+                    {data.question}
+                  </button>
+                </div>
                 <div className="box__accordion-content">
                   {renderContentWithImages(data.answer)}
                 </div>
@@ -197,6 +236,12 @@ const Tech = () => {
           })}
         </div>
       </div>
+      <Dialog
+        isOpen={isAlertModal}
+        onClose={closeAlertModal}
+        title={"준비 중입니다."}
+        context={"로그인 후 이용 가능합니다."}
+      />
     </Container>
   );
 };
