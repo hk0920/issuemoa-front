@@ -1,5 +1,6 @@
-import { Container } from "react-bootstrap";
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import ComponentTitle from "../common/ComponentTitle";
 import * as InterViewApi from "../../api/learning";
@@ -18,6 +19,7 @@ const Tech = () => {
   const fixedRef = useRef<HTMLDivElement>(null);
   const [isAlertModal, setIsAlertModal] = useState(false);
   const [cookie, setCookie, removeCookie] = useCookies(["access_token"]);
+  const navigate = useNavigate();
 
   const fetchData = async (category: string) => {
     try {
@@ -180,7 +182,11 @@ const Tech = () => {
 
   const closeAlertModal = () => {
     setIsAlertModal(false);
-    window.location.href = "/tech";
+  };
+
+  const handleConfirmModal = () => {
+    setIsAlertModal(false);
+    navigate("/login");
   };
 
   return (
@@ -239,8 +245,10 @@ const Tech = () => {
       <Dialog
         isOpen={isAlertModal}
         onClose={closeAlertModal}
+        onConfirm={handleConfirmModal}
         title={"준비 중입니다."}
         context={"로그인 후 이용 가능합니다."}
+        buttonText={"로그인"}
       />
     </Container>
   );
