@@ -1,10 +1,11 @@
-import * as BoardApi from "../../api/board";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { Container, Tab, Tabs, Card } from "react-bootstrap";
 import { debounce } from "lodash";
 import { Dialog, Player } from "../index";
 import { empty } from "../../images";
-import { useCookies } from "react-cookie";
+import * as BoardApi from "../../api/board";
 
 interface Board {
   id: string;
@@ -30,6 +31,7 @@ const Issue = () => {
   const [modalContext, setModalContext] = useState<string>("");
   const [cookie, setCookie, removeCookie] = useCookies(["access_token"]);
   const [isAlertModal, setIsAlertModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpenModal = (url: string) => {
     setModalContext(url);
@@ -95,7 +97,11 @@ const Issue = () => {
 
   const closeAlertModal = () => {
     setIsAlertModal(false);
-    window.location.href = "/login";
+  };
+
+  const handleConfirmModal = () => {
+    setIsAlertModal(false);
+    navigate("/login");
   };
 
   async function saveFavorite(id: string) {
@@ -198,8 +204,10 @@ const Issue = () => {
       <Dialog
         isOpen={isAlertModal}
         onClose={closeAlertModal}
+        onConfirm={handleConfirmModal}
         title={"준비 중입니다."}
         context={"로그인 후 이용 가능합니다."}
+        buttonText={"로그인"}
       />
     </Container>
   );
