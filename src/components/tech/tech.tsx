@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import { useCookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import ComponentTitle from "../common/ComponentTitle";
 import * as InterViewApi from "../../api/learning";
 import Dialog from "../modal/dialog";
+import classNames from "classnames";
 
 interface Interview {
   id: number;
@@ -14,15 +15,21 @@ interface Interview {
 }
 
 const Tech = () => {
-  const [isLoad, setIsLoad] = useState(false);
-  const [interview, setInterview] = useState<Interview[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("BACKEND");
-  const fixedRef = useRef<HTMLDivElement>(null);
-  const [isAlertModal, setIsAlertModal] = useState(false);
+  const cookies = new Cookies();
   const [cookie, setCookie, removeCookie] = useCookies([
     "access_token",
     "tech_scrollY",
+    "tech_activeMenu",
+    "tech_accordionActive",
+    "tech_accordionIndex",
   ]);
+  const [isLoad, setIsLoad] = useState(false);
+  const [interview, setInterview] = useState<Interview[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    cookie.tech_activeMenu ? cookie.tech_activeMenu : "BACKEND"
+  );
+  const fixedRef = useRef<HTMLDivElement>(null);
+  const [isAlertModal, setIsAlertModal] = useState(false);
   const navigate = useNavigate();
 
   const fetchData = async (category: string) => {
@@ -39,18 +46,21 @@ const Tech = () => {
   };
 
   useEffect(() => {
-    fetchData(selectedCategory);
+    window.scrollTo(0, cookie.tech_scrollY);
+  }, [isLoad]);
 
-    if (isLoad) {
-      console.log("scrollY->", cookie.tech_scrollY);
-      window.scrollTo(0, cookie.tech_scrollY);
-    }
-  }, [selectedCategory, isLoad]);
+  useEffect(() => {
+    fetchData(selectedCategory);
+    window.scrollTo(0, 0);
+  }, [selectedCategory]);
 
   const handleCategoryChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedCategory(event.target.value);
+    cookies.set("tech_activeMenu", event.target.value);
+    cookies.set("tech_accordionActive", false);
+    cookies.set("tech_scrollY", 0);
   };
 
   const renderContentWithImages = (content: string) => {
@@ -134,7 +144,6 @@ const Tech = () => {
 
   window.addEventListener("scroll", (e) => {
     const titleOffsetTop = fixedRef.current?.offsetTop || 0;
-    console.log(titleOffsetTop);
     if (window.scrollY >= titleOffsetTop) {
       fixedRef.current?.classList.add("fixed");
     } else {
@@ -142,8 +151,10 @@ const Tech = () => {
     }
   });
 
-  const handleAccordion = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleAccordion = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: number
+  ) => {
     const targetItemGroup = e.currentTarget.closest(
       ".box__accordion-group"
     ) as HTMLDivElement;
@@ -151,7 +162,7 @@ const Tech = () => {
       ".box__accordion"
     ) as HTMLDivElement;
 
-    const fixeTopHeight = fixedRef.current ? fixedRef.current?.clientHeight : 0;
+    cookies.set("tech_accordionIndex", id);
     if (!targetItem.classList.contains("box__accordion--active")) {
       targetItemGroup
         .querySelectorAll(".box__accordion")
@@ -159,15 +170,26 @@ const Tech = () => {
           item.classList.remove("box__accordion--active");
         });
       targetItem.classList.add("box__accordion--active");
+      cookies.set("tech_accordionActive", true);
     } else {
       targetItem.classList.remove("box__accordion--active");
+      cookies.set("tech_accordionActive", false);
     }
 
     setTimeout(() => {
       const targetOffsetTop = targetItem.offsetTop;
-      const scrollY = targetOffsetTop - fixeTopHeight - 60;
+      const fixeTopHeight = fixedRef.current
+        ? fixedRef.current?.clientHeight
+        : 0;
+
+      const scrollY =
+        window.scrollY < fixeTopHeight
+          ? targetOffsetTop - 75
+          : targetOffsetTop - fixeTopHeight - 65;
+
       window.scrollTo(0, scrollY);
-    }, 600);
+      cookies.set("tech_scrollY", scrollY);
+    }, 650);
   };
 
   const handleFavorite = (
@@ -228,7 +250,15 @@ const Tech = () => {
         <div className="box__accordion-group">
           {interview.map((data, idx) => {
             return (
-              <div className="box__accordion" key={data.id}>
+              <div
+                className={classNames(
+                  "box__accordion",
+                  cookie.tech_accordionIndex === data.id &&
+                    cookie.tech_accordionActive &&
+                    "box__accordion--active"
+                )}
+                key={data.id}
+              >
                 <div className="box__accordion-title">
                   <button
                     type="button"
@@ -240,7 +270,7 @@ const Tech = () => {
                   <button
                     type="button"
                     className="button__accordion"
-                    onClick={(e) => handleAccordion(e)}
+                    onClick={(e) => handleAccordion(e, data.id)}
                   >
                     {data.question}
                   </button>
