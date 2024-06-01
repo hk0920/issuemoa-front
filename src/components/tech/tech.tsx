@@ -14,11 +14,15 @@ interface Interview {
 }
 
 const Tech = () => {
+  const [isLoad, setIsLoad] = useState(false);
   const [interview, setInterview] = useState<Interview[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("BACKEND");
   const fixedRef = useRef<HTMLDivElement>(null);
   const [isAlertModal, setIsAlertModal] = useState(false);
-  const [cookie, setCookie, removeCookie] = useCookies(["access_token"]);
+  const [cookie, setCookie, removeCookie] = useCookies([
+    "access_token",
+    "tech_scrollY",
+  ]);
   const navigate = useNavigate();
 
   const fetchData = async (category: string) => {
@@ -27,6 +31,7 @@ const Tech = () => {
 
       if (response) {
         setInterview(response.list);
+        setIsLoad(true);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -35,7 +40,12 @@ const Tech = () => {
 
   useEffect(() => {
     fetchData(selectedCategory);
-  }, [selectedCategory]);
+
+    if (isLoad) {
+      console.log("scrollY->", cookie.tech_scrollY);
+      window.scrollTo(0, cookie.tech_scrollY);
+    }
+  }, [selectedCategory, isLoad]);
 
   const handleCategoryChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -124,7 +134,8 @@ const Tech = () => {
 
   window.addEventListener("scroll", (e) => {
     const titleOffsetTop = fixedRef.current?.offsetTop || 0;
-    if (window.scrollY > titleOffsetTop) {
+    console.log(titleOffsetTop);
+    if (window.scrollY >= titleOffsetTop) {
       fixedRef.current?.classList.add("fixed");
     } else {
       fixedRef.current?.classList.remove("fixed");
