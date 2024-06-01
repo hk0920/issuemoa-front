@@ -21,6 +21,7 @@ interface propsTypes {
 }
 
 const Issue = () => {
+  const [isLoad, setIsLoad] = useState(false);
   let next = false;
   const [type, setType] = useState<string>("news");
   const [skip, setSkip] = useState<number>(0);
@@ -29,7 +30,10 @@ const Issue = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
-  const [cookie, setCookie, removeCookie] = useCookies(["access_token"]);
+  const [cookie, setCookie, removeCookie] = useCookies([
+    "access_token",
+    "issue_scrollY",
+  ]);
   const [isAlertModal, setIsAlertModal] = useState(false);
   const navigate = useNavigate();
 
@@ -64,6 +68,7 @@ const Issue = () => {
           next = false;
         }
         setBoard((prevBoard) => [...prevBoard, ...response]);
+        setIsLoad(true);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -115,6 +120,10 @@ const Issue = () => {
   useEffect(() => {
     fetchData(type);
 
+    if (isLoad) {
+      window.scrollTo(0, cookie.issue_scrollY);
+    }
+
     // 디바운싱된 스크롤 이벤트 리스너 등록
     window.addEventListener("scroll", scrollHandler);
 
@@ -122,7 +131,7 @@ const Issue = () => {
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [skip, type]); // skip 값이 변경될 때만 실행
+  }, [skip, type, isLoad]); // skip 값이 변경될 때만 실행
 
   return (
     <Container className="box__issue">

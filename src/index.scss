@@ -400,12 +400,13 @@ a {
     }
   }
   &.page__tech {
+    padding-top: 60px;
     .box__component-title-wrap {
       position: relative;
-      transition: padding 0.2s ease;
+      padding-top: 30px;
       .box__select {
         position: absolute;
-        top: 0;
+        top: 30px;
         right: 0;
         .form__select {
           display: inline-block;
@@ -468,6 +469,9 @@ a {
         }
         & + .accordion {
           padding-top: 100px;
+        }
+        & + .box__accordion-group {
+          padding-top: 145px;
         }
       }
     }

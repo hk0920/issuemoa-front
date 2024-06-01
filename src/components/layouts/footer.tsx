@@ -20,17 +20,13 @@ const Footer = () => {
   const cookies = new Cookies();
 
   const handleMenuClick = (path: string) => {
-    // cookies.set("scroll_" + path, window.scrollY);
+    if (selected === "/") {
+      cookies.set("issue_scrollY", window.scrollY);
+    } else if (selected === "tech") {
+      cookies.set("tech_scrollY", window.scrollY);
+    }
     setSelected(path);
     navigate(path);
-
-    // if (
-    //   window.location.pathname.substring(1, window.location.pathname.length) ===
-    //   path
-    // ) {
-    //   console.log("window 스크롤 ->", cookies.get("scroll_" + path));
-    //   window.scrollTo(0, cookies.get("scroll_" + path));
-    // }
   };
 
   useEffect(() => {
@@ -40,7 +36,7 @@ const Footer = () => {
     } else if (pathname === "/login") {
       setSelected("mypage");
     }
-  }, []);
+  }, [selected]);
 
   return (
     <footer>
