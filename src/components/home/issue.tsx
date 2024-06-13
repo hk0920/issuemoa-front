@@ -91,9 +91,9 @@ const Issue = () => {
     }
   };
 
-  const favoriteHandler = (target: HTMLElement, id: string) => {
+  const favoriteHandler = (target: HTMLElement, data: Board) => {
     if (cookie.access_token) {
-      saveFavorite(id);
+      saveFavorite(data);
       target.classList.add("button__favorite--active");
     } else {
       setIsAlertModal(true);
@@ -109,9 +109,9 @@ const Issue = () => {
     navigate("/login");
   };
 
-  async function saveFavorite(id: string) {
-    const data = await BoardApi.saveFavoriteData(id);
-    if (data) {
+  async function saveFavorite(data: Board) {
+    const result = await BoardApi.saveFavoriteData(data);
+    if (result) {
       fetchData(type);
     } else {
     }
@@ -174,7 +174,7 @@ const Issue = () => {
                 <button
                   type="button"
                   className="button__favorite"
-                  onClick={(e) => favoriteHandler(e.currentTarget, data.id)}
+                  onClick={(e) => favoriteHandler(e.currentTarget, data)}
                 >
                   <span className="for-a11y">관심목록 추가</span>
                 </button>
@@ -200,7 +200,7 @@ const Issue = () => {
                 <button
                   type="button"
                   className="button__favorite"
-                  onClick={(e) => favoriteHandler(e.currentTarget, data.id)}
+                  onClick={(e) => favoriteHandler(e.currentTarget, data)}
                 >
                   <span className="for-a11y">관심목록 추가</span>
                 </button>
