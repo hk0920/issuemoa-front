@@ -40,7 +40,14 @@ export async function saveFavoriteData(data: Board) {
   return await AxiosUtil.send(
     "POST",
     `${backendUrl}/board/favorites`,
-    { data: data },
+    { 
+      id: data.id,
+      type: data.type,
+      title: data.title,
+      contents: data.contents,
+      url: data.url,
+      thumbnail: data.thumbnail,
+    },
     "json"
   );
 }
