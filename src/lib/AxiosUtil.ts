@@ -16,8 +16,11 @@ export async function send(
     "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
 
   if (url.indexOf("backend") > -1) {
-    axios.defaults.headers.common["Authorization"] =
-      "Bearer " + cookies.get("access_token");
+    const accessToken = cookies.get("access_token");
+    if (accessToken !== null && accessToken !== undefined) {
+      axios.defaults.headers.common["Authorization"] =
+        "Bearer " + accessToken;
+    }
   } else if (url.indexOf("kapi") > -1) {
     axios.defaults.headers.common["Authorization"] =
       "Bearer " + cookies.get("kakaoAccessToken");
