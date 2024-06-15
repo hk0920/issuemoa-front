@@ -97,17 +97,17 @@ const Tech = () => {
           item
             .replace("`", "")
             .replaceAll(/\n/g, "<br/>")
-            .replace("java<br/>", "<code class='box__code'>") +
-          "</code>".replaceAll("   ", "&nbsp;&nbsp;");
+            .replaceAll("  ", "&ensp;")
+            .replace("java<br/>", "<code class='box__code'>") + "</code>";
 
         if (result.includes("// ")) {
           const resultText = result
             .substring(result.indexOf("// "))
-            .split("\n");
+            .split("<br/>");
           resultText.map((text, q) => {
             if (!text.includes("// ")) return false;
             let commentText = text.substring(
-              text.indexOf("// ", text.indexOf("\n"))
+              text.indexOf("// ", text.indexOf("<br/>"))
             );
             result = result.replace(
               commentText,
