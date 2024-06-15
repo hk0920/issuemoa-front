@@ -70,7 +70,12 @@ const Tech = () => {
 
     if (imageUrlMatches && imageUrlMatches.length > 0) {
       const images = imageUrlMatches.map((imageUrl, index) => (
-        <img key={index} src={imageUrl} alt={`Image ${index}`} />
+        <img
+          key={index}
+          src={imageUrl}
+          alt={`Image ${index}`}
+          onClick={() => window.open(imageUrl)}
+        />
       ));
 
       const lastImageIndex = imageUrlMatches.length - 1;
