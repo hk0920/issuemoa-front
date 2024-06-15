@@ -97,6 +97,8 @@ const Tech = () => {
           ? item.replace("`java", "<code class='box__code'>") + "</code>"
           : item;
 
+        result = result.replace("`", "");
+
         if (result.includes("// ")) {
           const resultText = result
             .substring(result.indexOf("// "))
