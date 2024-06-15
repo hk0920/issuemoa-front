@@ -93,11 +93,12 @@ const Tech = () => {
     if (content.includes("```")) {
       const contentArray = content.split("``");
       const context = contentArray.map((item, idx) => {
-        let result = item.includes("`java")
-          ? item.replace("`java", "<code class='box__code'>") + "</code>"
-          : item;
-
-        result = result.replace("`", "");
+        let result =
+          item
+            .replace("`", "")
+            .replaceAll(/\n/g, "<br/>")
+            .replace("java<br/>", "<code class='box__code'>") +
+          "</code>".replaceAll("   ", "&nbsp;&nbsp;");
 
         if (result.includes("// ")) {
           const resultText = result
@@ -125,10 +126,7 @@ const Tech = () => {
               <div
                 key={idx}
                 dangerouslySetInnerHTML={{
-                  __html: item
-                    .toString()
-                    .replaceAll(/\n/g, "<br />")
-                    .replaceAll("   ", "&nbsp;&nbsp;"),
+                  __html: item,
                 }}
               ></div>
             );
