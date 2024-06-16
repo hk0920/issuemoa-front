@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Badge, Tab, Tabs, Card } from "react-bootstrap";
 import * as VocaApi from "../../api/learning";
 import * as BoardApi from "../../api/board";
+import * as InterViewApi from "../../api/learning";
 import { empty } from "../../images";
+import renderCode from "../tech/renderCode";
 
 interface Voca {
   id: number;
@@ -18,12 +20,20 @@ interface Issue {
   thumbnail: string;
 }
 
+interface Tech {
+  id: number;
+  category: string;
+  question: string;
+  answer: string;
+}
+
 const Dashboard = () => {
   const [learnCount, setLearnCount] = useState<number>(0);
   const [tier, setTier] = useState<string>("브론즈");
   const [tierColor, setTierColor] = useState<string>("warning");
   const [vocaData, setVocaData] = useState<Voca[]>([]);
   const [issueData, setIssueData] = useState<Issue[]>([]);
+  const [techData, setTechData] = useState<Tech[]>([]);
 
   const Grade = ({
     badgeColor,
@@ -62,6 +72,11 @@ const Dashboard = () => {
     setIssueData(response);
   };
 
+  const getFavoriteTech = async () => {
+    const response = await InterViewApi.getFavoriteInterview();
+    setTechData(response.list);
+  };
+
   return (
     <Container className="page__sub box__mypage-board">
       <div className="box__inner">
@@ -79,6 +94,8 @@ const Dashboard = () => {
                 getRetryVoca();
               } else if (key === "issue") {
                 getFavoriteIssue();
+              } else if (key === "tech") {
+                getFavoriteTech();
               }
             }}
           >
@@ -161,6 +178,27 @@ const Dashboard = () => {
                           <Card.Title>{item.word}</Card.Title>
                           <Card.Text>{item.mean}</Card.Text>
                         </Card.Body>
+                      </Card>
+                    );
+                  })}
+                </>
+              ) : (
+                <p className="text__empty">단어 다시 보기 리스트가 없습니다.</p>
+              )}
+            </Tab>
+            <Tab eventKey="tech" title="관심 Tech" className="box__tab-content">
+              {techData.length > 0 ? (
+                <>
+                  {techData?.map((item, idx) => {
+                    return (
+                      <Card key={item.id} className="box__card">
+                        <Card.Header>
+                          <span className="box__label-type">
+                            {item.category}
+                          </span>
+                          {item.question}
+                        </Card.Header>
+                        <Card.Body>{renderCode(item.answer)}</Card.Body>
                       </Card>
                     );
                   })}

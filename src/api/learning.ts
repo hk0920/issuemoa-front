@@ -65,12 +65,24 @@ export async function saveFavoriteInterview(
     useYn: useYn,
   };
 
+  const isAuthenticated = await AuthApi.checkUserAuthentication();
+  if (isAuthenticated) {
+    await AxiosUtil.send(
+      "POST",
+      `${backendUrl}/interview/favorites`,
+      data,
+      "json"
+    );
+  }
+}
+
+export async function getFavoriteInterview() {
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
-    "POST",
+    "GET",
     `${backendUrl}/interview/favorites`,
-    data,
-    "json"
+    {},
+    ""
   );
 }
 
