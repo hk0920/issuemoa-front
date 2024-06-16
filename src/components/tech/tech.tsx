@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { Cookies, useCookies } from "react-cookie";
-import ComponentTitle from "../common/ComponentTitle";
-import * as InterViewApi from "../../api/learning";
-import Dialog from "../modal/dialog";
 import classNames from "classnames";
+import * as InterViewApi from "../../api/learning";
+import ComponentTitle from "../common/ComponentTitle";
+import Dialog from "../modal/dialog";
+import renderCode from "./renderCode";
 
 interface Interview {
   id: number;
@@ -61,85 +62,6 @@ const Tech = () => {
     cookies.set("tech_activeMenu", event.target.value);
     cookies.set("tech_accordionActive", false);
     cookies.set("tech_scrollY", 0);
-  };
-
-  const renderContentWithImages = (content: string) => {
-    const imageUrlMatches = content.match(
-      /https:\/\/img1\.daumcdn\.net.*?\.png/g
-    );
-
-    if (imageUrlMatches && imageUrlMatches.length > 0) {
-      const images = imageUrlMatches.map((imageUrl, index) => (
-        <img key={index} src={imageUrl} alt={`Image ${index}`} />
-      ));
-
-      const lastImageIndex = imageUrlMatches.length - 1;
-      const textWithoutImages = content
-        .split(imageUrlMatches[lastImageIndex])
-        .join("");
-
-      return (
-        <div>
-          {images}
-          <p
-            dangerouslySetInnerHTML={{
-              __html: textWithoutImages.replace(/\n/g, "<br>"),
-            }}
-          />
-        </div>
-      );
-    }
-
-    if (content.includes("```")) {
-      const contentArray = content.split("``");
-      const context = contentArray.map((item, idx) => {
-        let result = item.includes("`java")
-          ? item.replace("`java", "<code class='box__code'>") + "</code>"
-          : item;
-
-        if (result.includes("// ")) {
-          const resultText = result
-            .substring(result.indexOf("// "))
-            .split("\n");
-          resultText.map((text, q) => {
-            if (!text.includes("// ")) return false;
-            let commentText = text.substring(
-              text.indexOf("// ", text.indexOf("\n"))
-            );
-            result = result.replace(
-              commentText,
-              "<span class='text__comment'>" + commentText + "</span>"
-            );
-          });
-        }
-
-        return result;
-      });
-
-      return (
-        <>
-          {context.map((item, idx) => {
-            return (
-              <div
-                key={idx}
-                dangerouslySetInnerHTML={{
-                  __html: item
-                    .toString()
-                    .replaceAll(/\n/g, "<br />")
-                    .replaceAll("   ", "&nbsp;&nbsp;"),
-                }}
-              ></div>
-            );
-          })}
-        </>
-      );
-    } else {
-      return (
-        <p
-          dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, "<br />") }}
-        />
-      );
-    }
   };
 
   window.addEventListener("scroll", (e) => {
@@ -262,7 +184,7 @@ const Tech = () => {
                 <div className="box__accordion-title">
                   <button
                     type="button"
-                    className="button__favorite"
+                    className={`button__favorite ${data.id}`}
                     onClick={(e) => handleFavorite(e, data.id)}
                   >
                     <span className="for-a11y">좋아요</span>
@@ -276,7 +198,7 @@ const Tech = () => {
                   </button>
                 </div>
                 <div className="box__accordion-content">
-                  {renderContentWithImages(data.answer)}
+                  {renderCode(data.answer)}
                 </div>
               </div>
             );
