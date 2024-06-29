@@ -11,7 +11,6 @@ import {
 import { Link } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
 import Dialog from "../modal/dialog";
-import { read } from "fs";
 
 const More = () => {
   const [name, setName] = useState("");
@@ -47,6 +46,11 @@ const More = () => {
     }
   };
 
+  const handleLogoutClick = async () => {
+    const isSignOout = await AuthApi.userSignOut();
+    if (isSignOout) setName("");
+  };
+
   return (
     <Container className="page__sub box__sitemap">
       <div className="box__inner">
@@ -59,7 +63,11 @@ const More = () => {
             ) : (
               <>
                 <p className="text__name">{name}님</p>
-                <button type="button" className="button__logout">
+                <button
+                  type="button"
+                  className="button__logout"
+                  onClick={() => handleLogoutClick()}
+                >
                   로그아웃
                 </button>
               </>

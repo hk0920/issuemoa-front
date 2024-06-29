@@ -33,17 +33,24 @@ async function reissue() {
     setUserInfo(response);
     cookies.set("refresh_token", response.refreshToken, {
       path: "/",
-      httpOnly: true
+      httpOnly: true,
     });
     cookies.set("access_token", response.accessToken, {
-      path: "/"
+      path: "/",
     });
     cookies.set("authorization", true, {
       path: "/",
-      maxAge: 3600
+      maxAge: 3600,
     });
   } else {
     cookies.remove("authorization");
+  }
+}
+
+export async function userSignOut() {
+  const isAuthenticated = await checkUserAuthentication();
+  if (isAuthenticated) {
+    return await AxiosUtil.send("GET", `${backendUrl}/users/signOut`, {}, "");
   }
 }
 
