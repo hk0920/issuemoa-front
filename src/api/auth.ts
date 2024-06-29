@@ -48,10 +48,18 @@ async function reissue() {
 }
 
 export async function userSignOut() {
-  const isAuthenticated = await checkUserAuthentication();
-  if (isAuthenticated) {
-    return await AxiosUtil.send("GET", `${backendUrl}/users/signOut`, {}, "");
+  const isSignOut = await AxiosUtil.send(
+    "GET",
+    `${backendUrl}/users/signOut`,
+    {},
+    ""
+  );
+  if (isSignOut) {
+    cookies.remove("access_token");
+    cookies.remove("authorization");
   }
+
+  return isSignOut;
 }
 
 export async function authInit(): Promise<boolean> {

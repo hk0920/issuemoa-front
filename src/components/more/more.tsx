@@ -11,10 +11,12 @@ import {
 import { Link } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
 import Dialog from "../modal/dialog";
+import { Cookies } from "react-cookie";
 
 const More = () => {
   const [name, setName] = useState("");
   const [isReadyModal, setIsReadyModal] = useState(false);
+  const cookies = new Cookies();
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -24,7 +26,9 @@ const More = () => {
       }
     };
 
-    checkAuthentication();
+    if (cookies.get("access_token")) {
+      checkAuthentication();
+    }
   }, []);
 
   const imageItems = [
