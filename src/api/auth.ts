@@ -6,10 +6,12 @@ const backendUrl = "/backend";
 
 let email = "";
 let name = "";
+let gradeCode = "";
 
 function setUserInfo(user: any) {
   email = user.email;
   name = user.name;
+  gradeCode = user.gradeCode;
 }
 
 async function getUserInfo() {
@@ -33,18 +35,33 @@ async function reissue() {
     setUserInfo(response);
     cookies.set("refresh_token", response.refreshToken, {
       path: "/",
-      httpOnly: true
+      httpOnly: true,
     });
     cookies.set("access_token", response.accessToken, {
-      path: "/"
+      path: "/",
     });
     cookies.set("authorization", true, {
       path: "/",
-      maxAge: 3600
+      maxAge: 3600,
     });
   } else {
     cookies.remove("authorization");
   }
+}
+
+export async function userSignOut() {
+  const isSignOut = await AxiosUtil.send(
+    "GET",
+    `${backendUrl}/users/signOut`,
+    {},
+    ""
+  );
+  if (isSignOut) {
+    cookies.remove("access_token");
+    cookies.remove("authorization");
+  }
+
+  return isSignOut;
 }
 
 export async function authInit(): Promise<boolean> {
@@ -70,4 +87,9 @@ export async function getName(): Promise<string> {
 export async function getEmail(): Promise<string> {
   await authInit();
   return email;
+}
+
+export async function getGradeCode(): Promise<string> {
+  await authInit();
+  return gradeCode;
 }

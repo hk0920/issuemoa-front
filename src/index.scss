@@ -264,10 +264,26 @@ a {
       background: #fff;
       vertical-align: top;
     }
+    .text__grade {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      padding: 2px;
+      margin-right: 5px;
+      background: #e5e5e5;
+      border-radius: 50%;
+      text-align: center;
+      overflow: hidden;
+      vertical-align: top;
+      .image {
+        max-width: 25px;
+      }
+    }
     .text__name {
       display: inline-block;
       font-weight: bold;
       font-size: 20px;
+      vertical-align: top;
     }
     .box__notice {
       padding: 10px;
