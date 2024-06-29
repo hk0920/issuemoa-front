@@ -6,10 +6,12 @@ const backendUrl = "/backend";
 
 let email = "";
 let name = "";
+let gradeCode = "";
 
 function setUserInfo(user: any) {
   email = user.email;
   name = user.name;
+  gradeCode = user.gradeCode;
 }
 
 async function getUserInfo() {
@@ -85,4 +87,9 @@ export async function getName(): Promise<string> {
 export async function getEmail(): Promise<string> {
   await authInit();
   return email;
+}
+
+export async function getGradeCode(): Promise<string> {
+  await authInit();
+  return gradeCode;
 }

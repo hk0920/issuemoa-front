@@ -12,17 +12,28 @@ import { Link } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
 import Dialog from "../modal/dialog";
 import { Cookies } from "react-cookie";
+import { gradeArray } from "./grade";
 
 const More = () => {
-  const [name, setName] = useState("");
+  const [user, setUser] = useState({
+    name: "",
+    gradeCode: "I",
+  });
   const [isReadyModal, setIsReadyModal] = useState(false);
   const cookies = new Cookies();
 
   useEffect(() => {
     const checkAuthentication = async () => {
       const name = await AuthApi.getName();
+      let gradeCode = await AuthApi.getGradeCode();
+
+      if (gradeCode === null) gradeCode = "I";
+
       if (name) {
-        setName(name);
+        setUser({
+          name: name,
+          gradeCode: gradeCode,
+        });
       }
     };
 
@@ -52,7 +63,11 @@ const More = () => {
 
   const handleLogoutClick = async () => {
     const isSignOout = await AuthApi.userSignOut();
-    if (isSignOout) setName("");
+    if (isSignOout)
+      setUser({
+        name: "",
+        gradeCode: "",
+      });
   };
 
   return (
@@ -60,13 +75,26 @@ const More = () => {
       <div className="box__inner">
         <div className="box__user-info">
           <div className="box__user">
-            {name === "" ? (
+            {user.name === "" ? (
               <Link to={"/login"} className="link__login">
                 로그인해주세요.
               </Link>
             ) : (
               <>
-                <p className="text__name">{name}님</p>
+                <span className="text__grade">
+                  <img
+                    src={
+                      gradeArray.find((obj) => obj.code === user.gradeCode)
+                        ?.icon
+                    }
+                    alt={
+                      gradeArray.find((obj) => obj.code === user.gradeCode)
+                        ?.text
+                    }
+                    className="image"
+                  />
+                </span>
+                <span className="text__name">{user.name}님</span>
                 <button
                   type="button"
                   className="button__logout"

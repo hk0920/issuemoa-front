@@ -13,6 +13,24 @@ import {
 import { useEffect, useState } from "react";
 import * as GradeApi from "../../api/learning";
 
+interface gradeType {
+  code: string;
+  icon: string;
+  text: string;
+}
+
+export const gradeArray: Array<gradeType> = [
+  { code: "C", icon: grade_ch, text: "Grade CH" },
+  { code: "GM", icon: grade_gm, text: "Grade GM" },
+  { code: "M", icon: grade_m, text: "Grade M" },
+  { code: "D", icon: grade_dia, text: "Grade DIA" },
+  { code: "P", icon: grade_plt, text: "Grade PLT" },
+  { code: "G", icon: grade_gd, text: "Grade GD" },
+  { code: "S", icon: grade_sl, text: "Grade SL" },
+  { code: "B", icon: grade_br, text: "Grade BR" },
+  { code: "I", icon: grade_ir, text: "Grade IR" },
+];
+
 const Grade = () => {
   const [gradeData, setGradeData] = useState([]);
 
@@ -39,56 +57,26 @@ const Grade = () => {
           {gradeData.map((item, idx) => {
             const { gradeCode, id, modifyTime, registerTime, standard } =
               item || {};
-            const grade =
-              gradeCode === "C"
-                ? "Grade CH"
-                : gradeCode === "GM"
-                ? "Grade GM"
-                : gradeCode === "M"
-                ? "Grade M"
-                : gradeCode === "D"
-                ? "Grade DIA"
-                : gradeCode === "P"
-                ? "Grade PLT"
-                : gradeCode === "G"
-                ? "Grade GD"
-                : gradeCode === "S"
-                ? "Grade SL"
-                : gradeCode === "B"
-                ? "Grade BR"
-                : "Grade IR";
 
             return (
               <li key={idx} className="list-item">
                 <div className="box__icon">
                   <Image
-                    src={
-                      gradeCode === "C"
-                        ? grade_ch
-                        : gradeCode === "GM"
-                        ? grade_gm
-                        : gradeCode === "M"
-                        ? grade_m
-                        : gradeCode === "D"
-                        ? grade_dia
-                        : gradeCode === "P"
-                        ? grade_plt
-                        : gradeCode === "G"
-                        ? grade_gd
-                        : gradeCode === "S"
-                        ? grade_sl
-                        : gradeCode === "B"
-                        ? grade_br
-                        : grade_ir
+                    src={gradeArray.find((obj) => obj.code === gradeCode)?.icon}
+                    alt={
+                      gradeArray.find((obj) => obj.code === gradeCode)?.text +
+                      "등급 이미지"
                     }
-                    alt={`${grade} 등급 이미지`}
                     className="image"
                   />
                 </div>
                 <div className="box__info">
-                  <p className="text__title">{grade}</p>
+                  <p className="text__title">
+                    {gradeArray.find((obj) => obj.code === gradeCode)?.text}
+                  </p>
                   <p className="text__desc">
-                    {grade}등급은 {standard}개 이상 일 경우 승급
+                    {gradeArray.find((obj) => obj.code === gradeCode)?.text}
+                    등급은 {standard}개 이상 일 경우 승급
                   </p>
                 </div>
               </li>
