@@ -48,7 +48,7 @@ const More = () => {
     { src: notice, alt: "notice", text: "공지사항", ready: false },
     { src: supportCustomer, alt: "inquiry", text: "고객문의", ready: false },
     { src: stock, alt: "stock", text: "주식", ready: true },
-    { src: setting, alt: "setting", text: "설정", ready: true },
+    { src: setting, alt: "setting", text: "설정", ready: false },
   ];
 
   const closeReadyModal = () => {

@@ -167,8 +167,9 @@ const VocaWord = () => {
       window.speechSynthesis.cancel();
 
       const speechMsg = new SpeechSynthesisUtterance();
-      speechMsg.rate = 1;
+      speechMsg.rate = 0.7;
       speechMsg.pitch = 1;
+
       speechMsg.lang = "en-US";
       speechMsg.text = text;
 
