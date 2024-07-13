@@ -14,6 +14,7 @@
     "bootstrap": "^5.3.2",
     "classnames": "^2.5.1",
     "http-proxy-middleware": "^2.0.6",
+    "openai": "^4.52.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-card-flip": "^1.2.2",

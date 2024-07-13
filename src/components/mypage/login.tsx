@@ -17,32 +17,38 @@ const Login = () => {
       window.location.href = `${baseUrl}/oauth2/authorization/google`;
     }
   };
-  
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const token = params.get('token');
+    const token = params.get("token");
 
     if (token) {
-        cookies.set("access_token", token, {
-          path: "/"
-        });
-        cookies.set("authorization", true, {
-          path: "/",
-          maxAge: 3600
-        });
-        navigate("/mypage");
+      cookies.set("access_token", token, {
+        path: "/",
+      });
+      cookies.set("authorization", true, {
+        path: "/",
+        maxAge: 3600,
+      });
+      navigate("/mypage");
     } else {
       console.log("Code not found in the URL.");
     }
   }, []);
- 
+
   return (
     <div className="login-container">
-      <div className="social-icon-container" onClick={() => handleLoginClick("kakao")}>
+      <div
+        className="social-icon-container"
+        onClick={() => handleLoginClick("kakao")}
+      >
         <img src={kakao} alt="Kakao" className="social-icon" />
         <p className="icon-text">Kakao 로그인</p>
       </div>
-      <div className="social-icon-container" onClick={() => handleLoginClick("google")}>
+      <div
+        className="social-icon-container"
+        onClick={() => handleLoginClick("google")}
+      >
         <img src={google} alt="Google" className="social-icon" />
         <p className="icon-text">Google 로그인</p>
       </div>
@@ -54,6 +60,6 @@ const Login = () => {
       */}
     </div>
   );
-}
+};
 
 export default Login;

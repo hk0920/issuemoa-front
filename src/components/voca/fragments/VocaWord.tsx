@@ -154,6 +154,28 @@ const VocaWord = () => {
     handleButton("N");
   };
 
+  const speakWord = (text?: string) => {
+    if (
+      typeof SpeechSynthesisUtterance === "undefined" ||
+      typeof window.speechSynthesis === "undefined"
+    ) {
+      alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
+      return;
+    }
+
+    if (text !== undefined) {
+      window.speechSynthesis.cancel();
+
+      const speechMsg = new SpeechSynthesisUtterance();
+      speechMsg.rate = 1;
+      speechMsg.pitch = 1;
+      speechMsg.lang = "en-US";
+      speechMsg.text = text;
+
+      window.speechSynthesis.speak(speechMsg);
+    }
+  };
+
   const Word = ({
     children,
     isSliding,
@@ -170,15 +192,18 @@ const VocaWord = () => {
     return (
       <animated.div style={isSliding ? slideInAnimation : {}}>
         <div className="box__word">
+          <button
+            type="button"
+            className="button__prev"
+            onClick={handlePrevImageClick}
+          ></button>
           <span className="text__word">{children}</span>
-          <div className="box__etc">
-            <button
-              type="button"
-              className="button__prev"
-              onClick={handlePrevImageClick}
-            ></button>
-            <button type="button" className="button__listen"></button>
-          </div>
+          <button
+            type="button"
+            className="button__listen"
+            onClick={() => speakWord(word)}
+            style={{ display: isFlipped ? "none" : "block" }}
+          ></button>
         </div>
       </animated.div>
     );
@@ -205,23 +230,13 @@ const VocaWord = () => {
       <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
         <div className="box__card">
           <Word isSliding={isSliding}>{word}</Word>
-          <button
-            type="button"
-            className="button__confirm
-          "
-            onClick={flipCard}
-          >
+          <button type="button" className="button__confirm" onClick={flipCard}>
             ✔️
           </button>
         </div>
         <div className="box__card">
           <Word isSliding={isSliding}>{mean}</Word>
-          <button
-            type="button"
-            className="button__confirm
-          "
-            onClick={flipCard}
-          >
+          <button type="button" className="button__confirm" onClick={flipCard}>
             ✔️
           </button>
         </div>
