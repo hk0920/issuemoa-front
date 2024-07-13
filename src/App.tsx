@@ -1,12 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
   Header,
   Footer,
@@ -19,6 +13,7 @@ import {
   Notice,
   Inquiry,
   Tech,
+  Setting,
 } from "./components";
 import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
@@ -74,6 +69,7 @@ function App() {
         <Route path="/grade" element={<Grade />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/inquiry" element={<Inquiry />} />
+        <Route path="/setting" element={<Setting />} />
         <Route
           path="/mypage"
           element={<PrivateRoute element={<Dashboard />} requiredRole="user" />}
