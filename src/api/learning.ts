@@ -1,6 +1,10 @@
 import * as AxiosUtil from "../lib/AxiosUtil";
 import * as AuthApi from "./auth";
 
+import fs from "fs";
+import path from "path";
+import OpenAI from "openai";
+
 // ====================================================================
 // 보카 API 시작
 // ====================================================================

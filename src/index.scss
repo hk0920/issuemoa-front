@@ -388,28 +388,36 @@ a {
         padding: 20px;
       }
       .box__word {
-        display: flex;
+        position: relative;
+        padding: 0 25px;
+        text-align: center;
         .button__prev {
+          position: absolute;
+          top: 50%;
+          left: 0;
           display: block;
           width: 25px;
           height: 25px;
           margin-bottom: 5px;
           background: url("./images/icon/prev.png") no-repeat 0 0 / 100% 100%;
           border: none;
+          transform: translateY(-50%);
         }
         .button__listen {
+          position: absolute;
+          top: 50%;
+          right: 0;
           display: block;
           width: 25px;
           height: 25px;
           background: url("./images/icon/icon__listen.png") no-repeat 0 0 / 100%
             100%;
           border: none;
+          transform: translateY(-50%);
         }
         .text__word {
-          flex: 1;
           font-weight: bold;
           font-size: 35px;
-          text-align: center;
         }
       }
       .button__confirm {
