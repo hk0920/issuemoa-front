@@ -13,6 +13,7 @@ interface Interview {
   category: string;
   question: string;
   answer: string;
+  favoritesYn: string;
 }
 
 const Tech = () => {
@@ -38,7 +39,11 @@ const Tech = () => {
       let response = await InterViewApi.getInterviewList(category);
 
       if (response) {
-        setInterview(response.list);
+        const list = response.list.map((item: Interview) => ({
+          ...item,
+          favoritesYn: response.favoritesId.includes(item.id) ? 'Y' : 'N'
+        }));
+        setInterview(list);
         setIsLoad(true);
       }
     } catch (error) {
@@ -184,7 +189,7 @@ const Tech = () => {
                 <div className="box__accordion-title">
                   <button
                     type="button"
-                    className={`button__favorite ${data.id}`}
+                    className={classNames(`button__favorite ${data.id}`, { 'button__favorite--active': data.favoritesYn === 'Y' })}
                     onClick={(e) => handleFavorite(e, data.id)}
                   >
                     <span className="for-a11y">좋아요</span>
