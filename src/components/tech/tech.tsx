@@ -41,7 +41,7 @@ const Tech = () => {
       if (response) {
         const list = response.list.map((item: Interview) => ({
           ...item,
-          favoritesYn: response.favoritesId.includes(item.id) ? 'Y' : 'N'
+          favoritesYn: response.favoritesId.includes(item.id) ? "Y" : "N",
         }));
         setInterview(list);
         setIsLoad(true);
@@ -133,6 +133,7 @@ const Tech = () => {
       const target = e.currentTarget;
       if (target.classList.contains("button__favorite--active")) {
         target.classList.remove("button__favorite--active");
+        InterViewApi.saveFavoriteInterview(id, "N");
       } else {
         target.classList.add("button__favorite--active");
         InterViewApi.saveFavoriteInterview(id, "Y");
@@ -189,7 +190,9 @@ const Tech = () => {
                 <div className="box__accordion-title">
                   <button
                     type="button"
-                    className={classNames(`button__favorite ${data.id}`, { 'button__favorite--active': data.favoritesYn === 'Y' })}
+                    className={classNames(`button__favorite ${data.id}`, {
+                      "button__favorite--active": data.favoritesYn === "Y",
+                    })}
                     onClick={(e) => handleFavorite(e, data.id)}
                   >
                     <span className="for-a11y">좋아요</span>
