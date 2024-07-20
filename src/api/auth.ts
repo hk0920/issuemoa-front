@@ -33,16 +33,11 @@ async function reissue() {
 
   if (response) {
     setUserInfo(response);
-    cookies.set("refresh_token", response.refreshToken, {
-      path: "/",
-      httpOnly: true,
-    });
     cookies.set("access_token", response.accessToken, {
       path: "/",
     });
     cookies.set("authorization", true, {
       path: "/",
-      maxAge: 3600,
     });
   } else {
     cookies.remove("authorization");

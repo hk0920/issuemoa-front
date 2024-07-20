@@ -25,7 +25,6 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
   useEffect(() => {
     const checkAuthentication = async () => {
       const isAuthenticated = await AuthApi.checkUserAuthentication();
-      console.log("==> isAuthenticated:", isAuthenticated);
       setIsAuthenticated(isAuthenticated);
     };
 
