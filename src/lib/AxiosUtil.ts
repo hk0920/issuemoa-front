@@ -10,7 +10,10 @@ export async function send(
   param: object,
   contentType: string
 ): Promise<any> {
-  console.log("==> [AxiosUtil] API:", url);
+  
+  if (window.location.href.indexOf("issuemoa") < 0) {
+    console.log("==> [AxiosUtil] send(): ", url);
+  }
 
   axios.defaults.headers.common["X-CLIENT-KEY"] =
     "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
