@@ -86,6 +86,7 @@ const Issue = () => {
     const scrollTop = document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
+    //cookie.issue_scrollY = scrollTop;
     if (scrollTop + clientHeight >= scrollHeight - (clientHeight + 100)) {
       debouncedFetchData();
     }
@@ -121,7 +122,7 @@ const Issue = () => {
     fetchData(type);
 
     if (isLoad) {
-      window.scrollTo(0, cookie.issue_scrollY);
+      //window.scrollTo(0, cookie.issue_scrollY);
     }
 
     // 디바운싱된 스크롤 이벤트 리스너 등록
