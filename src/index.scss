@@ -536,6 +536,8 @@ a {
         }
         a,
         button {
+          font-weight: 700;
+          color: #424242;
           border: none;
           background: none;
         }
@@ -556,6 +558,31 @@ a {
         border-color: #424242;
         .image {
           max-width: 100%;
+        }
+      }
+    }
+    .box__detail-option {
+      margin-top: 10px;
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 10px 20px;
+      .box__option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        &:not(:first-child) {
+          margin-top: 10px;
+        }
+        .text__title {
+          font-size: 15px;
+        }
+        .box__select {
+          min-width: 100px;
+          padding: 5px;
+          font-size: 12px;
+          border-radius: 4px;
+          border: 1px solid #e5e5e5;
+          background: #fff;
         }
       }
     }

@@ -33,14 +33,14 @@ export async function getYoutubeList(
 }
 
 export async function getFavoriteList() {
-  return await AxiosUtil.send("GET", `${backendUrl}/board/favorite`, {}, "");
+  return await AxiosUtil.send("GET", `${backendUrl}/board/favorites`, {}, "");
 }
 
 export async function saveFavoriteData(data: Board) {
   return await AxiosUtil.send(
     "POST",
     `${backendUrl}/board/favorites`,
-    { 
+    {
       id: data.id,
       type: data.type,
       title: data.title,

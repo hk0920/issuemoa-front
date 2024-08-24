@@ -5,6 +5,50 @@ import { Cookies } from "react-cookie";
 import { gradeArray } from "./grade";
 import * as AuthApi from "../../api/auth";
 
+interface optionType {
+  title: string;
+  optionList: Array<string>;
+}
+
+const screenData = [
+  {
+    title: "테마",
+    optionList: ["화이트", "블랙"],
+  },
+];
+const soundData = [
+  {
+    title: "음성",
+    optionList: ["여성", "남성"],
+  },
+  {
+    title: "속도",
+    optionList: ["느리게", "보통", "빠르게"],
+  },
+  {
+    title: "언어",
+    optionList: ["한국어", "영어", "일본어"],
+  },
+];
+
+const OptionComponent = (props: any) => {
+  const { title, optionList } = props.data || {};
+  return (
+    <div className="box__option">
+      <p className="text__title">{title}</p>
+      <select name={title} className="box__select">
+        {optionList.map((option: string, idx: number) => {
+          return (
+            <option value={option} key={idx}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+    </div>
+  );
+};
+
 const Setting = () => {
   const [user, setUser] = useState({
     name: "",
@@ -66,9 +110,19 @@ const Setting = () => {
       <ul className="list__setting">
         <li className="list-item">
           <Link to="">화면</Link>
+          <div className="box__detail-option">
+            {screenData.map((data, idx) => {
+              return <OptionComponent data={data} key={idx} />;
+            })}
+          </div>
         </li>
         <li className="list-item">
           <Link to="">음성 및 효과음</Link>
+          <div className="box__detail-option">
+            {soundData.map((data, idx) => {
+              return <OptionComponent data={data} key={idx} />;
+            })}
+          </div>
         </li>
         <li className="list-item">
           <Link to="">학습 리포트</Link>
