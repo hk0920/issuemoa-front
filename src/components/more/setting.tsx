@@ -127,11 +127,13 @@ const Setting = () => {
         <li className="list-item">
           <Link to="">학습 리포트</Link>
         </li>
-        <li className="list-item">
-          <button type="button" onClick={handleLogoutClick}>
-            로그아웃
-          </button>
-        </li>
+        {user.name && (
+          <li className="list-item">
+            <button type="button" onClick={handleLogoutClick}>
+              로그아웃
+            </button>
+          </li>
+        )}
       </ul>
     </Container>
   );
