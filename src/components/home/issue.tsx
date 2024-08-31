@@ -68,7 +68,7 @@ const Issue = () => {
           next = false;
         }
         setBoard((prevBoard) => [...prevBoard, ...response]);
-        setIsLoad(true);
+        // setIsLoad(true);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
