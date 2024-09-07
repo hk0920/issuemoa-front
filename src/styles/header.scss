@@ -19,12 +19,16 @@
     overflow: hidden;
   }
 }
-.logo {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-  text-indent: -999px;
-  background: url("../images/logo3.png") no-repeat 0 50%;
-  background-size: 100% auto;
-  overflow: hidden;
+
+.thema-black {
+  background: var(--themaBlack);
+  .box__header {
+    background: var(--themaBlack);
+    &.sub {
+      border-bottom: 1px solid #444;
+    }
+    .logo {
+      background-image: url("../images/logo-white.png");
+    }
+  }
 }

@@ -18,6 +18,7 @@ import {
 import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
 import Floating from "./components/layouts/floating";
+import classNames from "classnames";
 
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -56,26 +57,37 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 };
 
 function App() {
+  const [thema, setThema] = useState(false);
+  const themaEvent = () => {
+    setThema(!thema);
+  };
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Issue />} />
-        <Route path="/word" element={<Quiz />} />
-        <Route path="/tech" element={<Tech />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/more" element={<More />} />
-        <Route path="/grade" element={<Grade />} />
-        <Route path="/notice" element={<Notice />} />
-        <Route path="/inquiry" element={<Inquiry />} />
-        <Route path="/setting" element={<Setting />} />
-        <Route
-          path="/mypage"
-          element={<PrivateRoute element={<Dashboard />} requiredRole="user" />}
-        />
-      </Routes>
-      <Footer />
-      <Floating />
+      <div id="wrap" className={classNames(thema && "thema-black")}>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Issue />} />
+          <Route path="/word" element={<Quiz />} />
+          <Route path="/tech" element={<Tech />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/more" element={<More thema={thema} />} />
+          <Route path="/grade" element={<Grade />} />
+          <Route path="/notice" element={<Notice />} />
+          <Route path="/inquiry" element={<Inquiry />} />
+          <Route
+            path="/setting"
+            element={<Setting themaEvent={themaEvent} />}
+          />
+          <Route
+            path="/mypage"
+            element={
+              <PrivateRoute element={<Dashboard />} requiredRole="user" />
+            }
+          />
+        </Routes>
+        <Footer thema={thema} />
+        <Floating />
+      </div>
     </BrowserRouter>
   );
 }

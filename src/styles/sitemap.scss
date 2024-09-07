@@ -1,0 +1,30 @@
+.box__sitemap {
+  display: flex;
+  align-items: center;
+  .box__inner {
+    flex: 1;
+  }
+  .list__sitemap {
+    display: flex;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    .list-item {
+      position: relative;
+      width: 25%;
+      margin-bottom: 15px;
+      text-align: center;
+      .icon__badge {
+        position: absolute;
+        top: 0;
+        left: calc(50% - 35px);
+      }
+      .image {
+        width: 35px;
+        height: 35px;
+      }
+      .text {
+        margin-top: 5px;
+      }
+    }
+  }
+}

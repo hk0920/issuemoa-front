@@ -4,17 +4,31 @@ import { Cookies } from "react-cookie";
 import {
   home,
   home_fill,
+  home_thema,
+  home_fill_thema,
   word,
   word_fill,
+  word_thema,
+  word_fill_thema,
   tech,
   tech_fill,
+  tech_thema,
+  tech_fill_thema,
   person,
   person_fill,
+  person_thema,
+  person_fill_thema,
   more,
   more_fill,
+  more_thema,
+  more_fill_thema,
 } from "../../images";
 
-const Footer = () => {
+interface themaType {
+  thema: boolean;
+}
+
+const Footer = ({ thema }: themaType) => {
   const [selected, setSelected] = useState<string | null>(null);
   const navigate = useNavigate();
   const cookies = new Cookies();
@@ -47,7 +61,15 @@ const Footer = () => {
           onClick={() => handleMenuClick("/")}
         >
           <img
-            src={selected === "/" ? home_fill : home}
+            src={
+              selected === "/"
+                ? thema
+                  ? home_fill_thema
+                  : home_fill
+                : thema
+                ? home_thema
+                : home
+            }
             alt="Home"
             className="icon"
           />
@@ -59,7 +81,15 @@ const Footer = () => {
           onClick={() => handleMenuClick("word")}
         >
           <img
-            src={selected === "word" ? word_fill : word}
+            src={
+              selected === "word"
+                ? thema
+                  ? word_fill_thema
+                  : word_fill
+                : thema
+                ? word_thema
+                : word
+            }
             alt="Word"
             className="icon"
           />
@@ -71,7 +101,15 @@ const Footer = () => {
           onClick={() => handleMenuClick("tech")}
         >
           <img
-            src={selected === "tech" ? tech_fill : tech}
+            src={
+              selected === "tech"
+                ? thema
+                  ? tech_fill_thema
+                  : tech_fill
+                : thema
+                ? tech_thema
+                : tech
+            }
             alt="Tech"
             className="icon"
           />
@@ -83,7 +121,15 @@ const Footer = () => {
           onClick={() => handleMenuClick("mypage")}
         >
           <img
-            src={selected === "mypage" ? person_fill : person}
+            src={
+              selected === "mypage"
+                ? thema
+                  ? person_fill_thema
+                  : person_fill
+                : thema
+                ? person_thema
+                : person
+            }
             alt="Person"
             className="icon"
           />
@@ -95,7 +141,15 @@ const Footer = () => {
           onClick={() => handleMenuClick("more")}
         >
           <img
-            src={selected === "more" ? more_fill : more}
+            src={
+              selected === "more"
+                ? thema
+                  ? more_fill_thema
+                  : more_fill
+                : thema
+                ? more_thema
+                : more
+            }
             alt="More"
             className="icon"
           />
