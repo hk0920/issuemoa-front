@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Badge, Tab, Tabs, Card } from "react-bootstrap";
+import { Container, Row, Badge, Tab, Tabs, Card } from "react-bootstrap";
 import * as VocaApi from "../../api/learning";
 import * as BoardApi from "../../api/board";
 import * as InterViewApi from "../../api/learning";
 import { empty } from "../../images";
 import renderCode from "../tech/renderCode";
+
+import "../../styles/mypage.scss";
 
 interface Voca {
   id: number;
@@ -62,13 +64,11 @@ const Dashboard = () => {
 
   const getRetryVoca = async () => {
     const response = await VocaApi.getRetryVocaList(0, 20);
-    // console.log("voca", response.data.list);
     setVocaData(response.list);
   };
 
   const getFavoriteIssue = async () => {
     const response = await BoardApi.getFavoriteList();
-    // console.log("response", response.data);
     setIssueData(response);
   };
 

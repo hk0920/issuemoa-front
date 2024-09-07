@@ -8,6 +8,8 @@ import ComponentTitle from "../common/ComponentTitle";
 import Dialog from "../modal/dialog";
 import renderCode from "./renderCode";
 
+import "../../styles/tech.scss";
+
 interface Interview {
   id: number;
   category: string;

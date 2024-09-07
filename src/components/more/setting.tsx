@@ -5,10 +5,7 @@ import { Cookies } from "react-cookie";
 import { gradeArray } from "./grade";
 import * as AuthApi from "../../api/auth";
 
-interface optionType {
-  title: string;
-  optionList: Array<string>;
-}
+import "../../styles/setting.scss";
 
 const screenData = [
   {
@@ -36,7 +33,7 @@ const OptionComponent = (props: any) => {
   return (
     <div className="box__option">
       <p className="text__title">{title}</p>
-      <select name={title} className="box__select">
+      <select name={title} className="box__select" onChange={props.themaEvent}>
         {optionList.map((option: string, idx: number) => {
           return (
             <option value={option} key={idx}>
@@ -49,7 +46,11 @@ const OptionComponent = (props: any) => {
   );
 };
 
-const Setting = () => {
+interface propsType {
+  themaEvent: Function;
+}
+
+const Setting = (props: propsType) => {
   const [user, setUser] = useState({
     name: "",
     gradeCode: "I",
@@ -112,7 +113,13 @@ const Setting = () => {
           <Link to="">화면</Link>
           <div className="box__detail-option">
             {screenData.map((data, idx) => {
-              return <OptionComponent data={data} key={idx} />;
+              return (
+                <OptionComponent
+                  data={data}
+                  themaEvent={props.themaEvent}
+                  key={idx}
+                />
+              );
             })}
           </div>
         </li>

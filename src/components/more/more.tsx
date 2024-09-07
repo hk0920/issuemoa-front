@@ -3,10 +3,15 @@ import { Container, Badge } from "react-bootstrap";
 import {
   cloud,
   grade,
+  grade_thema,
   notice,
+  notice_thema,
   setting,
+  setting_thema,
   stock,
-  supportCustomer,
+  stock_thema,
+  support_customer,
+  support_customer_thema,
 } from "../../images";
 import { Link } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
@@ -14,7 +19,10 @@ import Dialog from "../modal/dialog";
 import { Cookies } from "react-cookie";
 import { gradeArray } from "./grade";
 
-const More = () => {
+interface themaType {
+  thema: boolean;
+}
+const More = ({ thema }: themaType) => {
   const [user, setUser] = useState({
     name: "",
     gradeCode: "I",
@@ -43,12 +51,42 @@ const More = () => {
   }, []);
 
   const imageItems = [
-    { src: cloud, alt: "cloud", text: "날씨", ready: true },
-    { src: grade, alt: "grade", text: "등급", ready: false },
-    { src: notice, alt: "notice", text: "공지사항", ready: false },
-    { src: supportCustomer, alt: "inquiry", text: "고객문의", ready: false },
-    { src: stock, alt: "stock", text: "주식", ready: true },
-    { src: setting, alt: "setting", text: "설정", ready: false },
+    { src: cloud, alt: "cloud", text: "날씨", ready: true, themaSrc: cloud },
+    {
+      src: grade,
+      alt: "grade",
+      text: "등급",
+      ready: false,
+      themaSrc: grade_thema,
+    },
+    {
+      src: notice,
+      alt: "notice",
+      text: "공지사항",
+      ready: false,
+      themaSrc: notice_thema,
+    },
+    {
+      src: support_customer,
+      alt: "inquiry",
+      text: "고객문의",
+      ready: false,
+      themaSrc: support_customer_thema,
+    },
+    {
+      src: stock,
+      alt: "stock",
+      text: "주식",
+      ready: true,
+      themaSrc: stock_thema,
+    },
+    {
+      src: setting,
+      alt: "setting",
+      text: "설정",
+      ready: false,
+      themaSrc: setting_thema,
+    },
   ];
 
   const closeReadyModal = () => {
@@ -128,7 +166,11 @@ const More = () => {
                       N
                     </Badge>
                   )}
-                  <img src={item.src} alt={item.alt} className="image" />
+                  <img
+                    src={thema ? item.themaSrc : item.src}
+                    alt={item.alt}
+                    className="image"
+                  />
                   <p className="text">{item.text}</p>
                 </Link>
               </li>

@@ -29,4 +29,9 @@ footer {
       }
     }
   }
+
+  .thema-black & {
+    background-color: var(--themaBlack);
+    border-color: var(--themaBlackSub);
+  }
 }

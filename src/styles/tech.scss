@@ -1,0 +1,92 @@
+.page__tech {
+  padding-top: 60px;
+  .box__component-title-wrap {
+    position: relative;
+    padding-top: 30px;
+    .box__select {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      .form__select {
+        display: inline-block;
+        padding: 5px 10px;
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        background: transparent;
+        appearance: none;
+        background: url("../images/icon/icon__arrow.png") no-repeat center right
+          8px / 12px;
+      }
+    }
+    &.fixed {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      width: 100%;
+      padding: 10px 10px;
+      background: #fff;
+      transform: translateX(-50%);
+      border-bottom: 1px solid #e0e0e0;
+      z-index: 10;
+      @media (min-width: 576px) {
+        max-width: 520px;
+        padding: 20px 0;
+      }
+      @media (min-width: 768px) {
+        max-width: 720px;
+      }
+      @media (min-width: 992px) {
+        max-width: 768px;
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 0;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+      .box__component-title {
+        margin-bottom: 0;
+        .text__h2 {
+          margin: 0;
+          font-size: 20px;
+          line-height: 30px;
+        }
+        .text__sub {
+          display: none;
+        }
+      }
+      .box__select {
+        top: 10px;
+        right: 10px;
+        @media (min-width: 768px) {
+          top: 20px;
+        }
+      }
+      & + .accordion {
+        padding-top: 100px;
+      }
+      & + .box__accordion-group {
+        padding-top: 145px;
+      }
+    }
+  }
+
+  .thema-black & {
+    .box__component-title-wrap {
+      .box__select {
+        .form__select {
+          background-color: var(--themaBlack);
+          border-color: var(--themaBlackSub);
+        }
+      }
+      &.fixed {
+        background: var(--themaBlack);
+        border-color: var(--themaBlackSub);
+      }
+    }
+  }
+}
