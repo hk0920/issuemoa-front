@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import dataReducer from './boardSlice';
+import boardReducer from './boardSlice';
 
 const store = configureStore({
   reducer: {
-    data: dataReducer,
+    board: boardReducer,
   },
 });
 

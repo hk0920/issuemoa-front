@@ -1,32 +1,51 @@
-// src/dataSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Board } from '../types/board';
 
-interface DataState {
-  board: Board[];
+interface BoardState {
+  data: any[];
+  parameters: {
+    skip: number;
+    limit: number;
+    type: string;
+  };
+  loading: boolean;
+  error: string | null;
 }
 
-const initialState: DataState = {
-  board: [],
+const initialState: BoardState = {
+  data: [],
+  parameters: {
+    skip: 1,
+    limit: 100,
+    type: 'news',
+  },
+  loading: false,
+  error: null,
 };
 
-const dataSlice = createSlice({
-  name: 'data',
+const boardSlice = createSlice({
+  name: 'board',
   initialState,
   reducers: {
-    setBoard(state, action: PayloadAction<Board[]>) {
-      state.board = action.payload;
+    setBoardData: (state, action: PayloadAction<any[]>) => {
+      state.data = action.payload;
     },
-    clearBoard(state) {
-      state.board = [];
+    setParameters: (state, action: PayloadAction<Partial<BoardState['parameters']>>) => {
+      state.parameters = { ...state.parameters, ...action.payload };
     },
-    appendBoard(state, action: PayloadAction<Board[]>) {
-      // 기존의 상태에 새로운 데이터를 추가합니다.
-      state.board = [...state.board, ...action.payload];
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
     },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload;
+    },
+    // 데이터를 추가하는 경우의 예시
+    addBoardData: (state, action: PayloadAction<any[]>) => {
+      state.data = [...state.data, ...action.payload];
+    },
+    // 기타 리듀서 정의
   },
 });
 
-export const { setBoard, clearBoard, appendBoard } = dataSlice.actions;
+export const { setBoardData, setParameters, setLoading, setError, addBoardData } = boardSlice.actions;
 
-export default dataSlice.reducer;
+export default boardSlice.reducer;
