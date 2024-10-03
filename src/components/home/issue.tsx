@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Container, Tab, Tabs, Card } from "react-bootstrap";
@@ -6,27 +6,22 @@ import { debounce } from "lodash";
 import { Dialog, Player } from "../index";
 import { empty } from "../../images";
 import * as BoardApi from "../../api/board";
-
-interface Board {
-  id: string;
-  type: string;
-  title: string;
-  contents: string;
-  url: string;
-  thumbnail: string;
-}
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setBoard, appendBoard } from '../../redux/boardSlice';
+import { Board } from '../../types/board';
 
 interface propsTypes {
   isFixed: boolean;
 }
 
+let next = false;
+let currentSkip = 0;
 const Issue = () => {
   const [isLoad, setIsLoad] = useState(false);
-  let next = false;
   const [type, setType] = useState<string>("news");
   const [skip, setSkip] = useState<number>(0);
   const [limit, setLimit] = useState<number>(100);
-  const [board, setBoard] = useState<Board[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
@@ -36,6 +31,8 @@ const Issue = () => {
   ]);
   const [isAlertModal, setIsAlertModal] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const board = useSelector((state: RootState) => state.data.board);
 
   const handleOpenModal = (url: string) => {
     setModalContext(url);
@@ -67,7 +64,11 @@ const Issue = () => {
         } else {
           next = false;
         }
-        setBoard((prevBoard) => [...prevBoard, ...response]);
+        //setBoard((prevBoard) => [...prevBoard, ...response]);
+
+        // Redux 상태에 데이터를 저장합니다.
+        dispatch(appendBoard(response));
+
         // setIsLoad(true);
       }
     } catch (error) {
@@ -78,7 +79,7 @@ const Issue = () => {
   // 디바운싱과 쓰로틀링은 함수 호출의 빈도를 제어하여 과도한 호출을 방지합니다. 간단하게는 lodash 라이브러리의 debounce 함수를 사용할 수 있습니다.
   const debouncedFetchData = debounce(() => {
     if (next) {
-      setSkip((prevSkip) => prevSkip + 1);
+      setSkip((prevSkip) => prevSkip + 1);  
     }
   }, 0);
 
@@ -110,7 +111,7 @@ const Issue = () => {
     navigate("/login");
   };
 
-  async function saveFavorite(data: Board) {
+  const saveFavorite = async(data: Board) => {
     const result = await BoardApi.saveFavoriteData(data);
     if (result) {
       fetchData(type);
@@ -119,7 +120,10 @@ const Issue = () => {
   }
 
   useEffect(() => {
-    fetchData(type);
+    if (board.length === 0 || currentSkip != skip) {
+      currentSkip = skip;
+      fetchData(type);
+    }
 
     if (isLoad) {
       //window.scrollTo(0, cookie.issue_scrollY);

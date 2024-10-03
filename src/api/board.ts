@@ -1,15 +1,7 @@
 import * as AxiosUtil from "../lib/AxiosUtil";
+import { Board } from '../types/board';
 
 const backendUrl = "/backend";
-
-interface Board {
-  id: string;
-  type: string;
-  title: string;
-  contents: string;
-  url: string;
-  thumbnail: string;
-}
 
 export async function getNewsList(skip: number, limit: number): Promise<any> {
   return await AxiosUtil.send(
