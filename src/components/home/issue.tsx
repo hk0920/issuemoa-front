@@ -1,32 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { Container, Tab, Tabs, Card } from "react-bootstrap";
 import { debounce } from "lodash";
 import { Dialog, Player } from "../index";
 import { empty } from "../../images";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setBoardData, setParameters, setLoading, setError, addBoardData } from '../../redux/boardSlice';
+import { Board } from '../../types/board';
 import * as BoardApi from "../../api/board";
 
-interface Board {
-  id: string;
-  type: string;
-  title: string;
-  contents: string;
-  url: string;
-  thumbnail: string;
-}
-
-interface propsTypes {
-  isFixed: boolean;
-}
-
+let next = false;
+let currentSkip = 0;
 const Issue = () => {
   const [isLoad, setIsLoad] = useState(false);
-  let next = false;
-  const [type, setType] = useState<string>("news");
-  const [skip, setSkip] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(100);
-  const [board, setBoard] = useState<Board[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
@@ -36,6 +24,11 @@ const Issue = () => {
   ]);
   const [isAlertModal, setIsAlertModal] = useState(false);
   const navigate = useNavigate();
+
+  // redux
+  const dispatch = useDispatch();
+  const { skip, limit, type } = useSelector((state: RootState) => state.board.parameters);
+  const board = useSelector((state: RootState) => state.board.data);
 
   const handleOpenModal = (url: string) => {
     setModalContext(url);
@@ -47,14 +40,15 @@ const Issue = () => {
   };
 
   const changeType = async (type: string) => {
-    setType(type);
-    setSkip(0);
-    setBoard([]);
+    dispatch(setParameters({ skip: 0, type: type}));
+    dispatch(setBoardData([]));
   };
 
   const fetchData = async (type: string) => {
     try {
       let response: any;
+      dispatch(setParameters({ skip: skip, type: type}));
+
       if (type === "news") {
         response = await BoardApi.getNewsList(skip, limit);
       } else if (type === "youtube") {
@@ -67,18 +61,19 @@ const Issue = () => {
         } else {
           next = false;
         }
-        setBoard((prevBoard) => [...prevBoard, ...response]);
-        // setIsLoad(true);
+
+        // Redux 상태에 데이터를 저장
+        dispatch(addBoardData(response));
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  // 디바운싱과 쓰로틀링은 함수 호출의 빈도를 제어하여 과도한 호출을 방지합니다. 간단하게는 lodash 라이브러리의 debounce 함수를 사용할 수 있습니다.
+  // 디바운싱과 쓰로틀링은 함수 호출의 빈도를 제어하여 과도한 호출을 방지
   const debouncedFetchData = debounce(() => {
     if (next) {
-      setSkip((prevSkip) => prevSkip + 1);
+      dispatch(setParameters({ skip: skip+1 }))
     }
   }, 0);
 
@@ -86,7 +81,6 @@ const Issue = () => {
     const scrollTop = document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
-    //cookie.issue_scrollY = scrollTop;
     if (scrollTop + clientHeight >= scrollHeight - (clientHeight + 100)) {
       debouncedFetchData();
     }
@@ -110,7 +104,7 @@ const Issue = () => {
     navigate("/login");
   };
 
-  async function saveFavorite(data: Board) {
+  const saveFavorite = async(data: Board) => {
     const result = await BoardApi.saveFavoriteData(data);
     if (result) {
       fetchData(type);
@@ -119,7 +113,10 @@ const Issue = () => {
   }
 
   useEffect(() => {
-    fetchData(type);
+    if (board.length === 0 || currentSkip != skip) {
+      currentSkip = skip;
+      fetchData(type);
+    }
 
     if (isLoad) {
       //window.scrollTo(0, cookie.issue_scrollY);
@@ -132,7 +129,7 @@ const Issue = () => {
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [skip, type, isLoad]); // skip 값이 변경될 때만 실행
+  }, [dispatch, skip, type, isLoad]); // skip 값이 변경될 때만 실행
 
   return (
     <Container className="box__issue">
