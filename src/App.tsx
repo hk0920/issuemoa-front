@@ -19,6 +19,7 @@ import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
 import Floating from "./components/layouts/floating";
 import classNames from "classnames";
+import { Cookies } from "react-cookie";
 
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -57,26 +58,34 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 };
 
 function App() {
-  const [thema, setThema] = useState(false);
-  const themaEvent = () => {
-    setThema(!thema);
+  const cookies = new Cookies();
+  const [theme, setTheme] = useState(cookies.get("theme"));
+  const themeEvent = () => {
+    if (theme === "W") {
+      setTheme("D");
+    } else {
+      setTheme("W");
+    }
   };
+  useEffect(() => {
+    AuthApi.settingTheme();
+  }, [theme]);
   return (
     <BrowserRouter>
-      <div id="wrap" className={classNames(thema && "thema-black")}>
+      <div id="wrap" className={classNames(theme && "theme-black")}>
         <Header />
         <Routes>
           <Route path="/" element={<Issue />} />
           <Route path="/word" element={<Quiz />} />
           <Route path="/tech" element={<Tech />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/more" element={<More thema={thema} />} />
+          <Route path="/more" element={<More theme={theme} />} />
           <Route path="/grade" element={<Grade />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/inquiry" element={<Inquiry />} />
           <Route
             path="/setting"
-            element={<Setting themaEvent={themaEvent} />}
+            element={<Setting theme={theme} themeEvent={themeEvent} />}
           />
           <Route
             path="/mypage"
@@ -85,7 +94,7 @@ function App() {
             }
           />
         </Routes>
-        <Footer thema={thema} />
+        <Footer theme={theme} />
         <Floating />
       </div>
     </BrowserRouter>

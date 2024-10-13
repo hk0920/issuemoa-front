@@ -4,31 +4,31 @@ import { Cookies } from "react-cookie";
 import {
   home,
   home_fill,
-  home_thema,
-  home_fill_thema,
+  home_theme,
+  home_fill_theme,
   word,
   word_fill,
-  word_thema,
-  word_fill_thema,
+  word_theme,
+  word_fill_theme,
   tech,
   tech_fill,
-  tech_thema,
-  tech_fill_thema,
+  tech_theme,
+  tech_fill_theme,
   person,
   person_fill,
-  person_thema,
-  person_fill_thema,
+  person_theme,
+  person_fill_theme,
   more,
   more_fill,
-  more_thema,
-  more_fill_thema,
+  more_theme,
+  more_fill_theme,
 } from "../../images";
 
-interface themaType {
-  thema: boolean;
+interface themeType {
+  theme: boolean;
 }
 
-const Footer = ({ thema }: themaType) => {
+const Footer = ({ theme }: themeType) => {
   const [selected, setSelected] = useState<string | null>(null);
   const navigate = useNavigate();
   const cookies = new Cookies();
@@ -63,11 +63,11 @@ const Footer = ({ thema }: themaType) => {
           <img
             src={
               selected === "/"
-                ? thema
-                  ? home_fill_thema
+                ? theme
+                  ? home_fill_theme
                   : home_fill
-                : thema
-                ? home_thema
+                : theme
+                ? home_theme
                 : home
             }
             alt="Home"
@@ -83,11 +83,11 @@ const Footer = ({ thema }: themaType) => {
           <img
             src={
               selected === "word"
-                ? thema
-                  ? word_fill_thema
+                ? theme
+                  ? word_fill_theme
                   : word_fill
-                : thema
-                ? word_thema
+                : theme
+                ? word_theme
                 : word
             }
             alt="Word"
@@ -103,11 +103,11 @@ const Footer = ({ thema }: themaType) => {
           <img
             src={
               selected === "tech"
-                ? thema
-                  ? tech_fill_thema
+                ? theme
+                  ? tech_fill_theme
                   : tech_fill
-                : thema
-                ? tech_thema
+                : theme
+                ? tech_theme
                 : tech
             }
             alt="Tech"
@@ -123,11 +123,11 @@ const Footer = ({ thema }: themaType) => {
           <img
             src={
               selected === "mypage"
-                ? thema
-                  ? person_fill_thema
+                ? theme
+                  ? person_fill_theme
                   : person_fill
-                : thema
-                ? person_thema
+                : theme
+                ? person_theme
                 : person
             }
             alt="Person"
@@ -143,11 +143,11 @@ const Footer = ({ thema }: themaType) => {
           <img
             src={
               selected === "more"
-                ? thema
-                  ? more_fill_thema
+                ? theme
+                  ? more_fill_theme
                   : more_fill
-                : thema
-                ? more_thema
+                : theme
+                ? more_theme
                 : more
             }
             alt="More"

@@ -71,26 +71,26 @@
       }
     }
   }
-  .thema-black & {
+  .theme-black & {
     .list__setting {
       .list-item {
         & + .list-item {
-          border-color: var(--themaBlackSub);
+          border-color: var(--themeBlackSub);
         }
         a,
         button {
-          color: var(--themaBlackColor);
+          color: var(--themeBlackColor);
         }
       }
     }
     .box__user {
-      background: var(--themaBlackSub);
+      background: var(--themeBlackSub);
     }
     .box__detail-option {
-      background: var(--themaBlackSub);
+      background: var(--themeBlackSub);
       .box__option {
         .box__select {
-          background: var(--themaBlackSub);
+          background: var(--themeBlackSub);
         }
       }
     }

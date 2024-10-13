@@ -75,17 +75,17 @@
     }
   }
 
-  .thema-black & {
+  .theme-black & {
     .box__component-title-wrap {
       .box__select {
         .form__select {
-          background-color: var(--themaBlack);
-          border-color: var(--themaBlackSub);
+          background-color: var(--themeBlack);
+          border-color: var(--themeBlackSub);
         }
       }
       &.fixed {
-        background: var(--themaBlack);
-        border-color: var(--themaBlackSub);
+        background: var(--themeBlack);
+        border-color: var(--themeBlackSub);
       }
     }
   }

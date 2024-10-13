@@ -26,21 +26,21 @@
       display: flex;
     }
   }
-  .thema-black & {
+  .theme-black & {
     .box__tab {
-      background-color: var(--themaBlack);
-      border-color: var(--themaBlackSub);
+      background-color: var(--themeBlack);
+      border-color: var(--themeBlackSub);
       .nav-link {
         &.active {
           font-weight: bold;
           background-color: rgba(255, 255, 255, 0.8);
-          border-color: var(--themaBlackSub);
+          border-color: var(--themeBlackSub);
         }
       }
     }
     .card {
-      background: var(--themaBlack);
-      border-color: var(--themaBlackSub);
+      background: var(--themeBlack);
+      border-color: var(--themeBlackSub);
     }
   }
 }
