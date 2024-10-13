@@ -7,37 +7,17 @@ import * as AuthApi from "../../api/auth";
 
 import "../../styles/setting.scss";
 
-const screenData = [
-  {
-    title: "테마",
-    optionList: ["화이트", "블랙"],
-  },
-];
-const soundData = [
-  {
-    title: "음성",
-    optionList: ["여성", "남성"],
-  },
-  {
-    title: "속도",
-    optionList: ["느리게", "보통", "빠르게"],
-  },
-  {
-    title: "언어",
-    optionList: ["한국어", "영어", "일본어"],
-  },
-];
-
 const OptionComponent = (props: any) => {
   const { title, optionList } = props.data || {};
+
   return (
     <div className="box__option">
       <p className="text__title">{title}</p>
-      <select name={title} className="box__select" onChange={props.themaEvent}>
-        {optionList.map((option: string, idx: number) => {
+      <select name={title} className="box__select" onChange={props.themeEvent}>
+        {optionList.map((option: any, idx: number) => {
           return (
-            <option value={option} key={idx}>
-              {option}
+            <option value={option.code} key={idx} selected={option.active}>
+              {option.name}
             </option>
           );
         })}
@@ -47,7 +27,8 @@ const OptionComponent = (props: any) => {
 };
 
 interface propsType {
-  themaEvent: Function;
+  theme: boolean;
+  themeEvent: Function;
 }
 
 const Setting = (props: propsType) => {
@@ -112,11 +93,11 @@ const Setting = (props: propsType) => {
         <li className="list-item">
           <Link to="">화면</Link>
           <div className="box__detail-option">
-            {screenData.map((data, idx) => {
+            {AuthApi.settingData.screen.map((data, idx) => {
               return (
                 <OptionComponent
                   data={data}
-                  themaEvent={props.themaEvent}
+                  themeEvent={props.themeEvent}
                   key={idx}
                 />
               );
@@ -126,7 +107,7 @@ const Setting = (props: propsType) => {
         <li className="list-item">
           <Link to="">음성 및 효과음</Link>
           <div className="box__detail-option">
-            {soundData.map((data, idx) => {
+            {AuthApi.settingData.voice.map((data, idx) => {
               return <OptionComponent data={data} key={idx} />;
             })}
           </div>

@@ -11,9 +11,9 @@
   --fontSize: 12px;
   --fontColor: #424242;
   --maxWidth: 768px;
-  --themaBlack: #222;
-  --themaBlackSub: #444;
-  --themaBlackColor: #fff;
+  --themeBlack: #222;
+  --themeBlackSub: #444;
+  --themeBlackColor: #fff;
 }
 body {
   margin: 0;
@@ -80,10 +80,10 @@ a {
         transform: rotate(180deg);
       }
     }
-    .thema-black & {
-      background: var(--themaBlack);
+    .theme-black & {
+      background: var(--themeBlack);
       .text {
-        color: var(--themaBlackColor);
+        color: var(--themeBlackColor);
       }
     }
   }
@@ -120,8 +120,8 @@ a {
   padding: 10px;
   margin-top: 15px;
   background-color: #f8f9fa;
-  .thema-black & {
-    background-color: var(--themaBlackSub);
+  .theme-black & {
+    background-color: var(--themeBlackSub);
   }
 }
 .box__user {
@@ -207,8 +207,8 @@ a {
       border: none;
       transform: translateY(-50%);
 
-      .thema-black & {
-        background-image: url("./images/icon/prev_thema.png");
+      .theme-black & {
+        background-image: url("./images/icon/prev_theme.png");
       }
     }
     .button__listen {
@@ -223,8 +223,8 @@ a {
       border: none;
       transform: translateY(-50%);
 
-      .thema-black & {
-        background-image: url("./images/icon/icon__listen_thema.png");
+      .theme-black & {
+        background-image: url("./images/icon/icon__listen_theme.png");
       }
     }
     .text__word {
@@ -338,30 +338,30 @@ a {
     }
   }
 
-  .thema-black & {
-    border-color: var(--themaBlackSub);
+  .theme-black & {
+    border-color: var(--themeBlackSub);
     .box__accordion-title {
       .button__accordion {
-        color: var(--themaBlackColor);
+        color: var(--themeBlackColor);
         &:after {
-          background-image: url("./images/icon/icon__button-arrow_thema.png");
+          background-image: url("./images/icon/icon__button-arrow_theme.png");
         }
       }
       .button__favorite:after {
-        background-color: var(--themaBlack);
-        border-color: var(--themaBlackSub);
+        background-color: var(--themeBlack);
+        border-color: var(--themeBlackSub);
       }
     }
     .box__accordion-content {
-      border-color: var(--themaBlackSub);
-      background: var(--themaBlackSub);
+      border-color: var(--themeBlackSub);
+      background: var(--themeBlackSub);
     }
   }
 }
 
-.thema-black {
-  background: var(--themaBlack);
+.theme-black {
+  background: var(--themeBlack);
   * {
-    color: var(--themaBlackColor);
+    color: var(--themeBlackColor);
   }
 }

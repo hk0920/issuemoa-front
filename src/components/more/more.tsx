@@ -3,15 +3,15 @@ import { Container, Badge } from "react-bootstrap";
 import {
   cloud,
   grade,
-  grade_thema,
+  grade_theme,
   notice,
-  notice_thema,
+  notice_theme,
   setting,
-  setting_thema,
+  setting_theme,
   stock,
-  stock_thema,
+  stock_theme,
   support_customer,
-  support_customer_thema,
+  support_customer_theme,
 } from "../../images";
 import { Link } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
@@ -19,10 +19,10 @@ import Dialog from "../modal/dialog";
 import { Cookies } from "react-cookie";
 import { gradeArray } from "./grade";
 
-interface themaType {
-  thema: boolean;
+interface themeType {
+  theme: boolean;
 }
-const More = ({ thema }: themaType) => {
+const More = ({ theme }: themeType) => {
   const [user, setUser] = useState({
     name: "",
     gradeCode: "I",
@@ -51,41 +51,41 @@ const More = ({ thema }: themaType) => {
   }, []);
 
   const imageItems = [
-    { src: cloud, alt: "cloud", text: "날씨", ready: true, themaSrc: cloud },
+    { src: cloud, alt: "cloud", text: "날씨", ready: true, themeSrc: cloud },
     {
       src: grade,
       alt: "grade",
       text: "등급",
       ready: false,
-      themaSrc: grade_thema,
+      themeSrc: grade_theme,
     },
     {
       src: notice,
       alt: "notice",
       text: "공지사항",
       ready: false,
-      themaSrc: notice_thema,
+      themeSrc: notice_theme,
     },
     {
       src: support_customer,
       alt: "inquiry",
       text: "고객문의",
       ready: false,
-      themaSrc: support_customer_thema,
+      themeSrc: support_customer_theme,
     },
     {
       src: stock,
       alt: "stock",
       text: "주식",
       ready: true,
-      themaSrc: stock_thema,
+      themeSrc: stock_theme,
     },
     {
       src: setting,
       alt: "setting",
       text: "설정",
       ready: false,
-      themaSrc: setting_thema,
+      themeSrc: setting_theme,
     },
   ];
 
@@ -167,7 +167,7 @@ const More = ({ thema }: themaType) => {
                     </Badge>
                   )}
                   <img
-                    src={thema ? item.themaSrc : item.src}
+                    src={theme ? item.themeSrc : item.src}
                     alt={item.alt}
                     className="image"
                   />

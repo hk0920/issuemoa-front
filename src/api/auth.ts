@@ -88,3 +88,73 @@ export async function getGradeCode(): Promise<string> {
   await authInit();
   return gradeCode;
 }
+
+export const settingData = {
+  screen: [
+    {
+      title: "테마",
+      optionList: [
+        {
+          code: "W",
+          name: "화이트",
+        },
+        {
+          code: "D",
+          name: "다크",
+        },
+      ],
+    },
+  ],
+  voice: [
+    {
+      title: "음성",
+      optionList: [
+        {
+          code: "W",
+          name: "여성",
+        },
+        {
+          code: "M",
+          name: "남성",
+        },
+      ],
+    },
+    {
+      title: "속도",
+      optionList: [
+        {
+          code: "S",
+          name: "느리게",
+        },
+        {
+          code: "N",
+          name: "보통",
+        },
+        {
+          code: "F",
+          name: "빠르게",
+        },
+      ],
+    },
+    {
+      title: "언어",
+      optionList: [
+        {
+          code: "KR",
+          name: "한국어",
+        },
+        {
+          code: "EN",
+          name: "영어",
+        },
+      ],
+    },
+  ],
+};
+
+export async function settingTheme() {
+  cookies.set("theme", settingData.screen[0].optionList[0].code);
+  cookies.set("voice", "W");
+  cookies.set("speed", "N");
+  cookies.set("lang", "KR");
+}
