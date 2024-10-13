@@ -5,10 +5,16 @@ import { Container, Tab, Tabs, Card } from "react-bootstrap";
 import { debounce } from "lodash";
 import { Dialog, Player } from "../index";
 import { empty } from "../../images";
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { setBoardData, setParameters, setLoading, setError, addBoardData } from '../../redux/boardSlice';
-import { Board } from '../../types/board';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
+import {
+  setBoardData,
+  setParameters,
+  setLoading,
+  setError,
+  addBoardData,
+} from "../../redux/boardSlice";
+import { Board } from "../../types/board";
 import * as BoardApi from "../../api/board";
 
 let next = false;
@@ -27,7 +33,9 @@ const Issue = () => {
 
   // redux
   const dispatch = useDispatch();
-  const { skip, limit, type } = useSelector((state: RootState) => state.board.parameters);
+  const { skip, limit, type } = useSelector(
+    (state: RootState) => state.board.parameters
+  );
   const board = useSelector((state: RootState) => state.board.data);
 
   const handleOpenModal = (url: string) => {
@@ -40,14 +48,14 @@ const Issue = () => {
   };
 
   const changeType = async (type: string) => {
-    dispatch(setParameters({ skip: 0, type: type}));
+    dispatch(setParameters({ skip: 0, type: type }));
     dispatch(setBoardData([]));
   };
 
   const fetchData = async (type: string) => {
     try {
       let response: any;
-      dispatch(setParameters({ skip: skip, type: type}));
+      dispatch(setParameters({ skip: skip, type: type }));
 
       if (type === "news") {
         response = await BoardApi.getNewsList(skip, limit);
@@ -73,9 +81,9 @@ const Issue = () => {
   // 디바운싱과 쓰로틀링은 함수 호출의 빈도를 제어하여 과도한 호출을 방지
   const debouncedFetchData = debounce(() => {
     if (next) {
-      dispatch(setParameters({ skip: skip+1 }))
+      dispatch(setParameters({ skip: skip + 1 }));
     }
-  }, 0);
+  }, 100);
 
   const scrollHandler = () => {
     const scrollTop = document.documentElement.scrollTop;
@@ -84,6 +92,7 @@ const Issue = () => {
     if (scrollTop + clientHeight >= scrollHeight - (clientHeight + 100)) {
       debouncedFetchData();
     }
+    console.log("???");
   };
 
   const favoriteHandler = (target: HTMLElement, data: Board) => {
@@ -104,16 +113,16 @@ const Issue = () => {
     navigate("/login");
   };
 
-  const saveFavorite = async(data: Board) => {
+  const saveFavorite = async (data: Board) => {
     const result = await BoardApi.saveFavoriteData(data);
     if (result) {
       fetchData(type);
     } else {
     }
-  }
+  };
 
   useEffect(() => {
-    if (board.length === 0 || currentSkip != skip) {
+    if (board.length === 0 || currentSkip !== skip) {
       currentSkip = skip;
       fetchData(type);
     }
@@ -129,7 +138,7 @@ const Issue = () => {
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [dispatch, skip, type, isLoad]); // skip 값이 변경될 때만 실행
+  }, [dispatch, skip, type]); // skip 값이 변경될 때만 실행
 
   return (
     <Container className="box__issue">
