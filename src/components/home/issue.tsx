@@ -16,6 +16,7 @@ import {
 } from "../../redux/boardSlice";
 import { Board } from "../../types/board";
 import * as BoardApi from "../../api/board";
+import KeywordFilter from "./KeywordFilter";
 
 let next = false;
 let currentSkip = 0;
@@ -149,72 +150,79 @@ const Issue = () => {
         context={modalContext}
       />
       <div className="box__inner">
-        <Tabs
-          defaultActiveKey="news"
-          id="justify-tab-example"
-          className="box__tab"
-          onSelect={(key) => {
-            if (key === "news") {
-              changeType(key);
-            } else if (key === "youtube") {
-              changeType(key);
-            }
-          }}
-        >
-          <Tab eventKey="news" title="뉴스" className="box__card-wrap">
-            {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card-issue">
-                <a
-                  href={data.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link"
-                >
-                  <Card.Img
-                    src={data.thumbnail ? data.thumbnail : empty}
-                    className="box__thumb"
-                  />
-                  <Card.Body className="box__text">
-                    <Card.Text className="text__title">{data.title}</Card.Text>
-                  </Card.Body>
-                </a>
-                <button
-                  type="button"
-                  className="button__favorite"
-                  onClick={(e) => favoriteHandler(e.currentTarget, data)}
-                >
-                  <span className="for-a11y">관심목록 추가</span>
-                </button>
-              </Card>
-            ))}
-          </Tab>
-          <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
-            {board.map((data, rowIndex) => (
-              <Card key={rowIndex} className="box__card-issue">
-                <button
-                  type="button"
-                  className="link"
-                  onClick={() => handleOpenModal(data.url)}
-                >
-                  <Card.Img
-                    src={data.thumbnail ? data.thumbnail : empty}
-                    className="box__thumb"
-                  />
-                  <Card.Body className="box__text">
-                    <Card.Text className="text__title">{data.title}</Card.Text>
-                  </Card.Body>
-                </button>
-                <button
-                  type="button"
-                  className="button__favorite"
-                  onClick={(e) => favoriteHandler(e.currentTarget, data)}
-                >
-                  <span className="for-a11y">관심목록 추가</span>
-                </button>
-              </Card>
-            ))}
-          </Tab>
-        </Tabs>
+        <KeywordFilter />
+        <div className="box__tab-container">
+          <Tabs
+            defaultActiveKey="news"
+            id="justify-tab-example"
+            className="box__tab"
+            onSelect={(key) => {
+              if (key === "news") {
+                changeType(key);
+              } else if (key === "youtube") {
+                changeType(key);
+              }
+            }}
+          >
+            <Tab eventKey="news" title="뉴스" className="box__card-wrap">
+              {board.map((data, rowIndex) => (
+                <Card key={rowIndex} className="box__card-issue">
+                  <a
+                    href={data.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="link"
+                  >
+                    <Card.Img
+                      src={data.thumbnail ? data.thumbnail : empty}
+                      className="box__thumb"
+                    />
+                    <Card.Body className="box__text">
+                      <Card.Text className="text__title">
+                        {data.title}
+                      </Card.Text>
+                    </Card.Body>
+                  </a>
+                  <button
+                    type="button"
+                    className="button__favorite"
+                    onClick={(e) => favoriteHandler(e.currentTarget, data)}
+                  >
+                    <span className="for-a11y">관심목록 추가</span>
+                  </button>
+                </Card>
+              ))}
+            </Tab>
+            <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
+              {board.map((data, rowIndex) => (
+                <Card key={rowIndex} className="box__card-issue">
+                  <button
+                    type="button"
+                    className="link"
+                    onClick={() => handleOpenModal(data.url)}
+                  >
+                    <Card.Img
+                      src={data.thumbnail ? data.thumbnail : empty}
+                      className="box__thumb"
+                    />
+                    <Card.Body className="box__text">
+                      <Card.Text className="text__title">
+                        {data.title}
+                      </Card.Text>
+                    </Card.Body>
+                  </button>
+                  <button
+                    type="button"
+                    className="button__favorite"
+                    onClick={(e) => favoriteHandler(e.currentTarget, data)}
+                  >
+                    <span className="for-a11y">관심목록 추가</span>
+                  </button>
+                </Card>
+              ))}
+            </Tab>
+          </Tabs>
+        </div>
       </div>
 
       <Dialog

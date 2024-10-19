@@ -13,7 +13,11 @@ const OptionComponent = (props: any) => {
   return (
     <div className="box__option">
       <p className="text__title">{title}</p>
-      <select name={title} className="box__select" onChange={props.themeEvent}>
+      <select
+        name={title}
+        className="box__select"
+        onChange={() => props.themeEvent}
+      >
         {optionList.map((option: any, idx: number) => {
           return (
             <option value={option.code} key={idx} selected={option.active}>
