@@ -1,5 +1,5 @@
 import * as AxiosUtil from "../lib/AxiosUtil";
-import { Board } from '../types/board';
+import { Board } from "../types/board";
 
 const backendUrl = "/backend";
 
@@ -41,5 +41,14 @@ export async function saveFavoriteData(data: Board) {
       thumbnail: data.thumbnail,
     },
     "json"
+  );
+}
+
+export async function getKeywordData(minusday: number): Promise<any> {
+  return await AxiosUtil.send(
+    "GET",
+    `${backendUrl}/keyword`,
+    { minusDay: minusday },
+    ""
   );
 }

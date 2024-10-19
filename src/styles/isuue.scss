@@ -1,6 +1,10 @@
 .box__issue {
   position: relative;
   padding-top: 60px;
+  .box__tab-container {
+    position: relative;
+    z-index: 0;
+  }
   .box__tab {
     position: fixed;
     top: 60px;
@@ -49,6 +53,7 @@
   width: 100%;
   margin-bottom: 5px;
   .link {
+    position: relative;
     display: flex;
     width: 100%;
     padding-right: 40px;
@@ -56,6 +61,7 @@
     background: transparent;
     flex-direction: row;
     align-items: center;
+    z-index: 0;
   }
   @media all and (min-width: 450px) {
     width: calc(50% - 8px);
@@ -114,6 +120,82 @@
       }
       100% {
         transform: translate(-50%, -50%) scale(1);
+      }
+    }
+  }
+}
+.box__keyword-filter {
+  position: fixed;
+  top: 60px;
+  right: 16px;
+  width: 100px;
+  padding: 5px 0;
+  z-index: 110;
+  .box__dimmed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  .list__keyword {
+    position: relative;
+    padding: 0 10px;
+    height: 26px;
+    background-color: rgba(66, 66, 66, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 10;
+    .swiper-slide {
+      font-size: var(--fontSize);
+      line-height: 26px;
+    }
+    .text__rank {
+      position: relative;
+      margin-right: 12px;
+      opacity: 0.4;
+      &:after {
+        content: "";
+        position: absolute;
+        top: calc(50% - 5px);
+        right: -7px;
+        display: block;
+        width: 1px;
+        height: 10px;
+        background: var(--fontColor);
+      }
+    }
+    .text {
+      font-weight: bold;
+    }
+  }
+  &.box__keyword-filter--active {
+    .list__keyword {
+      position: relative;
+      height: 100%;
+      padding: 5px 10px;
+      background-color: rgba(66, 66, 66, 0.7);
+      z-index: 10;
+    }
+    .box__dimmed {
+      display: block;
+    }
+  }
+  .theme-black & {
+    .list__keyword {
+      background-color: rgba(255, 255, 255, 0.1);
+      .text__rank {
+        &:after {
+          background: var(--themeBlackColor);
+        }
+      }
+    }
+
+    &.box__keyword-filter--active {
+      .list__keyword {
+        background-color: rgba(89, 89, 89, 0.98);
       }
     }
   }
