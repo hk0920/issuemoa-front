@@ -16,10 +16,13 @@ interface keywordProps {
 const KeywordFilter = () => {
   const [keywords, setKeywords] = useState<keywordProps[]>([]);
   const [isExpand, setExpend] = useState(false);
+  const [selectKeyword, setSelectKeyword] = useState<keywordProps>();
+  const [selectIndex, setSelectIndex] = useState<number>(0);
 
   const fetchData = async (type: number) => {
     let response = await getKeywordData(1);
     setKeywords(response);
+    setSelectKeyword(response[0]);
   };
 
   useEffect(() => {
@@ -34,26 +37,26 @@ const KeywordFilter = () => {
       )}
     >
       <h2 className="for-a11y">인기 키워드</h2>
-      <Swiper
-        className={"list__keyword"}
-        modules={[Autoplay]}
-        slidesPerView={"auto"}
-        autoplay={true}
-        direction={"vertical"}
-        onClick={() => {
-          setExpend(!isExpand);
-          return false;
-        }}
-      >
+      {keywords && selectKeyword && (
+        <button
+          type="button"
+          className="button__keyword"
+          onClick={(e) => setExpend(true)}
+        >
+          <span className="text__rank">{selectIndex + 1}</span>
+          <span className="text">{selectKeyword.keyword}</span>
+        </button>
+      )}
+      <ul className="list__keyword">
         {keywords.map((item, index) => {
           return (
-            <SwiperSlide key={item.id}>
+            <li key={item.id} className="list-item">
               <span className="text__rank">{index + 1}</span>
               <span className="text"> {item.keyword}</span>
-            </SwiperSlide>
+            </li>
           );
         })}
-      </Swiper>
+      </ul>
       <span className="box__dimmed" onClick={(e) => setExpend(false)}></span>
     </div>
   );

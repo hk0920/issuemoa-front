@@ -150,8 +150,8 @@ const Issue = () => {
         context={modalContext}
       />
       <div className="box__inner">
-        <KeywordFilter />
         <div className="box__tab-container">
+          <KeywordFilter />
           <Tabs
             defaultActiveKey="news"
             id="justify-tab-example"

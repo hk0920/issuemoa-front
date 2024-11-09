@@ -108,6 +108,10 @@ a {
     margin: 0 auto 20px;
     background: url("./images/icon/image__empty.png") no-repeat center / 100%;
   }
+  .theme-black & {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--themeBlackColor);
+  }
 }
 .page__sub {
   padding-top: 90px;
@@ -363,5 +367,11 @@ a {
   background: var(--themeBlack);
   * {
     color: var(--themeBlackColor);
+  }
+  .card {
+    background: rgba(255, 255, 255, 0.1);
+    .card-body * {
+      color: var(--themeBlackColor);
+    }
   }
 }
