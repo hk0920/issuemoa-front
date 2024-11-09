@@ -60,11 +60,14 @@ const PrivateRoute = ({ element, requiredRole }: any) => {
 function App() {
   const cookies = new Cookies();
   const [theme, setTheme] = useState(cookies.get("theme"));
+  const [isTheme, setIsTheme] = useState(theme !== "W");
+
   const themeEvent = () => {
     if (theme === "W") {
       setTheme("D");
     } else {
       setTheme("W");
+      document.querySelector("#wrap")?.classList.remove("theme-black");
     }
   };
   useEffect(() => {
@@ -72,20 +75,20 @@ function App() {
   }, [theme]);
   return (
     <BrowserRouter>
-      <div id="wrap" className={classNames(theme && "theme-black")}>
+      <div id="wrap" className={classNames(isTheme && "theme-black")}>
         <Header />
         <Routes>
           <Route path="/" element={<Issue />} />
           <Route path="/word" element={<Quiz />} />
           <Route path="/tech" element={<Tech />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/more" element={<More theme={theme} />} />
+          <Route path="/more" element={<More theme={isTheme} />} />
           <Route path="/grade" element={<Grade />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/inquiry" element={<Inquiry />} />
           <Route
             path="/setting"
-            element={<Setting theme={theme} themeEvent={themeEvent} />}
+            element={<Setting theme={isTheme} themeEvent={themeEvent} />}
           />
           <Route
             path="/mypage"
@@ -94,7 +97,7 @@ function App() {
             }
           />
         </Routes>
-        <Footer theme={theme} />
+        <Footer theme={isTheme} />
         <Floating />
       </div>
     </BrowserRouter>
