@@ -95,12 +95,12 @@ export const settingData = {
       title: "테마",
       optionList: [
         {
-          code: "W",
-          name: "화이트",
-        },
-        {
           code: "D",
           name: "다크",
+        },
+        {
+          code: "W",
+          name: "화이트",
         },
       ],
     },
