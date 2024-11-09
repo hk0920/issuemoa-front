@@ -37,26 +37,18 @@ const KeywordFilter = () => {
       )}
     >
       <h2 className="for-a11y">인기 키워드</h2>
-      {keywords && selectKeyword && (
-        <button
-          type="button"
-          className="button__keyword"
-          onClick={(e) => setExpend(true)}
-        >
-          <span className="text__rank">{selectIndex + 1}</span>
-          <span className="text">{selectKeyword.keyword}</span>
-        </button>
-      )}
-      <ul className="list__keyword">
-        {keywords.map((item, index) => {
-          return (
-            <li key={item.id} className="list-item">
-              <span className="text__rank">{index + 1}</span>
-              <span className="text"> {item.keyword}</span>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="box__keyword-wrap">
+        <ul className="list__keyword" onClick={() => setExpend(true)}>
+          {keywords.map((item, index) => {
+            return (
+              <li key={item.id} className="list-item">
+                <span className="text__rank">{index + 1}</span>
+                <span className="text"> {item.keyword}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
       <span className="box__dimmed" onClick={(e) => setExpend(false)}></span>
     </div>
   );
