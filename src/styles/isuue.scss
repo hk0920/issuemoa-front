@@ -141,6 +141,7 @@
     left: 0;
     width: 100%;
     height: 26px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     overflow: hidden;
@@ -234,7 +235,10 @@
   }
 
   .theme-black & {
-    background-color: rgba(255, 255, 255, 0.1);
+    .box__keyword-wrap {
+      border-color: none;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
     .list__keyword {
       .text__rank {
         &:after {

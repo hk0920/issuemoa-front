@@ -16,7 +16,7 @@ const OptionComponent = (props: any) => {
       <select
         name={title}
         className="box__select"
-        onChange={() => props.themeEvent}
+        onChange={() => props.themeEvent()}
       >
         {optionList.map((option: any, idx: number) => {
           return (
