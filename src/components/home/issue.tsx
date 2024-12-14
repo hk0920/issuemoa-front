@@ -28,6 +28,7 @@ const Issue = () => {
   const [cookie, setCookie, removeCookie] = useCookies([
     "access_token",
     "issue_scrollY",
+    "recent_items",
   ]);
   const [isAlertModal, setIsAlertModal] = useState(false);
   const navigate = useNavigate();
@@ -118,7 +119,14 @@ const Issue = () => {
     const result = await BoardApi.saveFavoriteData(data);
     if (result) {
       fetchData(type);
+    }
+  };
+
+  const saveRecentItems = (data: any) => {
+    if (!cookie.recent_items) {
+      setCookie("recent_items", [data]);
     } else {
+      setCookie("recent_items", [data, ...cookie.recent_items]);
     }
   };
 
@@ -172,6 +180,7 @@ const Issue = () => {
                     target="_blank"
                     rel="noreferrer"
                     className="link"
+                    onClick={() => saveRecentItems(data)}
                   >
                     <Card.Img
                       src={data.thumbnail ? data.thumbnail : empty}

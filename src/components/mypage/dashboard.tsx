@@ -7,6 +7,7 @@ import { empty } from "../../images";
 import renderCode from "../tech/renderCode";
 
 import "../../styles/mypage.scss";
+import { useCookies } from "react-cookie";
 
 interface Voca {
   id: number;
@@ -36,6 +37,8 @@ const Dashboard = () => {
   const [vocaData, setVocaData] = useState<Voca[]>([]);
   const [issueData, setIssueData] = useState<Issue[]>([]);
   const [techData, setTechData] = useState<Tech[]>([]);
+  const [cookie, setCookie, removeCookie] = useCookies(["recent_items"]);
+  const [recentData, setRecentData] = useState<Issue[]>(cookie.recent_items);
 
   const Grade = ({
     badgeColor,
@@ -90,7 +93,8 @@ const Dashboard = () => {
             id="justify-tab-example"
             className="box__tab"
             onSelect={(key) => {
-              if (key === "word") {
+              if (key === "recently") {
+              } else if (key === "word") {
                 getRetryVoca();
               } else if (key === "issue") {
                 getFavoriteIssue();
@@ -104,32 +108,32 @@ const Dashboard = () => {
               title="최근 본"
               className="box__tab-content"
             >
-              {[
-                "Primary",
-                "Secondary",
-                "Success",
-                "Danger",
-                "Warning",
-                "Info",
-                "Light",
-                "Dark",
-              ].map((variant) => (
-                <Card
-                  bg={variant.toLowerCase()}
-                  key={variant}
-                  text={variant.toLowerCase() === "light" ? "dark" : "white"}
-                  className="box__card"
-                >
-                  <Card.Header>Header</Card.Header>
-                  <Card.Body>
-                    <Card.Title>{variant} Card Title </Card.Title>
-                    <Card.Text>
-                      Somxe quick example text to build on the card title and
-                      make up the bulk of the card's content.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              ))}
+              {recentData ? (
+                <>
+                  {recentData.map((data, rowIndex) => (
+                    <Card key={rowIndex} className="box__card-issue">
+                      <a
+                        href={data.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="link"
+                      >
+                        <Card.Img
+                          src={data.thumbnail ? data.thumbnail : empty}
+                          className="box__thumb"
+                        />
+                        <Card.Body className="box__text">
+                          <Card.Text className="text__title">
+                            {data.title}
+                          </Card.Text>
+                        </Card.Body>
+                      </a>
+                    </Card>
+                  ))}
+                </>
+              ) : (
+                <p className="text__empty">최근 본 게시물이 없습니다.</p>
+              )}
             </Tab>
             <Tab
               eventKey="issue"
