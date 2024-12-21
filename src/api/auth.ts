@@ -153,7 +153,12 @@ export const settingData = {
 };
 
 export async function settingTheme() {
-  cookies.set("theme", settingData.screen[0].optionList[0].code);
+  cookies.set(
+    "theme",
+    cookies.get("theme")
+      ? cookies.get("theme")
+      : settingData.screen[0].optionList[0].code
+  );
   cookies.set("voice", "W");
   cookies.set("speed", "N");
   cookies.set("lang", "KR");

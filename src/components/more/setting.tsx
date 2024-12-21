@@ -9,6 +9,7 @@ import "../../styles/setting.scss";
 
 const OptionComponent = (props: any) => {
   const { title, optionList } = props.data || {};
+  let theme = props.theme ? "D" : "W";
 
   return (
     <div className="box__option">
@@ -20,7 +21,11 @@ const OptionComponent = (props: any) => {
       >
         {optionList.map((option: any, idx: number) => {
           return (
-            <option value={option.code} key={idx} selected={option.active}>
+            <option
+              value={option.code}
+              key={idx}
+              selected={theme === option.code ? true : false}
+            >
               {option.name}
             </option>
           );
@@ -102,6 +107,7 @@ const Setting = (props: propsType) => {
                 <OptionComponent
                   data={data}
                   themeEvent={props.themeEvent}
+                  theme={props.theme}
                   key={idx}
                 />
               );
