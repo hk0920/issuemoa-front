@@ -69,6 +69,7 @@ function App() {
       cookies.set("theme", "W");
       setTheme("W");
     }
+    console.log(cookies.get("theme"));
   };
   useEffect(() => {
     AuthApi.settingTheme();
