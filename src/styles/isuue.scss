@@ -148,7 +148,7 @@
     .list__keyword {
       position: relative;
       padding: 0 10px;
-      animation: rollingMotion 10s 0.1s linear infinite;
+      animation: rollingMotion 13s 0.2s ease-in-out infinite;
       will-change: transform;
       .list-item {
         display: flex;
@@ -258,6 +258,33 @@
 @keyframes rollingMotion {
   0% {
     transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-26px);
+  }
+  20% {
+    transform: translateY(-52px);
+  }
+  30% {
+    transform: translateY(-78px);
+  }
+  40% {
+    transform: translateY(-104px);
+  }
+  50% {
+    transform: translateY(-130px);
+  }
+  60% {
+    transform: translateY(-156px);
+  }
+  70% {
+    transform: translateY(-182px);
+  }
+  80% {
+    transform: translateY(-208px);
+  }
+  90% {
+    transform: translateY(-234px);
   }
   100% {
     transform: translateY(-250px);
