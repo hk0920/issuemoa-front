@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
+import WeatherComponent from "../more/fragments/weather";
 
 const Header = () => {
   const location = useLocation();
@@ -22,6 +23,8 @@ const Header = () => {
             <span className="for-a11y">이슈모아 홈으로 이동</span>
           </Link>
         </h1>
+
+        <WeatherComponent />
       </div>
     </header>
   );

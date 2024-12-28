@@ -93,6 +93,7 @@ export const settingData = {
   screen: [
     {
       title: "테마",
+      titleCode: "theme",
       optionList: [
         {
           code: "D",
@@ -108,6 +109,7 @@ export const settingData = {
   voice: [
     {
       title: "음성",
+      titleCode: "voice",
       optionList: [
         {
           code: "W",
@@ -121,6 +123,7 @@ export const settingData = {
     },
     {
       title: "속도",
+      titleCode: "speed",
       optionList: [
         {
           code: "S",
@@ -138,6 +141,7 @@ export const settingData = {
     },
     {
       title: "언어",
+      titleCode: "lang",
       optionList: [
         {
           code: "KR",
