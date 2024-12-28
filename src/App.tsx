@@ -14,6 +14,7 @@ import {
   Inquiry,
   Tech,
   Setting,
+  Weather,
 } from "./components";
 import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
@@ -69,7 +70,6 @@ function App() {
       cookies.set("theme", "W");
       setTheme("W");
     }
-    console.log(cookies.get("theme"));
   };
   useEffect(() => {
     AuthApi.settingTheme();
@@ -87,6 +87,7 @@ function App() {
           <Route path="/grade" element={<Grade />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/inquiry" element={<Inquiry />} />
+          <Route path="/weather" element={<Weather />} />
           <Route
             path="/setting"
             element={<Setting theme={theme !== "W"} themeEvent={themeEvent} />}

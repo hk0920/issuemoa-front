@@ -1,0 +1,49 @@
+.page__sub {
+  .box__component-weather {
+    position: relative;
+    max-width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    .image {
+      width: 150px;
+      margin: 0 auto;
+    }
+    .text__location {
+      display: block;
+      margin-top: -20px;
+    }
+    .text__temp {
+      position: absolute;
+      top: 30px;
+      left: 0;
+      width: 100%;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .text__desc {
+      display: block;
+      font-size: 16px;
+      margin-top: 12px;
+    }
+  }
+  .list__weather-week {
+    display: flex;
+    margin: 20px 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    .list-item {
+      flex: 1;
+      padding: 10px 5px;
+      text-align: center;
+      &:first-child {
+        color: red;
+      }
+      &:last-child {
+        color: blue;
+      }
+      .image {
+        max-width: 35px;
+      }
+    }
+  }
+}

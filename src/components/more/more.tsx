@@ -51,7 +51,7 @@ const More = ({ theme }: themeType) => {
   }, []);
 
   const imageItems = [
-    { src: cloud, alt: "cloud", text: "날씨", ready: true, themeSrc: cloud },
+    { src: cloud, alt: "weather", text: "날씨", ready: false, themeSrc: cloud },
     {
       src: grade,
       alt: "grade",

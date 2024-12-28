@@ -8,17 +8,19 @@ import * as AuthApi from "../../api/auth";
 import "../../styles/setting.scss";
 
 const OptionComponent = (props: any) => {
-  const { title, optionList } = props.data || {};
+  const { title, titleCode, optionList } = props.data || {};
   let theme = props.theme ? "D" : "W";
+
+  const onChange = () => {
+    if (title === "테마") {
+      props.themeEvent();
+    }
+  };
 
   return (
     <div className="box__option">
       <p className="text__title">{title}</p>
-      <select
-        name={title}
-        className="box__select"
-        onChange={() => props.themeEvent()}
-      >
+      <select name={titleCode} className="box__select" onChange={onChange}>
         {optionList.map((option: any, idx: number) => {
           return (
             <option
@@ -100,7 +102,7 @@ const Setting = (props: propsType) => {
       </div>
       <ul className="list__setting">
         <li className="list-item">
-          <Link to="">화면</Link>
+          <p className="text__title">화면</p>
           <div className="box__detail-option">
             {AuthApi.settingData.screen.map((data, idx) => {
               return (
@@ -115,7 +117,7 @@ const Setting = (props: propsType) => {
           </div>
         </li>
         <li className="list-item">
-          <Link to="">음성 및 효과음</Link>
+          <p className="text__title">음성 및 효과음</p>
           <div className="box__detail-option">
             {AuthApi.settingData.voice.map((data, idx) => {
               return <OptionComponent data={data} key={idx} />;
@@ -123,7 +125,7 @@ const Setting = (props: propsType) => {
           </div>
         </li>
         <li className="list-item">
-          <Link to="">학습 리포트</Link>
+          <p className="text__title">학습 리포트</p>
         </li>
         {user.name && (
           <li className="list-item">
