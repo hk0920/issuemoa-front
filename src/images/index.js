@@ -11,6 +11,7 @@ export { default as home } from "./icon/home.png";
 export { default as home_fill } from "./icon/home_fill.png";
 export { default as home_theme } from "./icon/home_theme.png";
 export { default as home_fill_theme } from "./icon/home_fill_theme.png";
+export { default as products } from "./icon/products.png";
 export { default as word } from "./icon/word.png";
 export { default as word_fill } from "./icon/word_fill.png";
 export { default as word_theme } from "./icon/word_theme.png";

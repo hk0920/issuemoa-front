@@ -1,0 +1,105 @@
+.page__product {
+  background: #f5f5f5;
+  .box__category-store {
+    margin-bottom: 20px;
+
+    .button__category {
+      display: inline-block;
+      width: calc(50% - 8px);
+      padding: 20px;
+      margin-right: 16px;
+      margin-bottom: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+      border-radius: 8px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      border: none;
+      background: #fff;
+      .box__icon {
+        margin: 0 auto 10px;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+      &:nth-child(even) {
+        margin-right: 0;
+      }
+
+      @media all and (min-width: 768px) {
+        width: calc(50% - 4px);
+        margin-right: 8px;
+        font-size: 16px;
+        border: 1px solid #f5f5f5;
+        .box__icon {
+          width: 60px;
+          height: 60px;
+          padding: 15px;
+          margin-bottom: 5px;
+          img {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+    }
+  }
+  .box__category-product {
+    text-align: center;
+
+    .button__category {
+      display: inline-block;
+      margin: 0 5px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #333;
+      border: none;
+      background: none;
+      .box__icon {
+        width: 60px;
+        height: 60px;
+        padding: 15px;
+        margin: 0 auto 10px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+      @media all and (min-width: 768px) {
+        width: calc(50% - 4px);
+        margin-right: 8px;
+        font-size: 16px;
+        border: 1px solid #f5f5f5;
+        .box__icon {
+          width: 60px;
+          height: 60px;
+          padding: 15px;
+          margin-bottom: 5px;
+          img {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+    }
+  }
+  .theme-black & {
+    background: var(--themeBlack);
+    .box__category-store {
+      .button__category {
+        background: var(--themeBlackSub);
+      }
+    }
+    .box__category-product {
+      .button__category {
+        .box__icon {
+          background: var(--themeBlackSub);
+        }
+      }
+    }
+  }
+}

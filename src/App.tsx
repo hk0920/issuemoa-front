@@ -21,6 +21,7 @@ import * as AuthApi from "./api/auth";
 import Floating from "./components/layouts/floating";
 import classNames from "classnames";
 import { Cookies } from "react-cookie";
+import Products from "./components/products/Products";
 
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -77,9 +78,10 @@ function App() {
   return (
     <BrowserRouter>
       <div id="wrap" className={classNames(theme !== "W" && "theme-black")}>
-        <Header />
+        <Header theme={theme !== "W"} />
         <Routes>
           <Route path="/" element={<Issue />} />
+          <Route path="/product" element={<Products />} />
           <Route path="/word" element={<Quiz />} />
           <Route path="/tech" element={<Tech />} />
           <Route path="/login" element={<Login />} />

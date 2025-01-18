@@ -6,6 +6,7 @@ import {
   home_fill,
   home_theme,
   home_fill_theme,
+  products,
   word,
   word_fill,
   word_theme,
@@ -14,10 +15,6 @@ import {
   tech_fill,
   tech_theme,
   tech_fill_theme,
-  person,
-  person_fill,
-  person_theme,
-  person_fill_theme,
   more,
   more_fill,
   more_theme,
@@ -75,6 +72,10 @@ const Footer = ({ theme }: themeType) => {
           />
           <span className="text">홈</span>
         </Link>
+        <Link to="product" className="link__footer">
+          <img src={products} alt="Word" className="icon" />
+          <span className="text">장보기</span>
+        </Link>
         <Link
           to="word"
           className="link__footer"
@@ -114,26 +115,6 @@ const Footer = ({ theme }: themeType) => {
             className="icon"
           />
           <span className="text">Tech</span>
-        </Link>
-        <Link
-          to="mypage"
-          className="link__footer"
-          onClick={() => handleMenuClick("mypage")}
-        >
-          <img
-            src={
-              selected === "mypage"
-                ? theme
-                  ? person_fill_theme
-                  : person_fill
-                : theme
-                ? person_theme
-                : person
-            }
-            alt="Person"
-            className="icon"
-          />
-          <span className="text">MY</span>
         </Link>
         <Link
           to="more"
