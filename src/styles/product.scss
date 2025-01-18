@@ -26,23 +26,6 @@
       &:nth-child(even) {
         margin-right: 0;
       }
-
-      @media all and (min-width: 768px) {
-        width: calc(50% - 4px);
-        margin-right: 8px;
-        font-size: 16px;
-        border: 1px solid #f5f5f5;
-        .box__icon {
-          width: 60px;
-          height: 60px;
-          padding: 15px;
-          margin-bottom: 5px;
-          img {
-            width: 30px;
-            height: 30px;
-          }
-        }
-      }
     }
   }
   .box__category-product {
@@ -67,22 +50,6 @@
         img {
           width: 30px;
           height: 30px;
-        }
-      }
-      @media all and (min-width: 768px) {
-        width: calc(50% - 4px);
-        margin-right: 8px;
-        font-size: 16px;
-        border: 1px solid #f5f5f5;
-        .box__icon {
-          width: 60px;
-          height: 60px;
-          padding: 15px;
-          margin-bottom: 5px;
-          img {
-            width: 30px;
-            height: 30px;
-          }
         }
       }
     }
