@@ -44,6 +44,10 @@ async function reissue() {
   }
 }
 
+export async function userReissue() {
+  await reissue();
+}
+
 export async function userSignOut() {
   const isSignOut = await AxiosUtil.send(
     "GET",
@@ -62,7 +66,7 @@ export async function userSignOut() {
 export async function authInit(): Promise<boolean> {
   if (cookies.get("access_token") && cookies.get("authorization")) {
     await getUserInfo();
-  } else if (cookies.get("access_token") && !cookies.get("authorization")) {
+  } else if (!cookies.get("access_token") && cookies.get("authorization")) {
     await reissue();
   } else {
     return false;

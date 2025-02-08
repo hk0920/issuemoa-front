@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import * as AuthApi from "../api/auth";
 
 axios.defaults.withCredentials = true;
 const cookies = new Cookies();
@@ -18,11 +19,16 @@ export async function send(
   axios.defaults.headers.common["X-CLIENT-KEY"] =
     "SamQHPleQjbSKeyRvJWElcHJvamVjdCFA";
 
+  const accessToken = cookies.get("access_token");
+
   if (url.indexOf("backend") > -1) {
-    const accessToken = cookies.get("access_token");
     if (accessToken !== null && accessToken !== undefined) {
       axios.defaults.headers.common["Authorization"] =
         "Bearer " + accessToken;
+    } else {
+      if (cookies.get("authorization")) {
+        AuthApi.userReissue();
+      }
     }
   } else if (url.indexOf("kapi") > -1) {
     axios.defaults.headers.common["Authorization"] =
