@@ -61,7 +61,7 @@ export async function userSignOut() {
   return isSignOut;
 }
 
-export async function authInit(): Promise<boolean> {
+async function authInit(): Promise<boolean> {
   if (cookies.get("access_token") && cookies.get("authorization")) {
     await getUserInfo();
   } else if (!cookies.get("access_token") && cookies.get("authorization")) {

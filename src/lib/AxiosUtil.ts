@@ -39,11 +39,6 @@ export async function send(
   contentType: "json" | "form" = "json"
 ): Promise<any> {
   try {
-    // 토큰 갱신 요청
-    if (cookies.get("access_token") && cookies.get("authorization")) {
-      await AuthApi.userReissue();
-    }
-
     // 요청 헤더 설정
     axios.defaults.headers.common = getAuthorizationHeader(url);
 
