@@ -34,7 +34,7 @@ const WeatherComponent = ({ type }: typeProps) => {
       const longitude = position.coords.longitude;
       const API_KEY = process.env.REACT_APP_OPEN_WEATHER_KEY;
       const url = `/weather-api/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric&lang=kr`;
-      const response = await AxiosUtil.send("GET", url, {})
+      const response = await AxiosUtil.send("GET", url)
       const location = response.name;
       const weather = response.weather[0];
       const icon = weather.icon;

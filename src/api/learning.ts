@@ -17,8 +17,7 @@ export async function getVocaList(
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
     "GET",
-    `${backendUrl}/voca?offset=${paramOffset}&limit=${limit}`,
-    {}
+    `${backendUrl}/voca?offset=${paramOffset}&limit=${limit}`
   );
 }
 
@@ -30,7 +29,7 @@ export async function save(data: object) {
 }
 
 export async function countLearn(): Promise<any> {
-  return await AxiosUtil.send("GET", `${backendUrl}/voca-learn/count`, {});
+  return await AxiosUtil.send("GET", `${backendUrl}/voca-learn/count`);
 }
 
 export async function getRetryVocaList(
@@ -40,8 +39,7 @@ export async function getRetryVocaList(
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
     "GET",
-    `${backendUrl}/voca/retry?offset=${paramOffset}&limit=${limit}`,
-    {}
+    `${backendUrl}/voca/retry?offset=${paramOffset}&limit=${limit}`
   );
 }
 
@@ -52,8 +50,7 @@ export async function getInterviewList(category: string): Promise<any> {
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
     "GET",
-    `${backendUrl}/interview?category=${category}`,
-    {}
+    `${backendUrl}/interview?category=${category}`
   );
 }
 
@@ -63,7 +60,7 @@ export async function saveFavoriteInterview(
 ): Promise<any> {
   const data = {
     interviewId: interviewId,
-    useYn: useYn,
+    useYn: useYn
   };
 
   const isAuthenticated = await AuthApi.checkUserAuthentication();
@@ -81,8 +78,7 @@ export async function getFavoriteInterview() {
   await AuthApi.checkUserAuthentication();
   return await AxiosUtil.send(
     "GET",
-    `${backendUrl}/interview/favorites`,
-    {}
+    `${backendUrl}/interview/favorites`
   );
 }
 
@@ -91,5 +87,5 @@ export async function getFavoriteInterview() {
 // ====================================================================
 export async function getGradeList(): Promise<any> {
   await AuthApi.checkUserAuthentication();
-  return await AxiosUtil.send("GET", `${backendUrl}/grade-exp`, {});
+  return await AxiosUtil.send("GET", `${backendUrl}/grade-exp`);
 }

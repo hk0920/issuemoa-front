@@ -23,7 +23,7 @@ export async function getYoutubeList(
 }
 
 export async function getFavoriteList() {
-  return await AxiosUtil.send("GET", `${backendUrl}/board/favorites`, {});
+  return await AxiosUtil.send("GET", `${backendUrl}/board/favorites`);
 }
 
 export async function saveFavoriteData(data: Board) {

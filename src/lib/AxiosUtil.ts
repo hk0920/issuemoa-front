@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
-import * as AuthApi from "../api/auth";
 
 axios.defaults.withCredentials = true;
 const cookies = new Cookies();

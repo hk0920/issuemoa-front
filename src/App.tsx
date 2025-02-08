@@ -73,7 +73,7 @@ function App() {
     }
   };
   useEffect(() => {
-    AuthApi.settingTheme();
+    AuthApi.initializeSettings();
   }, [theme]);
   return (
     <BrowserRouter>

@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Cookies } from "react-cookie";
 import { google, kakao, naver } from "../../images";
+import * as AuthApi from "../../api/auth";
 import "./login.css";
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const cookies = new Cookies();
+  
   let baseUrl = "http://gate.issuemoa.kr:8000";
 
   const handleLoginClick = (handler: string) => {
@@ -23,17 +23,10 @@ const Login = () => {
     const token = params.get("token");
 
     if (token) {
-      cookies.set("access_token", token, {
-        path: "/",
-        maxAge: 60
-      });
-      cookies.set("authorization", true, {
-        path: "/",
-        maxAge: 14 * 24 * 60 * 60,
-      });
+      AuthApi.setAuthToken(token);
       navigate("/mypage");
     } else {
-      console.log("Code not found in the URL.");
+      console.log("[login.tsx] :: Code not found in the URL.");
     }
   }, []);
 
