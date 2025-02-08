@@ -15,7 +15,7 @@ function setUserInfo(user: any) {
 }
 
 async function getUserInfo() {
-  const response = await AxiosUtil.send("GET", `${backendUrl}/users`, {}, "");
+  const response = await AxiosUtil.send("GET", `${backendUrl}/users`, {});
   if (response) {
     setUserInfo(response);
   } else {
@@ -27,8 +27,7 @@ async function reissue() {
   const response = await AxiosUtil.send(
     "POST",
     `${backendUrl}/users/reissue`,
-    {},
-    ""
+    {}
   );
 
   if (response) {
@@ -52,8 +51,7 @@ export async function userSignOut() {
   const isSignOut = await AxiosUtil.send(
     "GET",
     `${backendUrl}/users/signOut`,
-    {},
-    ""
+    {}
   );
   if (isSignOut) {
     cookies.remove("access_token");

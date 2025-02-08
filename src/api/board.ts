@@ -7,8 +7,7 @@ export async function getNewsList(skip: number, limit: number): Promise<any> {
   return await AxiosUtil.send(
     "GET",
     `${backendUrl}/board/news`,
-    { skip: skip, limit: limit },
-    ""
+    { skip: skip, limit: limit }
   );
 }
 
@@ -19,13 +18,12 @@ export async function getYoutubeList(
   return await AxiosUtil.send(
     "GET",
     `${backendUrl}/board/youtube`,
-    { skip: skip, limit: limit },
-    ""
+    { skip: skip, limit: limit }
   );
 }
 
 export async function getFavoriteList() {
-  return await AxiosUtil.send("GET", `${backendUrl}/board/favorites`, {}, "");
+  return await AxiosUtil.send("GET", `${backendUrl}/board/favorites`, {});
 }
 
 export async function saveFavoriteData(data: Board) {
@@ -48,7 +46,6 @@ export async function getKeywordData(minusday: number): Promise<any> {
   return await AxiosUtil.send(
     "GET",
     `${backendUrl}/keyword`,
-    { minusDay: minusday },
-    ""
+    { minusDay: minusday }
   );
 }

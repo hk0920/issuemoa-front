@@ -18,8 +18,7 @@ export async function getVocaList(
   return await AxiosUtil.send(
     "GET",
     `${backendUrl}/voca?offset=${paramOffset}&limit=${limit}`,
-    {},
-    ""
+    {}
   );
 }
 
@@ -31,7 +30,7 @@ export async function save(data: object) {
 }
 
 export async function countLearn(): Promise<any> {
-  return await AxiosUtil.send("GET", `${backendUrl}/voca-learn/count`, {}, "");
+  return await AxiosUtil.send("GET", `${backendUrl}/voca-learn/count`, {});
 }
 
 export async function getRetryVocaList(
@@ -42,8 +41,7 @@ export async function getRetryVocaList(
   return await AxiosUtil.send(
     "GET",
     `${backendUrl}/voca/retry?offset=${paramOffset}&limit=${limit}`,
-    {},
-    ""
+    {}
   );
 }
 
@@ -55,8 +53,7 @@ export async function getInterviewList(category: string): Promise<any> {
   return await AxiosUtil.send(
     "GET",
     `${backendUrl}/interview?category=${category}`,
-    {},
-    ""
+    {}
   );
 }
 
@@ -85,8 +82,7 @@ export async function getFavoriteInterview() {
   return await AxiosUtil.send(
     "GET",
     `${backendUrl}/interview/favorites`,
-    {},
-    ""
+    {}
   );
 }
 
@@ -95,5 +91,5 @@ export async function getFavoriteInterview() {
 // ====================================================================
 export async function getGradeList(): Promise<any> {
   await AuthApi.checkUserAuthentication();
-  return await AxiosUtil.send("GET", `${backendUrl}/grade-exp`, {}, "");
+  return await AxiosUtil.send("GET", `${backendUrl}/grade-exp`, {});
 }
