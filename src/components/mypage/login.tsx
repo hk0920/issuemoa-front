@@ -25,10 +25,11 @@ const Login = () => {
     if (token) {
       cookies.set("access_token", token, {
         path: "/",
+        maxAge: 60
       });
       cookies.set("authorization", true, {
         path: "/",
-        maxAge: 3600,
+        maxAge: 14 * 24 * 60 * 60,
       });
       navigate("/mypage");
     } else {
