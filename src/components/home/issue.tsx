@@ -15,11 +15,12 @@ interface PaginationProps {
   setSearchParams: (params: { page: string }) => void;
 }
 
+const LIMIT = 30;
+
 const Issue = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
-  const [cookie, setCookie, removeCookie] = useCookies([
+  const [cookie, setCookie] = useCookies([
     "access_token",
     "issue_scrollY",
     "recent_items",
@@ -31,7 +32,6 @@ const Issue = () => {
   const [board, setBoard] = useState<Board[]>([]);
   const [type, setType] = useState<string>("news");
   const [totalPage, setTotalPage] = useState<number>(0);
-  const limit = 40;
 
   const handleOpenModal = (url: string) => {
     setModalContext(url);
@@ -49,39 +49,23 @@ const Issue = () => {
 
   const fetchData = async (currentPage: number, type: string) => {
     try {
+      window.scrollTo(0, 0); // 화면을 최상단으로 스크롤
       let response: any;
 
       if (type === "news") {
-        response = await BoardApi.getNewsList(currentPage, limit);
+        response = await BoardApi.getNewsList(currentPage, LIMIT);
       } else if (type === "youtube") {
-        response = await BoardApi.getYoutubeList(currentPage, limit);
+        response = await BoardApi.getYoutubeList(currentPage, LIMIT);
       }
 
       if (response) {
         setBoard(response.list);
         setTotalPage(response.totalPage-1);
-        window.scrollTo(0, 0); // 화면을 최상단으로 스크롤
       }
 
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-
-  const favoriteHandler = (target: HTMLElement, data: Board) => {
-    // if (cookie.access_token) {
-    //   saveFavorite(data);
-    //   target.classList.add("button__favorite--active");
-    // } else {
-    //   setIsAlertModal(true);
-    // }
-  };
-
-  const saveFavorite = async (data: Board) => {
-    //   const result = await BoardApi.saveFavoriteData(data);
-    //   if (result) {
-    //     fetchData(type);
-    //   }
   };
 
   const closeAlertModal = () => {
@@ -127,6 +111,13 @@ const Issue = () => {
 
     return (
       <Pagination className="pagination">
+        <Pagination.Item
+          disabled={currentPage === 1}
+          onClick={() => setSearchParams({ page: "1" })}
+        >
+        {"«"}
+        </Pagination.Item>
+
         {paginationRange.map((page) => (
           <Pagination.Item
             key={page}
@@ -136,6 +127,13 @@ const Issue = () => {
             {page}
           </Pagination.Item>
         ))}
+
+          <Pagination.Item
+            disabled={currentPage === 1}
+            onClick={() => setSearchParams({ page: String(totalPage) })}
+          >
+          {"»"}
+          </Pagination.Item>
       </Pagination>
     );
   };
@@ -145,7 +143,7 @@ const Issue = () => {
       <Player
         isOpen={modalOpen}
         onClose={handleCloseModal}
-        title={modalTitle}
+        title={"Youtube"}
         context={modalContext}
       />
       <div className="box__inner">

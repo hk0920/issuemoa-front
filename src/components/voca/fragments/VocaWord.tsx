@@ -1,5 +1,5 @@
+import React, { useState, useEffect, useCallback } from "react";
 import ReactCardFlip from "react-card-flip";
-import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { Dialog } from "../../index";
 import { useNavigate } from "react-router-dom";
@@ -12,251 +12,124 @@ interface Voca {
   mean: string;
 }
 
-const VocaWord = () => {
+interface DialogState {
+  title: string;
+  context: string;
+  buttonText: string;
+}
+
+const LIMIT = 30;
+
+const VocaWord: React.FC = () => {
   const [voca, setVoca] = useState<Voca[]>([]);
-  const [vocaId, setVocaId] = useState<number>();
-  const [word, setWord] = useState<string>();
-  const [mean, setMean] = useState<string>();
   const [offset, setOffset] = useState<number>(0);
-  const [paramOffset, setParamOffset] = useState<number>(0);
-  const [totalCnt, setTotalCnt] = useState<number>();
-  const [currentIndex, setcurrentIndex] = useState<number>(0);
-  const [isFlipped, setIsFlipped] = useState(false);
-  const [isSliding, setIsSliding] = useState(false);
-  const [isButtonDisabled, setButtonDisabled] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState<string>("확인");
-  const [dialogContext, setDialogContext] = useState<string>("");
-  const [dialogButtonText, setDialogButtonText] = useState<string>("");
+  const [totalCnt, setTotalCnt] = useState<number>(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isFlipped, setIsFlipped] = useState<boolean>(false);
+  const [isSliding, setIsSliding] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [dialog, setDialog] = useState<DialogState>({ title: "확인", context: "", buttonText: "" });
   const navigate = useNavigate();
-  const limit = 30;
 
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
+  const currentWord = voca[currentIndex] || { word: "", mean: "" };
 
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
-  const handleConfirmModal = () => {
-    setModalOpen(false);
-    navigate("/mypage");
-  };
-
-  // 뒤집기 모션
-  const flipCard = () => {
-    setIsFlipped(!isFlipped);
-    setIsSliding(false);
-  };
-
-  // API - 단어 목록 가져오기
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      setcurrentIndex(0);
-      const response = await VocaApi.getVocaList(paramOffset, limit);
+      const response = await VocaApi.getVocaList(offset, LIMIT);
       if (response) {
         setVoca(response.list);
-        setOffset(response.offset);
         setTotalCnt(response.totalCnt);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [offset]);
 
-  // 다음 단어 보여주기
-  const nextWord = (afterView: String, direction: String): void => {
-    let nextIndex = 0;
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-    if (afterView) {
-      const learnData = {
-        vocaId: vocaId,
-        learnYn: afterView === "Y" ? "N" : "Y",
-      };
+  const flipCard = () => setIsFlipped(!isFlipped);
+  
+  const showNextWord = (learnYn: string, direction: "prev" | "next" | "") => {
+    if (!currentWord) return;
+    
+    VocaApi.save({ vocaId: currentWord.id, learnYn });
 
-      // 학습진도 등록
-      VocaApi.save(learnData);
-
-      if (direction === "prev") {
-        if (currentIndex === 0) {
-          setDialogContext("첫 단어 입니다.");
-          return;
-        }
-        setcurrentIndex(currentIndex - 1);
-        nextIndex = currentIndex - 1;
-      } else {
-        setcurrentIndex(currentIndex + 1);
-        nextIndex = currentIndex + 1;
-      }
-    }
-
-    if (voca.length !== 0 && voca.length <= nextIndex) {
-      if (offset === totalCnt) {
-        setDialogContext("마지막 단어입니다. 다음 업데이트를 기대해주세요!");
-        setIsSliding(false);
-      } else {
-        setParamOffset(paramOffset + limit);
-      }
-
+    let nextIndex = direction === "prev" ? currentIndex - 1 : currentIndex + 1;
+    if (nextIndex < 0) {
+      setDialog({ ...dialog, context: "첫 단어입니다." });
       return;
     }
 
-    setWord("");
-    setMean("");
-
-    if (isFlipped) {
-      setIsFlipped(false);
+    if (nextIndex >= voca.length) {
+      if (offset >= totalCnt) {
+        setDialog({ ...dialog, context: "마지막 단어입니다. 다음 업데이트를 기대해주세요!" });
+      } else {
+        setOffset(offset + LIMIT);
+      }
+      return;
     }
 
+    if (isFlipped) setIsFlipped(!isFlipped);
     setIsSliding(true);
 
-    // 슬라이드 후 단어 변경
-    setTimeout(() => {
-      setVocaId(voca?.[nextIndex]?.id);
-      setWord(voca?.[nextIndex]?.word);
-      setMean(voca?.[nextIndex]?.mean);
-      setIsSliding(false);
-    }, 200);
+    setCurrentIndex(nextIndex);
   };
 
-  const handlePrevImageClick = () => {
-    nextWord("Y", "prev");
-  };
-
-  const handleButton = async (afterView: string) => {
+  const handleAuthCheck = async (learnYn: string) => {
     const isAuthenticated = await AuthApi.checkUserAuthentication();
-
     if (!isAuthenticated) {
-      setDialogContext("로그인 후 이용해 주세요!");
-      setDialogButtonText("로그인");
-      handleOpenModal();
+      setDialog({ context: "로그인 후 이용해 주세요!", buttonText: "로그인", title: "확인" });
+      setModalOpen(true);
       return;
     }
 
-    if (!isButtonDisabled) {
-      // 버튼 비활성화 상태로 변경
-      setButtonDisabled(true);
-
-      // 일정 시간 후에 버튼을 다시 활성화
-      setTimeout(() => {
-        nextWord(afterView, "");
-        setButtonDisabled(false);
-      }, 130);
-    }
-  };
-
-  const handleAfterWordClick = () => {
-    handleButton("Y");
-  };
-
-  const handleNextWordClick = () => {
-    handleButton("N");
+    showNextWord(learnYn, "");
   };
 
   const speakWord = (text?: string) => {
-    if (
-      typeof SpeechSynthesisUtterance === "undefined" ||
-      typeof window.speechSynthesis === "undefined"
-    ) {
+    if (!window.speechSynthesis || !text) {
       alert("이 브라우저는 음성 합성을 지원하지 않습니다.");
       return;
     }
-
-    if (text !== undefined) {
-      window.speechSynthesis.cancel();
-
-      const speechMsg = new SpeechSynthesisUtterance();
-      speechMsg.rate = 1;
-      speechMsg.pitch = 1;
-
-      speechMsg.lang = "en-US";
-      speechMsg.text = text;
-
-      window.speechSynthesis.speak(speechMsg);
-    }
+    const speechMsg = new SpeechSynthesisUtterance(text);
+    speechMsg.lang = "en-US";
+    speechMsg.rate = 1.1;
+    window.speechSynthesis.speak(speechMsg);
   };
 
-  const Word = ({
-    children,
-    isSliding,
-  }: {
-    children: React.ReactNode;
-    isSliding?: boolean;
-  }) => {
-    const slideInAnimation = useSpring({
-      from: { transform: "translateX(-100%)" },
-      to: { transform: "translateX(0%)" },
-      reset: true,
-    });
-
+  const Word: React.FC<{ children: React.ReactNode; isSliding?: boolean }> = ({ children, isSliding }) => {
+    const slideInAnimation = useSpring({ from: { transform: "translateX(-100%)" }, to: { transform: "translateX(0%)" }, reset: true });
     return (
-      <animated.div style={isSliding ? slideInAnimation : {}}>
-        <div className="box__word">
-          <button
-            type="button"
-            className="button__prev"
-            onClick={handlePrevImageClick}
-          ></button>
-          <span className="text__word">{children}</span>
-          <button
-            type="button"
-            className="button__listen"
-            onClick={() => speakWord(word)}
-            style={{ display: isFlipped ? "none" : "block" }}
-          ></button>
-        </div>
+      <animated.div style={isSliding ? slideInAnimation : {}} className="box__word">
+        {children}
       </animated.div>
     );
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [paramOffset]);
-
-  useEffect(() => {
-    nextWord("", "");
-  }, [voca]);
-
   return (
     <div className="box__component-word">
-      <Dialog
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirmModal}
-        title={dialogTitle}
-        context={dialogContext}
-        buttonText={dialogButtonText}
-      />
+      <Dialog isOpen={modalOpen} onClose={() => setModalOpen(false)} onConfirm={() => navigate("/mypage")} {...dialog} />
       <ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
         <div className="box__card">
-          <Word isSliding={isSliding}>{word}</Word>
-          <button type="button" className="button__confirm" onClick={flipCard}>
-            ✔️
-          </button>
+          <Word isSliding={isSliding}>
+            {/* <button type="button" className="button__prev" onClick={() => showNextWord("N", "prev")} /> */}
+            <span className="text__word">{currentWord.word}</span>
+            <button type="button" className="button__listen" onClick={() => speakWord(currentWord.word)} />
+          </Word>
+          <button type="button" className="button__confirm" onClick={flipCard}>✔️</button>
         </div>
         <div className="box__card">
-          <Word isSliding={isSliding}>{mean}</Word>
-          <button type="button" className="button__confirm" onClick={flipCard}>
-            ✔️
-          </button>
+          <Word isSliding={isSliding}>
+            <span className="text__word">{currentWord.mean}</span>
+          </Word>
+          <button type="button" className="button__confirm" onClick={flipCard}>✔️</button>
         </div>
       </ReactCardFlip>
       <div className="box__buttons">
-        <button
-          type="button"
-          className="button__word button__after"
-          onClick={handleAfterWordClick}
-        >
-          다음에 보기 ✍️
-        </button>
-        <button
-          type="button"
-          className="button__word button__next"
-          onClick={handleNextWordClick}
-        >
-          알고 있어요 😊
-        </button>
+        <button type="button" className="button__word button__after" onClick={() => handleAuthCheck("N")}>다음에 보기 ✍️</button>
+        <button type="button" className="button__word button__next" onClick={() => handleAuthCheck("Y")}>알고 있어요 😊</button>
       </div>
     </div>
   );

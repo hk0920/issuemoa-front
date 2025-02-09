@@ -22,10 +22,7 @@ export async function getVocaList(
 }
 
 export async function save(data: object) {
-  const isAuthenticated = await AuthApi.checkUserAuthentication();
-  if (isAuthenticated) {
-    await AxiosUtil.send("POST", `${backendUrl}/voca-learn`, data, "json");
-  }
+  return await AxiosUtil.send("POST", `${backendUrl}/voca-learn`, data, "json");
 }
 
 export async function countLearn(): Promise<any> {
