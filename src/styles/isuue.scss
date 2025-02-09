@@ -16,7 +16,7 @@
   }
   .tab-content {
     position: relative;
-    margin: 51px 0 70px;
+    margin: 51px 0 65px;
   }
   .box__card-wrap {
     display: none;
@@ -25,6 +25,7 @@
     &.active {
       display: flex;
     }
+    justify-content: center;
   }
   .theme-black & {
     .box__tab {
@@ -289,4 +290,14 @@
   100% {
     transform: translateY(-250px);
   }
+}
+
+.pagination .page-item .page-link {
+  color: black !important;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: black !important;
+  border-color: black !important;
+  color: white !important;
 }

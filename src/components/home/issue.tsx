@@ -1,27 +1,21 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { Container, Tab, Tabs, Card } from "react-bootstrap";
-import { debounce } from "lodash";
+import { Container, Tab, Tabs, Card, Pagination } from "react-bootstrap";
 import { Dialog, Player } from "../index";
 import { empty } from "../../images";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../redux/store";
-import {
-  setBoardData,
-  setParameters,
-  setLoading,
-  setError,
-  addBoardData,
-} from "../../redux/boardSlice";
 import { Board } from "../../types/board";
 import * as BoardApi from "../../api/board";
 import KeywordFilter from "./KeywordFilter";
 
-let next = false;
-let currentSkip = 0;
+// PaginationComponent props 타입 정의
+interface PaginationProps {
+  currentPage: number;
+  totalPage: number;
+  setSearchParams: (params: { page: string }) => void;
+}
+
 const Issue = () => {
-  const [isLoad, setIsLoad] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState<string>("Youtube");
   const [modalContext, setModalContext] = useState<string>("");
@@ -30,15 +24,14 @@ const Issue = () => {
     "issue_scrollY",
     "recent_items",
   ]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
   const [isAlertModal, setIsAlertModal] = useState(false);
   const navigate = useNavigate();
-
-  // redux
-  const dispatch = useDispatch();
-  const { skip, limit, type } = useSelector(
-    (state: RootState) => state.board.parameters
-  );
-  const board = useSelector((state: RootState) => state.board.data);
+  const [board, setBoard] = useState<Board[]>([]);
+  const [type, setType] = useState<string>("news");
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const limit = 40;
 
   const handleOpenModal = (url: string) => {
     setModalContext(url);
@@ -50,60 +43,45 @@ const Issue = () => {
   };
 
   const changeType = async (type: string) => {
-    dispatch(setParameters({ skip: 0, type: type }));
-    dispatch(setBoardData([]));
+    setType(type);
+    setSearchParams({ page: "1" });
   };
 
-  const fetchData = async (type: string) => {
+  const fetchData = async (currentPage: number, type: string) => {
     try {
       let response: any;
-      dispatch(setParameters({ skip: skip, type: type }));
 
       if (type === "news") {
-        response = await BoardApi.getNewsList(skip, limit);
+        response = await BoardApi.getNewsList(currentPage, limit);
       } else if (type === "youtube") {
-        response = await BoardApi.getYoutubeList(skip, limit);
+        response = await BoardApi.getYoutubeList(currentPage, limit);
       }
 
       if (response) {
-        if (response.length > 0) {
-          next = true;
-        } else {
-          next = false;
-        }
-
-        // Redux 상태에 데이터를 저장
-        dispatch(addBoardData(response));
+        setBoard(response.list);
+        setTotalPage(response.totalPage-1);
+        window.scrollTo(0, 0); // 화면을 최상단으로 스크롤
       }
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  // 디바운싱과 쓰로틀링은 함수 호출의 빈도를 제어하여 과도한 호출을 방지
-  const debouncedFetchData = debounce(() => {
-    if (next) {
-      dispatch(setParameters({ skip: skip + 1 }));
-    }
-  }, 100);
-
-  const scrollHandler = () => {
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-    if (scrollTop + clientHeight >= scrollHeight - (clientHeight + 100)) {
-      debouncedFetchData();
-    }
-    console.log("???");
+  const favoriteHandler = (target: HTMLElement, data: Board) => {
+    // if (cookie.access_token) {
+    //   saveFavorite(data);
+    //   target.classList.add("button__favorite--active");
+    // } else {
+    //   setIsAlertModal(true);
+    // }
   };
 
-  const favoriteHandler = (target: HTMLElement, data: Board) => {
-    if (cookie.access_token) {
-      saveFavorite(data);
-      target.classList.add("button__favorite--active");
-    } else {
-      setIsAlertModal(true);
-    }
+  const saveFavorite = async (data: Board) => {
+    //   const result = await BoardApi.saveFavoriteData(data);
+    //   if (result) {
+    //     fetchData(type);
+    //   }
   };
 
   const closeAlertModal = () => {
@@ -115,13 +93,6 @@ const Issue = () => {
     navigate("/login");
   };
 
-  const saveFavorite = async (data: Board) => {
-    const result = await BoardApi.saveFavoriteData(data);
-    if (result) {
-      fetchData(type);
-    }
-  };
-
   const saveRecentItems = (data: any) => {
     if (!cookie.recent_items) {
       setCookie("recent_items", [data]);
@@ -131,23 +102,43 @@ const Issue = () => {
   };
 
   useEffect(() => {
-    if (board.length === 0 || currentSkip !== skip) {
-      currentSkip = skip;
-      fetchData(type);
+    fetchData(currentPage, type);
+  }, [currentPage, type]); // skip 값이 변경될 때만 실행
+
+  // 동적으로 페이지네이션 버튼 생성
+  const PaginationComponent = ({ currentPage, totalPage, setSearchParams }: PaginationProps) => {
+    const paginationRange = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - 2); // currentPage 기준으로 2페이지 전부터 시작
+    let endPage = Math.min(totalPage, currentPage + 2); // currentPage 기준으로 2페이지 후까지 끝
+
+    // 페이지 범위가 부족하면 조정
+    if (endPage - startPage < maxPagesToShow) {
+      if (startPage === 1) {
+        endPage = Math.min(totalPage, startPage + maxPagesToShow - 1);
+      } else if (endPage === totalPage) {
+        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+      }
     }
 
-    if (isLoad) {
-      //window.scrollTo(0, cookie.issue_scrollY);
+    for (let i = startPage; i <= endPage; i++) {
+      paginationRange.push(i);
     }
 
-    // 디바운싱된 스크롤 이벤트 리스너 등록
-    window.addEventListener("scroll", scrollHandler);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 해제
-    return () => {
-      window.removeEventListener("scroll", scrollHandler);
-    };
-  }, [dispatch, skip, type]); // skip 값이 변경될 때만 실행
+    return (
+      <Pagination className="pagination">
+        {paginationRange.map((page) => (
+          <Pagination.Item
+            key={page}
+            active={page === currentPage}
+            onClick={() => setSearchParams({ page: String(page) })}
+          >
+            {page}
+          </Pagination.Item>
+        ))}
+      </Pagination>
+    );
+  };
 
   return (
     <Container className="box__issue">
@@ -192,15 +183,15 @@ const Issue = () => {
                       </Card.Text>
                     </Card.Body>
                   </a>
-                  <button
-                    type="button"
-                    className="button__favorite"
-                    onClick={(e) => favoriteHandler(e.currentTarget, data)}
-                  >
-                    <span className="for-a11y">관심목록 추가</span>
-                  </button>
                 </Card>
               ))}
+              <div className="pagination-container">
+                <PaginationComponent
+                  currentPage={currentPage}
+                  totalPage={totalPage}
+                  setSearchParams={setSearchParams}
+                />
+              </div>
             </Tab>
             <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
               {board.map((data, rowIndex) => (
@@ -220,20 +211,19 @@ const Issue = () => {
                       </Card.Text>
                     </Card.Body>
                   </button>
-                  <button
-                    type="button"
-                    className="button__favorite"
-                    onClick={(e) => favoriteHandler(e.currentTarget, data)}
-                  >
-                    <span className="for-a11y">관심목록 추가</span>
-                  </button>
                 </Card>
               ))}
+              <div className="pagination-container">
+                <PaginationComponent
+                  currentPage={currentPage}
+                  totalPage={totalPage}
+                  setSearchParams={setSearchParams}
+                />
+              </div>
             </Tab>
           </Tabs>
         </div>
       </div>
-
       <Dialog
         isOpen={isAlertModal}
         onClose={closeAlertModal}
