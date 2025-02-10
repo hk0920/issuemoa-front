@@ -47,7 +47,7 @@ const VocaWord: React.FC = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   const flipCard = () => setIsFlipped(!isFlipped);
   
@@ -95,7 +95,7 @@ const VocaWord: React.FC = () => {
     }
     const speechMsg = new SpeechSynthesisUtterance(text);
     speechMsg.lang = "en-US";
-    speechMsg.rate = 1.1;
+    speechMsg.rate = 1.0;
     window.speechSynthesis.speak(speechMsg);
   };
 
