@@ -10,7 +10,7 @@ let name = "";
 let gradeCode = "";
 
 // 14일 (초 단위)
-const AUTH_MAX_AGE = 14 * 24 * 60 * 60; 
+const AUTH_MAX_AGE = 14 * 24 * 60 * 60;
 
 function setUserInfo(user: any | null) {
   if (user) {
@@ -87,8 +87,14 @@ export const settingData = {
       title: "테마",
       titleCode: "theme",
       optionList: [
-        { code: "D", name: "다크" },
-        { code: "W", name: "화이트" },
+        {
+          code: "W",
+          name: "화이트",
+        },
+        {
+          code: "D",
+          name: "다크",
+        },
       ],
     },
   ],

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Badge, Tab, Tabs, Card } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 import * as VocaApi from "../../api/learning";
 import * as BoardApi from "../../api/board";
 import * as InterViewApi from "../../api/learning";
@@ -7,7 +8,6 @@ import { empty } from "../../images";
 import renderCode from "../tech/renderCode";
 
 import "../../styles/mypage.scss";
-import { useCookies } from "react-cookie";
 
 interface Voca {
   id: number;
