@@ -7,6 +7,7 @@ import { empty } from "../../images";
 import { Board } from "../../types/board";
 import * as BoardApi from "../../api/board";
 import KeywordFilter from "./KeywordFilter";
+import classNames from "classnames";
 
 // PaginationComponent props 타입 정의
 interface PaginationProps {
@@ -60,9 +61,8 @@ const Issue = () => {
 
       if (response) {
         setBoard(response.list);
-        setTotalPage(response.totalPage-1);
+        setTotalPage(response.totalPage - 1);
       }
-
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -90,7 +90,11 @@ const Issue = () => {
   }, [currentPage, type]); // skip 값이 변경될 때만 실행
 
   // 동적으로 페이지네이션 버튼 생성
-  const PaginationComponent = ({ currentPage, totalPage, setSearchParams }: PaginationProps) => {
+  const PaginationComponent = ({
+    currentPage,
+    totalPage,
+    setSearchParams,
+  }: PaginationProps) => {
     const paginationRange = [];
     const maxPagesToShow = 5;
     let startPage = Math.max(1, currentPage - 2); // currentPage 기준으로 2페이지 전부터 시작
@@ -111,29 +115,37 @@ const Issue = () => {
 
     return (
       <Pagination className="pagination">
-        <Pagination.Item
+        <button
+          type="button"
+          className="button__prev"
           disabled={currentPage === 1}
           onClick={() => setSearchParams({ page: "1" })}
         >
-        {"«"}
-        </Pagination.Item>
+          <span className="for-a11y">이전 페이지</span>
+        </button>
 
         {paginationRange.map((page) => (
-          <Pagination.Item
+          <button
+            type="button"
+            className={classNames(
+              "button__page",
+              page === currentPage && "button__page--active"
+            )}
             key={page}
-            active={page === currentPage}
             onClick={() => setSearchParams({ page: String(page) })}
           >
             {page}
-          </Pagination.Item>
+          </button>
         ))}
 
-          <Pagination.Item
-            disabled={currentPage === 1}
-            onClick={() => setSearchParams({ page: String(totalPage) })}
-          >
-          {"»"}
-          </Pagination.Item>
+        <button
+          type="button"
+          className="button__next"
+          disabled={currentPage === 1}
+          onClick={() => setSearchParams({ page: String(totalPage) })}
+        >
+          <span className="for-a11y">다움 페이지</span>
+        </button>
       </Pagination>
     );
   };
@@ -162,27 +174,29 @@ const Issue = () => {
             }}
           >
             <Tab eventKey="news" title="뉴스" className="box__card-wrap">
-              {board.map((data, rowIndex) => (
-                <Card key={rowIndex} className="box__card-issue">
-                  <a
-                    href={data.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="link"
-                    onClick={() => saveRecentItems(data)}
-                  >
-                    <Card.Img
-                      src={data.thumbnail ? data.thumbnail : empty}
-                      className="box__thumb"
-                    />
-                    <Card.Body className="box__text">
-                      <Card.Text className="text__title">
-                        {data.title}
-                      </Card.Text>
-                    </Card.Body>
-                  </a>
-                </Card>
-              ))}
+              <div className="box__card-inner">
+                {board.map((data, rowIndex) => (
+                  <Card key={rowIndex} className="box__card-issue">
+                    <a
+                      href={data.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link"
+                      onClick={() => saveRecentItems(data)}
+                    >
+                      <Card.Img
+                        src={data.thumbnail ? data.thumbnail : empty}
+                        className="box__thumb"
+                      />
+                      <Card.Body className="box__text">
+                        <Card.Text className="text__title">
+                          {data.title}
+                        </Card.Text>
+                      </Card.Body>
+                    </a>
+                  </Card>
+                ))}
+              </div>
               <div className="pagination-container">
                 <PaginationComponent
                   currentPage={currentPage}
@@ -192,25 +206,27 @@ const Issue = () => {
               </div>
             </Tab>
             <Tab eventKey="youtube" title="유튜브" className="box__card-wrap">
-              {board.map((data, rowIndex) => (
-                <Card key={rowIndex} className="box__card-issue">
-                  <button
-                    type="button"
-                    className="link"
-                    onClick={() => handleOpenModal(data.url)}
-                  >
-                    <Card.Img
-                      src={data.thumbnail ? data.thumbnail : empty}
-                      className="box__thumb"
-                    />
-                    <Card.Body className="box__text">
-                      <Card.Text className="text__title">
-                        {data.title}
-                      </Card.Text>
-                    </Card.Body>
-                  </button>
-                </Card>
-              ))}
+              <div className="box__card-inner">
+                {board.map((data, rowIndex) => (
+                  <Card key={rowIndex} className="box__card-issue">
+                    <button
+                      type="button"
+                      className="link"
+                      onClick={() => handleOpenModal(data.url)}
+                    >
+                      <Card.Img
+                        src={data.thumbnail ? data.thumbnail : empty}
+                        className="box__thumb"
+                      />
+                      <Card.Body className="box__text">
+                        <Card.Text className="text__title">
+                          {data.title}
+                        </Card.Text>
+                      </Card.Body>
+                    </button>
+                  </Card>
+                ))}
+              </div>
               <div className="pagination-container">
                 <PaginationComponent
                   currentPage={currentPage}

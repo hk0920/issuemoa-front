@@ -42,6 +42,12 @@ a {
   color: var(--fontColor);
   text-decoration: none;
 }
+button,
+.nav-link {
+  color: var(--fontColor);
+  border: none;
+  background: none;
+}
 .box__inner {
   max-width: 768px;
   margin: 0 auto;
@@ -251,8 +257,14 @@ a {
       background: none;
       border-radius: 6px;
       border: 1px solid #e5e5e5;
+      transform: scale(1);
+      transition: all 0.2s ease;
       &:not(:last-child) {
         margin-right: 10px;
+      }
+      &:active {
+        background: #e5e5e5;
+        transform: scale(1.3);
       }
     }
   }
