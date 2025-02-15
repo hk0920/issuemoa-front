@@ -74,25 +74,27 @@ function App() {
   };
   useEffect(() => {
     AuthApi.initializeSettings();
+
+    console.log(theme);
   }, [theme]);
   return (
     <BrowserRouter>
-      <div id="wrap" className={classNames(theme !== "W" && "theme-black")}>
-        <Header theme={theme !== "W"} />
+      <div id="wrap" className={classNames(theme === "D" && "theme-black")}>
+        <Header theme={theme === "D"} />
         <Routes>
           <Route path="/" element={<Issue />} />
           <Route path="/product" element={<Products />} />
           <Route path="/word" element={<Quiz />} />
           <Route path="/tech" element={<Tech />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/more" element={<More theme={theme !== "W"} />} />
+          <Route path="/more" element={<More theme={theme === "D"} />} />
           <Route path="/grade" element={<Grade />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/inquiry" element={<Inquiry />} />
           <Route path="/weather" element={<Weather />} />
           <Route
             path="/setting"
-            element={<Setting theme={theme !== "W"} themeEvent={themeEvent} />}
+            element={<Setting theme={theme === "D"} themeEvent={themeEvent} />}
           />
           <Route
             path="/mypage"
@@ -101,7 +103,7 @@ function App() {
             }
           />
         </Routes>
-        <Footer theme={theme !== "W"} />
+        <Footer theme={theme === "D"} />
         <Floating />
       </div>
     </BrowserRouter>
