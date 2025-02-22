@@ -232,6 +232,10 @@ button,
       .theme-black & {
         background-image: url("./images/icon/icon__listen_theme.png");
       }
+      &.active {
+        background: url("./images/icon/icon__sound.gif") no-repeat 0 0 / 100%
+          100%;
+      }
     }
     .text__word {
       font-weight: bold;
