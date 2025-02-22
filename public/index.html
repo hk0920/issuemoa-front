@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
     <meta name="theme-color" content="#000000" />
     <meta content="website" property="og:type" />
     <meta name="description" content="모든 이슈를 모아모아" />
@@ -18,12 +21,17 @@
     <title>IssueMoa</title>
   </head>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q5L8EP2BRQ"></script>
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-Q5L8EP2BRQ"
+  ></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-Q5L8EP2BRQ');
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "G-Q5L8EP2BRQ");
   </script>
   <body>
     <div id="root"></div>
