@@ -116,6 +116,7 @@ const VocaWord: React.FC = () => {
     };
 
     setIsSound(true);
+    setIsSliding(false);
     window.speechSynthesis.speak(speechMsg);
   };
 
