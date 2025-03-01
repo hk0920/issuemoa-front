@@ -78,12 +78,14 @@
     text-align: right;
     .box__inner {
       display: inline-block;
-      width: 120px;
+      width: 180px;
+      height: 40px;
       padding: 0 40px 0 10px;
       border-radius: 20px;
       background: #fff;
       box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.03);
-      text-align: right;
+      text-align: left;
+      overflow: hidden;
       &:has(.box__search--active) {
         box-shadow: none;
       }
@@ -106,17 +108,26 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 120px;
+      width: 180px;
       border-radius: 20px;
       overflow: hidden;
-      transform: scale(0.9);
-      transition: all 0.3s ease-in;
+      &:before {
+        content: "";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background: url("../images/icon/icon_location.png") no-repeat center
+          center / 100%;
+      }
       .form__input {
         opacity: 0;
-        width: 100%;
+        width: calc(100% - 40px);
         height: 40px;
+        padding: 5px 0 5px 32px;
         font-size: 15px;
-        padding: 5px 40px 5px 10px;
         border: none;
         border-radius: 4px;
       }
@@ -143,7 +154,6 @@
         }
       }
       &.box__search--active {
-        width: 100%;
         transform: scale(1);
         box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.03);
         .form__input {
@@ -151,6 +161,7 @@
         }
         .button__search {
           width: 40px;
+          animation: shakingMotion 0.3s ease-in-out;
         }
       }
     }
@@ -223,5 +234,13 @@
     .list__store {
       background: rgba(255, 255, 255, 0.8);
     }
+  }
+}
+@keyframes shakingMotion {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
   }
 }

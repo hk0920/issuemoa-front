@@ -2,40 +2,16 @@ import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import SearchFilter from "./SearchFilter";
 import StoreList from "./StoreList";
-
-const dummyStoreList = [
-  {
-    id: 336,
-    entpId: 1527,
-    name: "롯데슈퍼역촌점",
-    tel: "02-000-0000",
-    postNo: 3404,
-    addr: "서울특별시 은평구 역촌동 17-1 기린빌딩",
-    addrDetail: null,
-    roadAddr: "서울특별시 은평구 진흥로 103",
-    roadAddrDetail: "(역촌동)",
-    registerTime: "2025-01-20T00:34:15",
-  },
-  {
-    id: 337,
-    entpId: 1528,
-    name: "홈플러스은평점",
-    tel: "02-000-0000",
-    postNo: 3404,
-    addr: "서울특별시 은평구 역촌동 17-1 기린빌딩",
-    addrDetail: null,
-    roadAddr: "서울특별시 은평구 진흥로 103",
-    roadAddrDetail: "(역촌동)",
-    registerTime: "2025-01-20T00:34:15",
-  },
-];
+import * as StoresdApi from "../../api/store";
 
 const getCurrentLocal = () => {
   function success(position: any) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
-    console.log("위도 :", latitude, "경도:", longitude);
+    // console.log("위도 :", latitude, "경도:", longitude);
+
+    console.log(position);
 
     // mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
     // mapLink.textContent = `위도: ${latitude} °, 경도: ${longitude} °`;
@@ -54,24 +30,43 @@ const getCurrentLocal = () => {
 };
 
 const Products = () => {
+  const [currentLocal, setCurrentLocal] = useState("서대문구");
   const [searchText, setSearchText] = useState("");
+  const [storeList, setStoreList] = useState([]);
 
   const inputChange = (text: string) => {
     setSearchText(text);
+    setCurrentLocal(text);
+  };
+
+  const getData = async (addr: string) => {
+    try {
+      const response = await StoresdApi.getStoreList(addr);
+
+      setStoreList(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   useEffect(() => {
     // getCurrentLocal();
+    getData(currentLocal);
   }, []);
 
   return (
     <Container className="page__sub page__product">
       <SearchFilter
-        currentLocal={"성동구"}
+        currentLocal={currentLocal}
         searchText={searchText}
         inputHandler={inputChange}
+        updateData={getData}
       />
-      <StoreList storeList={dummyStoreList} />
+      {storeList.length > 0 ? (
+        <StoreList storeList={storeList} />
+      ) : (
+        <p className="text__empty">검색한 장소에 검색 결과가 없습니다.</p>
+      )}
     </Container>
   );
 };
