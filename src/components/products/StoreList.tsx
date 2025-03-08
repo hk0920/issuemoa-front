@@ -1,4 +1,13 @@
 import { Link } from "react-router-dom";
+import {
+  emptyImg,
+  logo_7eleven,
+  logo_cu,
+  logo_emart,
+  logo_gs,
+  logo_hyundai,
+  logo_shinsegae,
+} from "../../images";
 
 interface storeType {
   id: number;
@@ -15,6 +24,26 @@ interface storeType {
 interface storeListType {
   storeList: storeType[];
 }
+
+const getImageUrl = (name?: null | string) => {
+  console.log(name?.includes("현대"));
+
+  if (name?.includes("GS")) {
+    return logo_gs;
+  } else if (name?.includes("CU")) {
+    return logo_cu;
+  } else if (name?.includes("이마트")) {
+    return logo_emart;
+  } else if (name?.includes("신세계")) {
+    return logo_shinsegae;
+  } else if (name?.includes("세븐일레븐")) {
+    return logo_7eleven;
+  } else if (name?.includes("현대")) {
+    return logo_hyundai;
+  } else {
+    return emptyImg;
+  }
+};
 const StoreList = ({ storeList }: storeListType) => {
   return (
     <ul className="list__store">
@@ -35,15 +64,13 @@ const StoreList = ({ storeList }: storeListType) => {
           addr && addrDetail
             ? addr + " " + addrDetail
             : (roadAddr || roadAddrDetail) && roadAddr + " " + roadAddrDetail;
+
+        const imgUrl = getImageUrl(name);
         return (
           <li className="list-item">
             <Link to={"/"} className="link__store">
               <div className="box__thumbnail">
-                <img
-                  src="https://dummyimage.com/300.png/e5e5e5/000"
-                  alt=""
-                  className="image"
-                />
+                <img src={imgUrl} alt="" className="image" />
               </div>
               <div className="box__info">
                 <p className="text__name">{name}</p>

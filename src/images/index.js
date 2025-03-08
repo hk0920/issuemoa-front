@@ -58,3 +58,14 @@ export { default as grade_ir } from "./icon/grade/ir.png";
 export { default as grade_m } from "./icon/grade/m.png";
 export { default as grade_plt } from "./icon/grade/plt.png";
 export { default as grade_sl } from "./icon/grade/sl.png";
+
+// ProductLogo
+export { default as logo_gs } from "./icon/product-logo/logo-gs.png";
+export { default as logo_shinsegae } from "./icon/product-logo/logo-shinsegae.png";
+export { default as logo_cu } from "./icon/product-logo/logo-cu.png";
+export { default as logo_emart } from "./icon/product-logo/logo-emart.png";
+export { default as logo_7eleven } from "./icon/product-logo/logo-7eleven.png";
+export { default as logo_hyundai } from "./icon/product-logo/logo-hyundai.png";
+
+//empty
+export { default as emptyImg } from "./icon/image__empty.png";
