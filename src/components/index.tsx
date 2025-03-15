@@ -12,6 +12,7 @@ export { default as Weather } from "./more/weather";
 export { default as Header } from "./layouts/header";
 export { default as Tech } from "./tech/tech";
 export { default as Setting } from "./more/setting";
+export { default as Products } from "./products/Products";
 
 // Common
 export { default as VideoPlayer } from "./common/youtubePlayer";

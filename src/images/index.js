@@ -66,6 +66,8 @@ export { default as logo_cu } from "./icon/product-logo/logo-cu.png";
 export { default as logo_emart } from "./icon/product-logo/logo-emart.png";
 export { default as logo_7eleven } from "./icon/product-logo/logo-7eleven.png";
 export { default as logo_hyundai } from "./icon/product-logo/logo-hyundai.png";
+export { default as logo_lotte } from "./icon/product-logo/logo-lotte.png";
+export { default as logo_nonghyup } from "./icon/product-logo/logo-nonghyup.png";
 
 //empty
 export { default as emptyImg } from "./icon/image__empty.png";

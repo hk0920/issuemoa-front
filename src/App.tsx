@@ -15,13 +15,13 @@ import {
   Tech,
   Setting,
   Weather,
+  Products,
 } from "./components";
 import { Container, Spinner } from "react-bootstrap";
 import * as AuthApi from "./api/auth";
 import Floating from "./components/layouts/floating";
 import classNames from "classnames";
 import { Cookies } from "react-cookie";
-import Products from "./components/products/Products";
 
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);

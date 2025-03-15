@@ -6,6 +6,8 @@ import {
   logo_emart,
   logo_gs,
   logo_hyundai,
+  logo_lotte,
+  logo_nonghyup,
   logo_shinsegae,
 } from "../../images";
 
@@ -25,9 +27,7 @@ interface storeListType {
   storeList: storeType[];
 }
 
-const getImageUrl = (name?: null | string) => {
-  console.log(name?.includes("현대"));
-
+export const getImageUrl = (name?: null | string) => {
   if (name?.includes("GS")) {
     return logo_gs;
   } else if (name?.includes("CU")) {
@@ -40,10 +40,15 @@ const getImageUrl = (name?: null | string) => {
     return logo_7eleven;
   } else if (name?.includes("현대")) {
     return logo_hyundai;
+  } else if (name?.includes("롯데슈퍼")) {
+    return logo_lotte;
+  } else if (name?.includes("농협")) {
+    return logo_nonghyup;
   } else {
     return emptyImg;
   }
 };
+
 const StoreList = ({ storeList }: storeListType) => {
   return (
     <ul className="list__store">
@@ -67,8 +72,8 @@ const StoreList = ({ storeList }: storeListType) => {
 
         const imgUrl = getImageUrl(name);
         return (
-          <li className="list-item">
-            <Link to={"/"} className="link__store">
+          <li className="list-item" key={`store-item-${index}`}>
+            <Link to={`/product?store=${entpId}`} className="link__store">
               <div className="box__thumbnail">
                 <img src={imgUrl} alt="" className="image" />
               </div>
