@@ -3,6 +3,8 @@ import { Container } from "react-bootstrap";
 import SearchFilter from "./SearchFilter";
 import StoreList from "./StoreList";
 import * as StoresdApi from "../../api/store";
+import { useLocation } from "react-router-dom";
+import StoreVip from "./StoreVip";
 
 const getCurrentLocal = () => {
   function success(position: any) {
@@ -30,6 +32,11 @@ const getCurrentLocal = () => {
 };
 
 const Products = () => {
+  const location = useLocation();
+  let searchParams = new URLSearchParams(location.search);
+  const storeId = searchParams.get("storeId");
+  const storeName = searchParams.get("storeName");
+
   const [currentLocal, setCurrentLocal] = useState("서대문구");
   const [searchText, setSearchText] = useState("");
   const [storeList, setStoreList] = useState([]);
@@ -56,16 +63,22 @@ const Products = () => {
 
   return (
     <Container className="page__sub page__product">
-      <SearchFilter
-        currentLocal={currentLocal}
-        searchText={searchText}
-        inputHandler={inputChange}
-        updateData={getData}
-      />
-      {storeList.length > 0 ? (
-        <StoreList storeList={storeList} />
+      {storeId && storeName ? (
+        <StoreVip id={Number(storeId)} name={storeName} />
       ) : (
-        <p className="text__empty">검색한 장소에 검색 결과가 없습니다.</p>
+        <>
+          <SearchFilter
+            currentLocal={currentLocal}
+            searchText={searchText}
+            inputHandler={inputChange}
+            updateData={getData}
+          />
+          {storeList.length > 0 ? (
+            <StoreList storeList={storeList} />
+          ) : (
+            <p className="text__empty">검색한 장소에 검색 결과가 없습니다.</p>
+          )}
+        </>
       )}
     </Container>
   );
