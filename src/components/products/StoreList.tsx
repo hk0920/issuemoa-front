@@ -73,7 +73,10 @@ const StoreList = ({ storeList }: storeListType) => {
         const imgUrl = getImageUrl(name);
         return (
           <li className="list-item" key={`store-item-${index}`}>
-            <Link to={`/product?store=${entpId}`} className="link__store">
+            <Link
+              to={`/product?storeId=${entpId}&storeName=${name}`}
+              className="link__store"
+            >
               <div className="box__thumbnail">
                 <img src={imgUrl} alt="" className="image" />
               </div>

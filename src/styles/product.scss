@@ -235,6 +235,66 @@
       background: rgba(255, 255, 255, 0.8);
     }
   }
+  .box__store-info {
+    display: flex;
+    align-items: center;
+    .box__thumb {
+      width: 90px;
+      height: 90px;
+      border: 1px solid #e5e5e5;
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      .image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    .text {
+      margin-left: 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--fontColor);
+    }
+  }
+  .box__product-items {
+    margin-top: 20px;
+  }
+  .list__products {
+    background: #fff;
+    border-radius: 6px;
+    .list-item {
+      padding: 10px 20px;
+      & + .list-item {
+        border-top: 1px solid #e5e5e5;
+      }
+    }
+    .box__item-info {
+      position: relative;
+      .text__name {
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .text__price {
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-weight: bold;
+        .text__unit {
+          margin-left: 1px;
+          font-weight: normal;
+          font-size: 10px;
+          color: #999;
+        }
+      }
+    }
+    .box__item-etc {
+      font-size: 10px;
+      color: #999;
+    }
+  }
 }
 @keyframes shakingMotion {
   from {
