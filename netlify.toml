@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/backend/*"
-  to = "http://gate.issuemoa.kr:8000/:splat"  
+  to = "http://gate.issuemoa.kr:38000/:splat"  
   status = 200
   force = true
 
