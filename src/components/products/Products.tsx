@@ -4,7 +4,7 @@ import SearchFilter from "./SearchFilter";
 import StoreList from "./StoreList";
 import * as StoresdApi from "../../api/store";
 import { useLocation } from "react-router-dom";
-import StoreVip from "./StoreVip";
+import StoreDetail from "./StoreDetail";
 
 const getCurrentLocal = () => {
   function success(position: any) {
@@ -64,7 +64,7 @@ const Products = () => {
   return (
     <Container className="page__sub page__product">
       {storeId && storeName ? (
-        <StoreVip id={Number(storeId)} name={storeName} />
+        <StoreDetail id={Number(storeId)} name={storeName} />
       ) : (
         <>
           <SearchFilter

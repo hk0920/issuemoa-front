@@ -193,17 +193,35 @@
         }
       }
       .box__info {
+        max-width: calc(100% - 92px);
         margin-left: 12px;
-        flex: 1;
+
         .text__name {
           margin-bottom: 4px;
           font-size: 16px;
           font-weight: bold;
           color: var(--fontColor);
         }
-        .text__address,
-        .text__number {
+        .text__address {
           color: #666;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+        .text__tel {
+          margin-top: 4px;
+          font-size: 10px;
+          color: #656565;
+          &:before {
+            content: "";
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin: 1px 2px 1px 0;
+            background: url("../images/icon/icon_tel.png") no-repeat center /
+              100%;
+            vertical-align: top;
+          }
         }
       }
     }
@@ -273,14 +291,18 @@
     .box__item-info {
       position: relative;
       .text__name {
+        padding-right: 90px;
         margin-bottom: 5px;
         font-size: 14px;
         font-weight: bold;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       .text__price {
         position: absolute;
         top: 0;
         right: 0;
+        max-width: 80px;
         font-weight: bold;
         .text__unit {
           margin-left: 1px;
@@ -290,9 +312,25 @@
         }
       }
     }
-    .box__item-etc {
+    .box__item-lmo {
       font-size: 10px;
       color: #999;
+      .box__lmo {
+        .text__lmo {
+          display: inline-block;
+          padding: 2px 6px;
+          margin-right: 4px;
+          background: rgba(228, 149, 13, 0.2);
+          border-radius: 8px;
+          &.text__lmo-gift {
+            font-weight: bold;
+            color: #e45e0d;
+          }
+        }
+      }
+      .text__date {
+        margin-top: 4px;
+      }
     }
   }
 }
