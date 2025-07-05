@@ -7,7 +7,7 @@ interface storeInfo {
   name: string;
 }
 
-const StoreVip = ({ id, name }: storeInfo) => {
+const StoreDetail = ({ id, name }: storeInfo) => {
   const [productList, setProductList] = useState([]);
   const getStoreLogoImageUrl = getImageUrl(name);
 
@@ -45,8 +45,35 @@ const StoreVip = ({ id, name }: storeInfo) => {
               plusOneYn,
               dcYn,
               dcStartDay,
+              dcEndDay,
               inspectDay,
             } = item || {};
+
+            const dcStart =
+              String(dcStartDay).substring(0, 4) +
+              "-" +
+              String(dcStartDay).substring(4, 6) +
+              "-" +
+              String(dcStartDay).substring(6, 8);
+            const dcEnd =
+              String(dcEndDay).substring(0, 4) +
+              "-" +
+              String(dcEndDay).substring(4, 6) +
+              "-" +
+              String(dcEndDay).substring(6, 8);
+
+            const dcInfo = {
+              dcYn: dcYn,
+              startDate: dcStart,
+              endDate: dcEnd,
+            };
+
+            const inspectDate =
+              String(inspectDay).substring(0, 4) +
+              "-" +
+              String(inspectDay).substring(4, 6) +
+              "-" +
+              String(inspectDay).substring(6, 8);
 
             return (
               <li className="list-item">
@@ -57,8 +84,22 @@ const StoreVip = ({ id, name }: storeInfo) => {
                     <span className="text__unit">원</span>
                   </p>
                 </div>
-                <div className="box__item-etc">
-                  <p className="text">등록 날짜 : {inspectDay}</p>
+
+                <div className="box__item-lmo">
+                  {plusOneYn === "Y" && dcYn === "Y"}
+                  <div className="box__lmo">
+                    {plusOneYn && (
+                      <span className="text__lmo text__lmo-gift">
+                        <span className="for-a11y">사은품</span>1+1
+                      </span>
+                    )}
+                    {dcInfo.dcYn === "Y" && (
+                      <span className="text__lmo">
+                        할인 기간 : {dcInfo.startDate + "~" + dcInfo.endDate}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text__date">등록 날짜 : {inspectDate}</p>
                 </div>
               </li>
             );
@@ -69,4 +110,4 @@ const StoreVip = ({ id, name }: storeInfo) => {
   );
 };
 
-export default StoreVip;
+export default StoreDetail;

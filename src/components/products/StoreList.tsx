@@ -82,8 +82,8 @@ const StoreList = ({ storeList }: storeListType) => {
               </div>
               <div className="box__info">
                 <p className="text__name">{name}</p>
-                <p className="text__address">{address}</p>
-                <p className="text__number">{tel}</p>
+                {address && <p className="text__adress">{address}</p>}
+                {tel && <p className="text__tel">{tel}</p>}
               </div>
             </Link>
           </li>

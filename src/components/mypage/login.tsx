@@ -7,8 +7,8 @@ import "./login.css";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  let baseUrl = "http://gate.issuemoa.kr:8000";
+
+  let baseUrl = "http://gate.issuemoa.kr:38000";
 
   const handleLoginClick = (handler: string) => {
     if (handler === "kakao") {
