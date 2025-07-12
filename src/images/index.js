@@ -31,7 +31,7 @@ export { default as more_fill_theme } from "./icon/more_fill_theme.png";
 export { default as google } from "./icon/google.png";
 export { default as kakao } from "./icon/kakao.png";
 export { default as naver } from "./icon/naver.png";
-export { default as cloud } from "./icon/cloud.png";
+export { default as cloud } from "./icon/icon_weather.png";
 export { default as grade } from "./icon/grade.png";
 export { default as grade_theme } from "./icon/grade_theme.png";
 export { default as notice } from "./icon/notice.png";
@@ -42,6 +42,7 @@ export { default as stock } from "./icon/stock.png";
 export { default as stock_theme } from "./icon/stock_theme.png";
 export { default as support_customer } from "./icon/support_customer.png";
 export { default as support_customer_theme } from "./icon/support_customer_theme.png";
+export { default as subsidy } from "./icon/icon_support.png";
 export { default as empty } from "./icon/image__empty.png";
 export { default as arrow } from "./icon/icon__arrow.png";
 
