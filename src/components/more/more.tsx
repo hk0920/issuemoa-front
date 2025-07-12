@@ -12,6 +12,7 @@ import {
   stock_theme,
   support_customer,
   support_customer_theme,
+  subsidy,
 } from "../../images";
 import { Link } from "react-router-dom";
 import * as AuthApi from "../../api/auth";
@@ -57,35 +58,42 @@ const More = ({ theme }: themeType) => {
       alt: "grade",
       text: "등급",
       ready: false,
-      themeSrc: grade_theme,
+      themeSrc: grade,
     },
     {
       src: notice,
       alt: "notice",
       text: "공지사항",
       ready: false,
-      themeSrc: notice_theme,
+      themeSrc: notice,
     },
     {
       src: support_customer,
       alt: "inquiry",
       text: "고객문의",
       ready: false,
-      themeSrc: support_customer_theme,
+      themeSrc: support_customer,
     },
     {
       src: stock,
       alt: "stock",
       text: "주식",
       ready: true,
-      themeSrc: stock_theme,
+      themeSrc: stock,
     },
     {
       src: setting,
       alt: "setting",
       text: "설정",
       ready: false,
-      themeSrc: setting_theme,
+      themeSrc: setting,
+    },
+    {
+      src: subsidy,
+      alt: "subsidy",
+      text: "정부보조금",
+      ready: false,
+      themeSrc: subsidy,
     },
   ];
 

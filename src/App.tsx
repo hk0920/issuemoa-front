@@ -22,6 +22,7 @@ import * as AuthApi from "./api/auth";
 import Floating from "./components/layouts/floating";
 import classNames from "classnames";
 import { Cookies } from "react-cookie";
+import Subsidy from "./components/subsidy/Subsidy";
 
 const PrivateRoute = ({ element, requiredRole }: any) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -92,6 +93,7 @@ function App() {
           <Route path="/notice" element={<Notice />} />
           <Route path="/inquiry" element={<Inquiry />} />
           <Route path="/weather" element={<Weather />} />
+          <Route path="/subsidy" element={<Subsidy />} />
           <Route
             path="/setting"
             element={<Setting theme={theme === "D"} themeEvent={themeEvent} />}
