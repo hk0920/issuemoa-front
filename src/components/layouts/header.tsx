@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import WeatherComponent from "../more/fragments/weather";
 import {
   person,
   person_fill,
@@ -13,6 +12,7 @@ interface themeType {
   theme: boolean;
 }
 const Header = ({ theme }: themeType) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const [isMain, setIsMain] = useState(true);
 
@@ -33,7 +33,13 @@ const Header = ({ theme }: themeType) => {
           </Link>
         </h1>
 
-        <WeatherComponent />
+        <button
+          type="button"
+          className="button__back"
+          onClick={() => navigate(-1)}
+        >
+          <span className="for-a11y">뒤로가기</span>
+        </button>
         <Link to="mypage" className="link__myg">
           <img
             src={theme ? person_fill_theme : person_fill}
