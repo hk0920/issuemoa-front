@@ -11,45 +11,45 @@ const defaultCategory = [
       {
         id: "0-1",
         text: "현금",
-        code: "현금",
+        code: ["현금"],
       },
       {
         id: "0-2",
         text: "현물",
-        code: "현물",
+        code: ["현물"],
       },
       {
         id: "0-3",
         text: "이용권",
-        code: "이용권",
+        code: ["이용권"],
       },
       {
         id: "0-4",
         text: "서비스",
-        code: "서비스",
+        code: ["서비스"],
       },
       {
         id: "0-5",
         text: "시설이용",
-        code: "시설이용",
+        code: ["시설이용"],
       },
       {
         id: "0-6",
         text: "의료지원",
-        code: "의료지원",
+        code: ["의료지원"],
       },
       {
         id: "0-7",
         text: "문화/여가지원",
-        code: "문화/여가지원",
+        code: ["문화/여가지원"],
       },
       {
         id: "0-8",
         text: "기타",
-        code: "기타",
+        code: ["기타"],
       },
     ],
-    searchType: "object",
+    searchType: "support",
   },
   {
     id: 1,
@@ -58,22 +58,22 @@ const defaultCategory = [
       {
         id: "1-1",
         text: "아동",
-        code: "보육·교육,보호·돌봄,임신·출산,문화·환경,보건·의료",
+        code: ["아동", "유아", "영유아", "영아"],
       },
       {
         id: "1-2",
         text: "청년",
-        code: "주거·자립,보육·교육,고용·창업,문화·환경,생활안정,보건·의료",
+        code: ["청소년", "청년"],
       },
       {
         id: "1-3",
         text: "임산부",
-        code: "행정·안전,주거·자립,임신·출산,보호·돌봄,보육·교육,보건·의료,문화·환경",
+        code: ["임산", "임산부", "출산", "유산"],
       },
       {
         id: "1-4",
         text: "노인",
-        code: "고용·창업,농림축산어업,문화·환경,보건·의료,보육·교육,보호·돌봄,생활안정,주거·자립,행정·안전",
+        code: ["노인", "어르신"],
       },
     ],
     searchType: "age",
@@ -86,28 +86,38 @@ const Subsidy = () => {
   const [offset, setOffset] = useState(0);
   const limit = 20;
 
-  const getData = async (search: string) => {
+  const getAgeData = async (search: string) => {
     try {
       let response;
-      if (searchType === "age") {
-        // 연령대
-        const searchData = {
-          serviceCategoryList: search,
-          offset: offset,
-          limit: limit,
-        };
-        response = await SubsidyApi.getServiceCategoryList(searchData);
-        setSupportList(response);
-      } else {
-        //물품
-        const searchData = {
-          supportType: search,
-          offset: offset,
-          limit: limit,
-        };
-        response = await SubsidyApi.getSupportTypeList(searchData);
-        setSupportList(response);
-      }
+
+      const searchData = {
+        offset: offset,
+        limit: limit,
+        eligibleRecipients: search,
+        serviceCategoryList: "",
+        supportType: "",
+      };
+      response = await SubsidyApi.getServiceCategoryList(searchData);
+
+      setSupportList(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const getSupportData = async (search: string) => {
+    try {
+      let response;
+
+      const searchData = {
+        offset: offset,
+        limit: limit,
+        eligibleRecipients: "",
+        serviceCategoryList: "",
+        supportType: search,
+      };
+      response = await SubsidyApi.getServiceCategoryList(searchData);
+      setSupportList(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -119,7 +129,11 @@ const Subsidy = () => {
         setCategories(item.categories);
         setSearchType(item.searchType);
       } else {
-        getData(item.code);
+        if (searchType === "age") {
+          getAgeData(item.code);
+        } else if (searchType === "support") {
+          getSupportData(item.code);
+        }
       }
     }, 100);
   };
