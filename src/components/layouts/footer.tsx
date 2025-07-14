@@ -58,15 +58,7 @@ const Footer = ({ theme }: themeType) => {
           onClick={() => handleMenuClick("/")}
         >
           <img
-            src={
-              selected === "/"
-                ? theme
-                  ? home_fill_theme
-                  : home_fill
-                : theme
-                ? home_theme
-                : home
-            }
+            src={home}
             alt="Home"
             className="icon"
           />
@@ -82,15 +74,7 @@ const Footer = ({ theme }: themeType) => {
           onClick={() => handleMenuClick("word")}
         >
           <img
-            src={
-              selected === "word"
-                ? theme
-                  ? word_fill_theme
-                  : word_fill
-                : theme
-                ? word_theme
-                : word
-            }
+            src={word}
             alt="Word"
             className="icon"
           />
@@ -102,15 +86,7 @@ const Footer = ({ theme }: themeType) => {
           onClick={() => handleMenuClick("tech")}
         >
           <img
-            src={
-              selected === "tech"
-                ? theme
-                  ? tech_fill_theme
-                  : tech_fill
-                : theme
-                ? tech_theme
-                : tech
-            }
+            src={tech}
             alt="Tech"
             className="icon"
           />
@@ -122,15 +98,7 @@ const Footer = ({ theme }: themeType) => {
           onClick={() => handleMenuClick("more")}
         >
           <img
-            src={
-              selected === "more"
-                ? theme
-                  ? more_fill_theme
-                  : more_fill
-                : theme
-                ? more_theme
-                : more
-            }
+            src={more}
             alt="More"
             className="icon"
           />
