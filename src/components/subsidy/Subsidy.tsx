@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import * as SubsidyApi from "../../api/subsidy";
 import SubsidyList from "./SubsidyList";
@@ -138,6 +138,16 @@ const Subsidy = () => {
     }, 100);
   };
 
+  const handleHistory = () => {
+    if (searchType) {
+      setSearchType(null);
+      setCategories(defaultCategory);
+    }
+    if (supportList) {
+      setSupportList(null);
+    }
+  };
+
   return (
     <Container className="page__sub page__subsidy">
       <div className="box__inner">
@@ -147,6 +157,18 @@ const Subsidy = () => {
             <p className="text__sub">
               간단한 정보 입력으로 정부에서 지원사업 목록을 제공합니다.
             </p>
+
+            {searchType && (
+              <div className="box__button-wrap">
+                <button
+                  type="button"
+                  className="button__prev"
+                  onClick={handleHistory}
+                >
+                  {supportList ? "필터 초기화" : "이전"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
         {!supportList ? (

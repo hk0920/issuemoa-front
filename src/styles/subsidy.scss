@@ -4,9 +4,30 @@
   --pointColor-RGB: 96, 101, 243;
 }
 .page__subsidy {
+  .box__component-title {
+    .box__button-wrap {
+      margin: 20px auto;
+
+      .button__prev {
+        color: var(--fontColor);
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          margin: 2px 0;
+          background: url("../images/icon/icon__button-arrow.png") no-repeat
+            center / 100%;
+          transform: rotate(90deg);
+          vertical-align: top;
+        }
+      }
+    }
+  }
   .box__category {
     margin-top: 40px;
     text-align: center;
+
     .button__category {
       display: inline-block;
       width: 90px;
@@ -54,23 +75,6 @@
       position: relative;
       display: block;
       padding: 15px 0;
-      .box__tags {
-        margin-bottom: 10px;
-        .text__tag {
-          display: inline-block;
-          margin-right: 4px;
-          padding: 0 4px;
-          font-size: 10px;
-          border-radius: 4px;
-          background: #e5e5e5;
-          &.text__tag-categry {
-            background: rgba(25, 207, 186, 0.3);
-          }
-          &.text__tag-support {
-            background: rgba(250, 110, 133, 0.3);
-          }
-        }
-      }
       .text__name {
         font-size: 16px;
         font-weight: bold;
@@ -119,6 +123,54 @@
           background: url("../images/icon/icon_tel.png") no-repeat center / 100%;
           vertical-align: top;
         }
+      }
+    }
+  }
+
+  .box__tags {
+    margin-bottom: 10px;
+    .text__tag {
+      display: inline-block;
+      margin-right: 4px;
+      padding: 0 4px;
+      font-size: 10px;
+      border-radius: 4px;
+      background: #e5e5e5;
+      &.text__tag-categry {
+        background: rgba(25, 207, 186, 0.3);
+      }
+      &.text__tag-support {
+        background: rgba(250, 110, 133, 0.3);
+      }
+    }
+  }
+
+  .box__detail {
+    .text__date {
+      margin-top: 10px;
+      font-size: 10px;
+      color: #999;
+      text-align: right;
+    }
+    .list__detail {
+      padding: 10px 20px;
+      border-radius: 12px;
+      background: #f5f5f5;
+      .list-item {
+        margin: 15px 0;
+      }
+      .text__title {
+        display: inline-block;
+        margin: 0 10px 5px 0;
+        font-size: 14px;
+        font-weight: bold;
+        vertical-align: top;
+      }
+      .text {
+        display: inline-block;
+        color: #777;
+        white-space: break-spaces;
+        vertical-align: top;
       }
     }
   }

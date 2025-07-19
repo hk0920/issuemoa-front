@@ -24,3 +24,10 @@ export async function getServiceCategoryList(data: categoryType): Promise<any> {
     `${backendUrl}/subsidy/${offset}/${limit}?eligibleRecipients=${eligibleRecipients}&serviceCategoryList=${serviceCategoryList}&supportType=${supportType}`
   );
 }
+
+export async function getServiceDetail(serviceId: string): Promise<any> {
+  return await AxiosUtil.send(
+    "GET",
+    `${backendUrl}/subsidy/detail/${serviceId}`
+  );
+}

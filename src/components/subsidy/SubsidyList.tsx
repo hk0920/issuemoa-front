@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface subsidyItem {
   registrationDatetime: string;
   departmentName: string;
@@ -34,7 +36,10 @@ const SubsidyList = ({ data }: dataType) => {
           {data.map((item) => {
             return (
               <li className="list-item" key={item.serviceId}>
-                <a href="" className="link__detail">
+                <Link
+                  to={`/subsidy/detail/${item.serviceId}`}
+                  className="link__detail"
+                >
                   <div className="box__tags">
                     {item.serviceCategory && (
                       <span className="text__tag text__tag-categry">
@@ -70,7 +75,7 @@ const SubsidyList = ({ data }: dataType) => {
                   <span className="box__view-count">
                     {Number(item.viewCount).toLocaleString()}
                   </span>
-                </a>
+                </Link>
               </li>
             );
           })}
