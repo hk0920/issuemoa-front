@@ -4,9 +4,30 @@
   --pointColor-RGB: 96, 101, 243;
 }
 .page__subsidy {
+  .box__component-title {
+    .box__button-wrap {
+      margin: 20px auto;
+
+      .button__prev {
+        color: var(--fontColor);
+        &:before {
+          content: "";
+          display: inline-block;
+          width: 14px;
+          height: 14px;
+          margin: 2px 0;
+          background: url("../images/icon/icon__button-arrow.png") no-repeat
+            center / 100%;
+          transform: rotate(90deg);
+          vertical-align: top;
+        }
+      }
+    }
+  }
   .box__category {
     margin-top: 40px;
     text-align: center;
+
     .button__category {
       display: inline-block;
       width: 90px;
